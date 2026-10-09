@@ -51,3 +51,37 @@ func TestExpiryPaginationAndVisibility(t *testing.T) {
 		}
 	}
 }
+
+func TestArchiveRetainsExpiredReportsAndPhotoAccess(t *testing.T) {
+	store := testutil.Store(t)
+	ctx := context.Background()
+	now := time.Now().UTC()
+	i, err := core.BuildIncident(core.IncidentInput{Type: "fire", Description: "A previous community report", Latitude: -12.04, Longitude: -77.04, District: "Lima", MediaID: "approved-photo"}, mongostore.NewID(), "author", now.Add(-4*time.Hour))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err = store.CreateIncident(ctx, i); err != nil {
+		t.Fatal(err)
+	}
+	q := core.IncidentQuery{Latitude: -12.04, Longitude: -77.04, RadiusMeters: 5000, Limit: 50, IncludeInactive: true, PublicOnly: true, District: "Lima"}
+	page, err := store.ListIncidents(ctx, q, now)
+	if err != nil || len(page.Items) != 1 {
+		t.Fatalf("archive: %v %+v", err, page)
+	}
+	public, err := store.MediaIsPublic(ctx, i.MediaID, now)
+	if err != nil || !public {
+		t.Fatalf("archived photo: %v %v", public, err)
+	}
+	q.District = "Another district"
+	page, err = store.ListIncidents(ctx, q, now)
+	if err != nil || len(page.Items) != 0 {
+		t.Fatal("district scope")
+	}
+	if _, err = store.SetIncidentStatus(ctx, i.ID, "author", "hidden", now); err != nil {
+		t.Fatal(err)
+	}
+	public, err = store.MediaIsPublic(ctx, i.MediaID, now)
+	if err != nil || public {
+		t.Fatal("hidden photo publicly accessible")
+	}
+}
