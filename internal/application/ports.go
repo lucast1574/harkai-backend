@@ -9,6 +9,7 @@ import (
 type Users interface {
 	CreateUser(context.Context, core.User) (core.User, error)
 	UserByEmail(context.Context, string) (core.User, error)
+	UserByGoogle(context.Context, string) (core.User, error)
 	UserByID(context.Context, string) (core.User, error)
 	UpdatePreferences(context.Context, string, core.Preferences) (core.User, error)
 	UpdateName(context.Context, string, string) (core.User, error)
@@ -45,6 +46,10 @@ type Service struct {
 	Photos            PhotoStore
 	Directory         ContactsStore
 	NormalizeImage    func([]byte) ([]byte, error)
+	ModerateImage     func(context.Context, []byte) (string, error)
+	TranscribeAudio   func(context.Context, []byte) (string, error)
+	MediaSource       func(context.Context) ([]byte, error)
+	VerifyGoogle      func(context.Context, string) (core.GoogleIdentity, error)
 	Now               func() time.Time
 	ID                func() string
 	Token             func() (string, error)

@@ -14,9 +14,13 @@ func (a *API) routes() int {
 		{"GET /health/live", false, a.live},
 		{"GET /health/ready", false, a.ready},
 		{"GET /v1/meta", false, a.meta},
+		{"POST /v1/analysis/text", true, a.analyzeText},
+		{"POST /v1/analysis/audio", true, a.analyzeAudio},
+		{"GET /v1/media-tools/source", false, a.mediaSource},
 		{"GET /openapi.json", false, a.specification},
 		{"POST /v1/auth/register", false, a.register},
 		{"POST /v1/auth/login", false, a.login},
+		{"POST /v1/auth/google", false, a.googleLogin},
 		{"POST /v1/auth/refresh", false, a.refresh},
 		{"POST /v1/auth/logout", true, a.logout},
 		{"GET /v1/me", true, a.me},
@@ -56,5 +60,5 @@ func (a *API) ready(r *http.Request, _ core.User) (Result, error) {
 }
 
 func (a *API) meta(_ *http.Request, _ core.User) (Result, error) {
-	return Result{Body: map[string]any{"api_version": "v1", "incident_types": core.IncidentTypes(), "categories": core.Categories(), "roles": core.Roles(), "verification": "one_other_user", "capabilities": map[string]bool{"email_auth": true, "geo_reports": true, "media": true, "pull_alerts": true, "push_notifications": false, "payments": false, "ai": false}}}, nil
+	return Result{Body: map[string]any{"api_version": "v1", "incident_types": core.IncidentTypes(), "categories": core.Categories(), "roles": core.Roles(), "verification": "one_other_user", "capabilities": map[string]bool{"email_auth": true, "google_auth": a.Service.VerifyGoogle != nil, "geo_reports": true, "media": a.Service.ModerateImage != nil, "text_rules": true, "audio": a.Service.TranscribeAudio != nil, "pull_alerts": true, "push_notifications": false, "payments": false, "generative_ai": false}}}, nil
 }

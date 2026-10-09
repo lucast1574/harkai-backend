@@ -50,6 +50,22 @@ func TestReportConfirmationAndUnverifiedAlerts(t *testing.T) {
 	if err := json.Unmarshal(w.Body.Bytes(), &i); err != nil {
 		t.Fatal(err)
 	}
+
+	ownerView := request(t, api, "GET", "/v1/incidents/"+i.ID, author.AccessToken, nil, 200)
+	var view core.Incident
+	if err := json.Unmarshal(ownerView.Body.Bytes(), &view); err != nil {
+		t.Fatal(err)
+	}
+	if !view.ViewerIsAuthor || strings.Contains(ownerView.Body.String(), author.User.ID) {
+		t.Fatal("owner affordance missing or author identity exposed")
+	}
+	otherView := request(t, api, "GET", "/v1/incidents/"+i.ID, other.AccessToken, nil, 200)
+	if err := json.Unmarshal(otherView.Body.Bytes(), &view); err != nil {
+		t.Fatal(err)
+	}
+	if view.ViewerIsAuthor {
+		t.Fatal("other viewer received owner affordance")
+	}
 	w = request(t, api, "GET", "/v1/alerts?lat=-12&lng=-77", other.AccessToken, nil, 200)
 	var page core.IncidentPage
 	if err := json.Unmarshal(w.Body.Bytes(), &page); err != nil {

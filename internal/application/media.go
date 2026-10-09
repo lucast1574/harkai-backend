@@ -18,6 +18,9 @@ type PhotoStore interface {
 }
 
 func (s Service) Upload(ctx context.Context, userID string, raw []byte) (core.Media, error) {
+	if s.ModerateImage == nil {
+		return core.Media{}, core.ErrUnavailable
+	}
 	if err := s.Limits.Allow(ctx, "upload:"+userID, 20, time.Hour, s.Now()); err != nil {
 		return core.Media{}, err
 	}
@@ -26,6 +29,14 @@ func (s Service) Upload(ctx context.Context, userID string, raw []byte) (core.Me
 		return core.Media{}, err
 	}
 	media := core.Media{ID: s.ID(), UserID: userID, ContentType: "image/jpeg", Size: len(data), CreatedAt: s.Now()}
+	policy, err := s.ModerateImage(ctx, data)
+	if err != nil {
+		return core.Media{}, err
+	}
+	if policy != "explicit-v1" {
+		return core.Media{}, core.ErrUnavailable
+	}
+	media.Approved, media.Policy = true, policy
 	if err = s.Photos.Put(ctx, media.ID, data); err != nil {
 		return core.Media{}, err
 	}
@@ -38,6 +49,9 @@ func (s Service) Download(ctx context.Context, id string, user core.User) (core.
 		return core.Media{}, err
 	}
 	if media.UserID == user.ID || user.Role == "admin" {
+		if !media.Approved || media.Policy != "explicit-v1" {
+			return core.Media{}, core.ErrNotFound
+		}
 		media.Data, err = s.Photos.Get(ctx, media.ID)
 		return media, err
 	}
@@ -45,7 +59,7 @@ func (s Service) Download(ctx context.Context, id string, user core.User) (core.
 	if err != nil {
 		return core.Media{}, err
 	}
-	if !public {
+	if !public || !media.Approved || media.Policy != "explicit-v1" {
 		return core.Media{}, core.ErrNotFound
 	}
 	media.Data, err = s.Photos.Get(ctx, media.ID)
@@ -62,6 +76,9 @@ func (s Service) ValidateMedia(ctx context.Context, userID, id string) error {
 	}
 	if media.UserID != userID {
 		return core.ErrForbidden
+	}
+	if !media.Approved || media.Policy != "explicit-v1" {
+		return core.ErrImageRejected
 	}
 	return nil
 }

@@ -16,13 +16,14 @@ type Preferences struct {
 }
 
 type User struct {
-	ID           string      `json:"id" bson:"_id"`
-	Email        string      `json:"email" bson:"email"`
-	Name         string      `json:"name" bson:"name"`
-	Role         string      `json:"role" bson:"role"`
-	PasswordHash string      `json:"-" bson:"password_hash"`
-	Preferences  Preferences `json:"preferences" bson:"preferences"`
-	CreatedAt    time.Time   `json:"created_at" bson:"created_at"`
+	GoogleSubject string      `json:"-" bson:"google_subject,omitempty"`
+	ID            string      `json:"id" bson:"_id"`
+	Email         string      `json:"email" bson:"email"`
+	Name          string      `json:"name" bson:"name"`
+	Role          string      `json:"role" bson:"role"`
+	PasswordHash  string      `json:"-" bson:"password_hash"`
+	Preferences   Preferences `json:"preferences" bson:"preferences"`
+	CreatedAt     time.Time   `json:"created_at" bson:"created_at"`
 }
 
 type Credentials struct {

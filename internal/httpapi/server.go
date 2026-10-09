@@ -58,7 +58,11 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNoContent)
 		return
 	}
-	ctx, cancel := context.WithTimeout(r.Context(), 10*time.Second)
+	timeout := 10 * time.Second
+	if r.URL.Path == "/v1/analysis/audio" || r.URL.Path == "/v1/media" {
+		timeout = 40 * time.Second
+	}
+	ctx, cancel := context.WithTimeout(r.Context(), timeout)
 	defer cancel()
 	a.router.ServeHTTP(w, r.WithContext(ctx))
 }

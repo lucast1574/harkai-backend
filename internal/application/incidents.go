@@ -26,6 +26,7 @@ func (s Service) Report(ctx context.Context, user core.User, input core.Incident
 		}
 	}
 	incident, err = s.Incidents.CreateIncident(ctx, incident)
+	incident.ViewerIsAuthor = true
 	return core.PublicIncident(incident), err
 }
 
@@ -49,6 +50,7 @@ func (s Service) Incident(ctx context.Context, id string, user core.User) (core.
 	if i.Status == "hidden" && user.ID != i.UserID && user.Role != "admin" {
 		return core.Incident{}, core.ErrNotFound
 	}
+	i.ViewerIsAuthor = user.ID != "" && user.ID == i.UserID
 	return core.PublicIncident(i), nil
 }
 
@@ -61,6 +63,7 @@ func (s Service) ChangeStatus(ctx context.Context, user core.User, id, status st
 		owner = ""
 	}
 	i, err := s.Incidents.SetIncidentStatus(ctx, id, owner, status, s.Now())
+	i.ViewerIsAuthor = user.ID != "" && user.ID == i.UserID
 	return core.PublicIncident(i), err
 }
 

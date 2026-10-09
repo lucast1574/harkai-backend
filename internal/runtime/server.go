@@ -5,7 +5,9 @@ import (
 	"errors"
 	"github.com/lucast1574/harkai-backend/internal/application"
 	"github.com/lucast1574/harkai-backend/internal/config"
+	"github.com/lucast1574/harkai-backend/internal/googleauth"
 	"github.com/lucast1574/harkai-backend/internal/httpapi"
+	"github.com/lucast1574/harkai-backend/internal/mediatools"
 	"github.com/lucast1574/harkai-backend/internal/mongostore"
 	"github.com/lucast1574/harkai-backend/internal/s3store"
 	"github.com/lucast1574/harkai-backend/internal/security"
@@ -35,6 +37,16 @@ func Run(ctx context.Context, c config.Config) error {
 	if err != nil {
 		return err
 	}
+	if c.MediaWorkerURL != "" {
+		worker, err := mediatools.New(c.MediaWorkerURL, c.MediaWorkerKey)
+		if err != nil {
+			return err
+		}
+		service.ModerateImage, service.TranscribeAudio, service.MediaSource = worker.Moderate, worker.Transcribe, worker.Source
+	}
+	if c.GoogleProject != "" {
+		service.VerifyGoogle = googleauth.New(c.GoogleProject).Verify
+	}
 	ready := func(ctx context.Context) error {
 		if err := store.Ping(ctx); err != nil {
 			return err
@@ -42,7 +54,7 @@ func Run(ctx context.Context, c config.Config) error {
 		return photos.Ping(ctx)
 	}
 	handler := httpapi.New(service, ready, c.Origins, logger)
-	server := &http.Server{Addr: ":" + c.Port, Handler: handler, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 15 * time.Second, WriteTimeout: 20 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 16 << 10}
+	server := &http.Server{Addr: ":" + c.Port, Handler: handler, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 30 * time.Second, WriteTimeout: 50 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 16 << 10}
 	logger.Info("Harkai API listening", "port", c.Port)
 	return Serve(ctx, server)
 }

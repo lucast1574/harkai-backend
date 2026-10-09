@@ -2,11 +2,13 @@ package httpapi_test
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"github.com/lucast1574/harkai-backend/internal/core"
 	"github.com/lucast1574/harkai-backend/internal/httpapi"
 	"github.com/lucast1574/harkai-backend/internal/runtime"
 	"github.com/lucast1574/harkai-backend/internal/testutil"
+	"golang.org/x/crypto/bcrypt"
 	"io"
 	"log/slog"
 	"net/http"
@@ -21,6 +23,14 @@ func fixture(t *testing.T) *httpapi.API {
 	if err != nil {
 		t.Fatal(err)
 	}
+	// HTTP/Mongo integration tests use bcrypt's minimum work factor so race
+	// instrumentation cannot consume the request deadline. Production cost is
+	// independently tested in internal/security and remains unchanged.
+	service.HashPassword = func(password string) (string, error) {
+		hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
+		return string(hash), err
+	}
+	service.ModerateImage = func(_ context.Context, _ []byte) (string, error) { return "explicit-v1", nil }
 	return httpapi.New(service, store.Ping, []string{"https://harkai.lat"}, slog.New(slog.NewTextHandler(io.Discard, nil)))
 }
 

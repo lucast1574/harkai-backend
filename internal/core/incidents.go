@@ -8,27 +8,28 @@ type Point struct {
 }
 
 type Incident struct {
-	ID           string     `json:"id" bson:"_id"`
-	UserID       string     `json:"-" bson:"user_id"`
-	Type         string     `json:"type" bson:"type"`
-	Description  string     `json:"description" bson:"description"`
-	Latitude     float64    `json:"latitude" bson:"latitude"`
-	Longitude    float64    `json:"longitude" bson:"longitude"`
-	Location     Point      `json:"-" bson:"location"`
-	Status       string     `json:"status" bson:"status"`
-	MediaID      string     `json:"media_id,omitempty" bson:"media_id,omitempty"`
-	ContactInfo  string     `json:"contact_info,omitempty" bson:"contact_info,omitempty"`
-	ShareContact bool       `json:"-" bson:"share_contact"`
-	District     string     `json:"district,omitempty" bson:"district,omitempty"`
-	City         string     `json:"city,omitempty" bson:"city,omitempty"`
-	Country      string     `json:"country,omitempty" bson:"country,omitempty"`
-	Verification string     `json:"verification,omitempty" bson:"verification,omitempty"`
-	VerifiedBy   string     `json:"-" bson:"verified_by,omitempty"`
-	VerifiedAt   *time.Time `json:"verified_at,omitempty" bson:"verified_at,omitempty"`
-	Verified     bool       `json:"verified" bson:"verified"`
-	CreatedAt    time.Time  `json:"created_at" bson:"created_at"`
-	UpdatedAt    time.Time  `json:"updated_at" bson:"updated_at"`
-	ExpiresAt    *time.Time `json:"expires_at,omitempty" bson:"expires_at,omitempty"`
+	ViewerIsAuthor bool       `json:"viewer_is_author" bson:"-"`
+	ID             string     `json:"id" bson:"_id"`
+	UserID         string     `json:"-" bson:"user_id"`
+	Type           string     `json:"type" bson:"type"`
+	Description    string     `json:"description" bson:"description"`
+	Latitude       float64    `json:"latitude" bson:"latitude"`
+	Longitude      float64    `json:"longitude" bson:"longitude"`
+	Location       Point      `json:"-" bson:"location"`
+	Status         string     `json:"status" bson:"status"`
+	MediaID        string     `json:"media_id,omitempty" bson:"media_id,omitempty"`
+	ContactInfo    string     `json:"contact_info,omitempty" bson:"contact_info,omitempty"`
+	ShareContact   bool       `json:"-" bson:"share_contact"`
+	District       string     `json:"district,omitempty" bson:"district,omitempty"`
+	City           string     `json:"city,omitempty" bson:"city,omitempty"`
+	Country        string     `json:"country,omitempty" bson:"country,omitempty"`
+	Verification   string     `json:"verification,omitempty" bson:"verification,omitempty"`
+	VerifiedBy     string     `json:"-" bson:"verified_by,omitempty"`
+	VerifiedAt     *time.Time `json:"verified_at,omitempty" bson:"verified_at,omitempty"`
+	Verified       bool       `json:"verified" bson:"verified"`
+	CreatedAt      time.Time  `json:"created_at" bson:"created_at"`
+	UpdatedAt      time.Time  `json:"updated_at" bson:"updated_at"`
+	ExpiresAt      *time.Time `json:"expires_at,omitempty" bson:"expires_at,omitempty"`
 }
 
 type IncidentInput struct {

@@ -18,6 +18,12 @@ func (s *Store) UserByEmail(ctx context.Context, email string) (core.User, error
 	return user, translate(err)
 }
 
+func (s *Store) UserByGoogle(ctx context.Context, subject string) (core.User, error) {
+	var user core.User
+	err := s.DB.Collection("users").FindOne(ctx, bson.M{"google_subject": subject}).Decode(&user)
+	return user, translate(err)
+}
+
 func (s *Store) UserByID(ctx context.Context, id string) (core.User, error) {
 	var user core.User
 	err := s.DB.Collection("users").FindOne(ctx, bson.M{"_id": id}).Decode(&user)

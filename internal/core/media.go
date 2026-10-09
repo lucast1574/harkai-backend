@@ -3,6 +3,8 @@ package core
 import "time"
 
 type Media struct {
+	Approved    bool      `json:"approved" bson:"approved"`
+	Policy      string    `json:"policy" bson:"policy"`
 	ID          string    `json:"id" bson:"_id"`
 	UserID      string    `json:"-" bson:"user_id"`
 	ContentType string    `json:"content_type" bson:"content_type"`

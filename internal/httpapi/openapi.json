@@ -3,7 +3,7 @@
   "info": {
     "title": "Harkai API",
     "version": "0.1.0",
-    "description": "Shared web/mobile backend without Firebase. Initial capabilities: email authentication, geo reports, photos, preferences and pull alerts."
+    "description": "Shared Go API for web and mobile. Google identity and FCM are the only permitted Firebase integrations. Reports, roles, sessions, rules and private media belong to this backend."
   },
   "servers": [
     {
@@ -3095,6 +3095,345 @@
         ],
         "description": "Admin only. Registration never grants privileges. Own roles and existing administrator roles are protected. Role changes take effect on the next request."
       }
+    },
+    "/v1/analysis/text": {
+      "post": {
+        "operationId": "analyzeText",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TextAnalysis"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 2000
+                  },
+                  "selected_type": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "text"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/analysis/audio": {
+      "post": {
+        "operationId": "transcribeAudio",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "text": {
+                      "type": "string"
+                    },
+                    "analysis": {
+                      "$ref": "#/components/schemas/TextAnalysis"
+                    },
+                    "requires_confirmation": {
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "text",
+                    "analysis",
+                    "requires_confirmation"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "audio/wav": {
+              "schema": {
+                "type": "string",
+                "format": "binary",
+                "description": "Maximum 4 MiB and 60 seconds. Audio is processed locally and not stored."
+              }
+            },
+            "audio/x-wav": {
+              "schema": {
+                "type": "string",
+                "format": "binary",
+                "description": "Maximum 4 MiB and 60 seconds. Audio is processed locally and not stored."
+              }
+            },
+            "audio/webm": {
+              "schema": {
+                "type": "string",
+                "format": "binary",
+                "description": "Maximum 4 MiB and 60 seconds. Audio is processed locally and not stored."
+              }
+            },
+            "audio/ogg": {
+              "schema": {
+                "type": "string",
+                "format": "binary",
+                "description": "Maximum 4 MiB and 60 seconds. Audio is processed locally and not stored."
+              }
+            },
+            "audio/mpeg": {
+              "schema": {
+                "type": "string",
+                "format": "binary",
+                "description": "Maximum 4 MiB and 60 seconds. Audio is processed locally and not stored."
+              }
+            },
+            "audio/mp4": {
+              "schema": {
+                "type": "string",
+                "format": "binary",
+                "description": "Maximum 4 MiB and 60 seconds. Audio is processed locally and not stored."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/google": {
+      "post": {
+        "operationId": "exchangeGoogleIdentity",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "id_token": {
+                    "type": "string",
+                    "maxLength": 16384
+                  }
+                },
+                "required": [
+                  "id_token"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/media-tools/source": {
+      "get": {
+        "operationId": "mediaWorkerSource",
+        "responses": {
+          "200": {
+            "description": "AGPL source for the local media worker, without deployment secrets.",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Worker unavailable"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -3419,6 +3758,10 @@
           "verified_at": {
             "type": "string",
             "format": "date-time"
+          },
+          "viewer_is_author": {
+            "type": "boolean",
+            "description": "Per-request ownership flag; author identity is never exposed."
           }
         },
         "required": [
@@ -3470,6 +3813,15 @@
           "created_at": {
             "type": "string",
             "format": "date-time"
+          },
+          "approved": {
+            "type": "boolean"
+          },
+          "policy": {
+            "type": "string",
+            "enum": [
+              "explicit-v1"
+            ]
           }
         },
         "required": [
@@ -3602,6 +3954,34 @@
         },
         "required": [
           "items"
+        ]
+      },
+      "TextAnalysis": {
+        "type": "object",
+        "properties": {
+          "suggested_type": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "advice": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "requires_confirmation": {
+            "const": true
+          }
+        },
+        "required": [
+          "reason",
+          "advice",
+          "requires_confirmation"
         ]
       }
     }

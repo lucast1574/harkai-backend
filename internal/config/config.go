@@ -9,21 +9,29 @@ import (
 )
 
 type Config struct {
-	Port        string
-	MongoURI    string
-	Database    string
-	Origins     []string
-	S3Endpoint  string
-	S3AccessKey string
-	S3SecretKey string
-	S3Bucket    string
-	S3Secure    bool
+	GoogleProject  string
+	MediaWorkerURL string
+	MediaWorkerKey string
+	Port           string
+	MongoURI       string
+	Database       string
+	Origins        []string
+	S3Endpoint     string
+	S3AccessKey    string
+	S3SecretKey    string
+	S3Bucket       string
+	S3Secure       bool
 }
 
 func Load() (Config, error) { return Parse(os.Getenv) }
 
 func Parse(get func(string) string) (Config, error) {
 	c := Config{Port: value(get, "PORT", "8080"), MongoURI: get("MONGODB_URI"), Database: value(get, "MONGODB_DATABASE", "harkai")}
+	c.GoogleProject = get("GOOGLE_PROJECT_ID")
+	c.MediaWorkerURL, c.MediaWorkerKey = get("MEDIA_WORKER_URL"), get("MEDIA_WORKER_KEY")
+	if (c.MediaWorkerURL == "") != (c.MediaWorkerKey == "") {
+		return c, errors.New("both media worker URL and key are required")
+	}
 	c.S3Endpoint, c.S3AccessKey, c.S3SecretKey = get("S3_ENDPOINT"), get("S3_ACCESS_KEY"), get("S3_SECRET_KEY")
 	c.S3Bucket = value(get, "S3_BUCKET", "harkai-photos")
 	c.S3Secure = get("S3_USE_SSL") == "true"

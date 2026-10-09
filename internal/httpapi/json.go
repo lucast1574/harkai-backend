@@ -58,6 +58,8 @@ func writeResult(w http.ResponseWriter, result Result) error {
 func writeError(w http.ResponseWriter, err error) error {
 	status, code, message := 500, "internal_error", "An internal error occurred"
 	switch {
+	case errors.Is(err, core.ErrImageRejected):
+		status, code, message = 400, "image_rejected", "Image did not pass moderation"
 	case errors.Is(err, core.ErrInvalid):
 		status, code, message = 400, "invalid_input", err.Error()
 	case errors.Is(err, core.ErrUnauthorized):
