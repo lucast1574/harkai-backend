@@ -37,7 +37,13 @@ type Limits interface {
 	Allow(context.Context, string, int, time.Duration, time.Time) error
 }
 
+type Districts interface {
+	ArchiveDistricts(context.Context, core.IncidentQuery, time.Time) ([]string, error)
+}
+
 type Service struct {
+	Districts         Districts
+	Comments          Comments
 	Users             Users
 	Sessions          Sessions
 	Incidents         Incidents

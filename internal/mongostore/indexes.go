@@ -9,7 +9,8 @@ import (
 
 func (s *Store) EnsureIndexes(ctx context.Context) error {
 	indexes := map[string][]mongo.IndexModel{
-		"users": {{Keys: bson.D{{Key: "email", Value: 1}}, Options: options.Index().SetUnique(true)}, {Keys: bson.D{{Key: "google_subject", Value: 1}}, Options: options.Index().SetUnique(true).SetSparse(true)}},
+		"comments": {{Keys: bson.D{{Key: "incident_id", Value: 1}, {Key: "_id", Value: 1}}}, {Keys: bson.D{{Key: "user_id", Value: 1}}}},
+		"users":    {{Keys: bson.D{{Key: "email", Value: 1}}, Options: options.Index().SetUnique(true)}, {Keys: bson.D{{Key: "google_subject", Value: 1}}, Options: options.Index().SetUnique(true).SetSparse(true)}},
 		"sessions": {
 			{Keys: bson.D{{Key: "access_hash", Value: 1}}, Options: options.Index().SetUnique(true)},
 			{Keys: bson.D{{Key: "refresh_hash", Value: 1}}, Options: options.Index().SetUnique(true)},

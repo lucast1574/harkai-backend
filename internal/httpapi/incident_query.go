@@ -10,7 +10,7 @@ import (
 
 func incidentQuery(r *http.Request, geoRequired bool) (core.IncidentQuery, error) {
 	values := r.URL.Query()
-	q := core.IncidentQuery{RadiusMeters: 5000, Limit: 50, Type: values.Get("type"), Cursor: values.Get("cursor")}
+	q := core.IncidentQuery{RadiusMeters: 5000, Limit: 50, District: values.Get("district"), Type: values.Get("type"), Cursor: values.Get("cursor")}
 	if geoRequired && (values.Get("lat") == "" || values.Get("lng") == "") {
 		return q, fmt.Errorf("%w: lat and lng required", core.ErrInvalid)
 	}
@@ -44,6 +44,13 @@ func incidentQuery(r *http.Request, geoRequired bool) (core.IncidentQuery, error
 			return q, fmt.Errorf("%w: after must be RFC3339", core.ErrInvalid)
 		}
 		q.After = &t
+	}
+	if value := values.Get("before"); value != "" {
+		t, err := time.Parse(time.RFC3339Nano, value)
+		if err != nil {
+			return q, fmt.Errorf("%w: before must be RFC3339", core.ErrInvalid)
+		}
+		q.Before = &t
 	}
 	return core.ValidateQuery(q)
 }

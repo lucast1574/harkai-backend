@@ -58,6 +58,10 @@ func IncidentExpiry(kind string, endsAt *time.Time, now time.Time) (*time.Time, 
 }
 
 func ValidateQuery(q IncidentQuery) (IncidentQuery, error) {
+	q.District = strings.TrimSpace(q.District)
+	if len(q.District) > 100 || (q.After != nil && q.Before != nil && !q.Before.After(*q.After)) {
+		return q, fmt.Errorf("%w: district or date range", ErrInvalid)
+	}
 	if err := ValidateCoordinates(q.Latitude, q.Longitude); err != nil {
 		return q, err
 	}

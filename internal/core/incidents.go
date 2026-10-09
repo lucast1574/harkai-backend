@@ -47,6 +47,9 @@ type IncidentInput struct {
 }
 
 type IncidentQuery struct {
+	PublicOnly      bool
+	District        string
+	Before          *time.Time
 	Latitude        float64
 	Longitude       float64
 	RadiusMeters    int

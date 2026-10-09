@@ -47,3 +47,9 @@ La primera versión proporciona alertas consultables por zona, no push nativo. `
 ## Despliegue
 
 Dockerfile multietapa, usuario sin privilegios y puerto 8080. Dokploy aporta `MONGODB_URI`, `MONGODB_DATABASE=harkai_backend` y orígenes CORS exactos. Dominio previsto: `api.harkai.lat`. `/health/live` comprueba el proceso; `/health/ready` comprueba MongoDB y el bucket S3. Detalles en `docs/operations.md`.
+
+## Historial y conversación
+
+GET /v1/archive/incidents consulta el archivo público por zona, tipo, distrito reportado y fechas (after inclusivo, before exclusivo). Incluye reportes vencidos y resueltos; excluye ocultos. No existe un TTL que elimine reportes al vencer la alerta. GET /v1/archive/districts devuelve hasta 200 etiquetas aportadas en esa consulta, sin afirmar límites oficiales. Las fotos aprobadas de reportes archivados siguen accesibles; ocultar el reporte retira ese acceso.
+
+GET/POST /v1/incidents/{id}/comments comparte la misma conversación entre clientes. POST requiere una sesión Go y limita 5/minuto y 30/hora. DELETE permite al autor o al admin retirar texto y nombre públicos. El correo y el ID de cuenta no forman parte del contrato público. La conversación conserva un marcador de comentario retirado.

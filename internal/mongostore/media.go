@@ -19,7 +19,7 @@ func (s *Store) MediaByID(ctx context.Context, id string) (core.Media, error) {
 }
 
 func (s *Store) MediaIsPublic(ctx context.Context, id string, now time.Time) (bool, error) {
-	filter := IncidentFilter(core.IncidentQuery{OwnerID: "unused"}, now)
+	filter := IncidentFilter(core.IncidentQuery{OwnerID: "unused", IncludeInactive: true, PublicOnly: true}, now)
 	delete(filter, "user_id")
 	filter["media_id"] = id
 	count, err := s.DB.Collection("incidents").CountDocuments(ctx, filter)
