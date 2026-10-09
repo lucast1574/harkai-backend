@@ -59,7 +59,7 @@ Límites persistidos por cuenta: 20 intentos de creación por hora y un reporte 
 
 POST `/v1/media` recibe bytes JPEG/PNG con Content-Type image/jpeg o image/png y token Bearer. Máximo 5 MiB, 4096 por dimensión y 12 millones de píxeles. Se decodifica y reescribe en JPEG para descartar metadatos y contenido adjunto. Devuelve id, content_type, size y created_at; adjunta ese id al reporte.
 
-GET `/v1/media/{id}` devuelve JPEG. Antes de publicar solo puede verlo el propietario/admin. Al adjuntarse a un reporte activo y vigente se vuelve público; se retira del acceso público si el reporte se oculta, resuelve o caduca. Máximo 20 intentos de subida por usuario/hora. El almacenamiento inicial es una colección MongoDB separada con objetos pequeños; el puerto MediaStore permite sustituirlo por almacenamiento S3 sin cambiar el contrato.
+GET `/v1/media/{id}` devuelve JPEG. Antes de publicar solo puede verlo el propietario/admin. Al adjuntarse a un reporte activo y vigente se vuelve público; se retira del acceso público si el reporte se oculta, resuelve o caduca. Máximo 20 intentos de subida por usuario/hora. Las imágenes se guardan en MinIO S3 privado, en el HDD del servidor. MongoDB solo guarda metadatos. Los puertos MediaStore y PhotoStore mantienen el contrato independiente del almacenamiento.
 
 ## Directorio y administración
 
