@@ -1,0 +1,89 @@
+package application
+
+import (
+	"context"
+	"fmt"
+	"github.com/lucast1574/harkai-backend/internal/core"
+	"slices"
+	"time"
+)
+
+func (s Service) Report(ctx context.Context, user core.User, input core.IncidentInput) (core.Incident, error) {
+	now := s.Now()
+	incident, err := core.BuildIncident(input, s.ID(), user.ID, now)
+	if err != nil {
+		return core.Incident{}, err
+	}
+	if err = s.ValidateMedia(ctx, user.ID, input.MediaID); err != nil {
+		return core.Incident{}, err
+	}
+	if err = s.Limits.Allow(ctx, "report:"+user.ID, 20, time.Hour, now); err != nil {
+		return core.Incident{}, err
+	}
+	if input.Type != "place" && input.Type != "event" {
+		if err = s.Incidents.ClaimCooldown(ctx, user.ID, input.Type, now); err != nil {
+			return core.Incident{}, err
+		}
+	}
+	incident, err = s.Incidents.CreateIncident(ctx, incident)
+	return core.PublicIncident(incident), err
+}
+
+func (s Service) FindIncidents(ctx context.Context, q core.IncidentQuery) (core.IncidentPage, error) {
+	q, err := core.ValidateQuery(q)
+	if err != nil {
+		return core.IncidentPage{}, err
+	}
+	page, err := s.Incidents.ListIncidents(ctx, q, s.Now())
+	for n := range page.Items {
+		page.Items[n] = core.PublicIncident(page.Items[n])
+	}
+	return page, err
+}
+
+func (s Service) Incident(ctx context.Context, id string, user core.User) (core.Incident, error) {
+	i, err := s.Incidents.IncidentByID(ctx, id)
+	if err != nil {
+		return core.Incident{}, err
+	}
+	if i.Status == "hidden" && user.ID != i.UserID && user.Role != "admin" {
+		return core.Incident{}, core.ErrNotFound
+	}
+	return core.PublicIncident(i), nil
+}
+
+func (s Service) ChangeStatus(ctx context.Context, user core.User, id, status string) (core.Incident, error) {
+	if !slices.Contains([]string{"resolved", "hidden"}, status) {
+		return core.Incident{}, fmt.Errorf("%w: status must be resolved or hidden", core.ErrInvalid)
+	}
+	owner := user.ID
+	if user.Role == "admin" {
+		owner = ""
+	}
+	i, err := s.Incidents.SetIncidentStatus(ctx, id, owner, status, s.Now())
+	return core.PublicIncident(i), err
+}
+
+func (s Service) Alerts(ctx context.Context, user core.User, q core.IncidentQuery) (core.IncidentPage, error) {
+	q.RadiusMeters = user.Preferences.RadiusMeters
+	q.Type = ""
+	q.IncludeInactive = false
+	q.OwnerID = ""
+	if user.Preferences.Notifications == "none" {
+		return core.IncidentPage{Items: []core.Incident{}}, nil
+	}
+	page, err := s.FindIncidents(ctx, q)
+	if err != nil {
+		return page, err
+	}
+	if user.Preferences.Notifications == "critical" {
+		filtered := make([]core.Incident, 0, len(page.Items))
+		for _, i := range page.Items {
+			if core.CriticalType(i.Type) {
+				filtered = append(filtered, i)
+			}
+		}
+		page.Items = filtered
+	}
+	return page, nil
+}
