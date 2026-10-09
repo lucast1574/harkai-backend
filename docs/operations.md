@@ -14,6 +14,8 @@ Organización Dokploy: lucast. Proyecto: harkai. Entorno: production. La instanc
 
 Dokploy construye el Dockerfile desde main del repositorio privado harkai-backend. El contenedor escucha en 8080 y se ejecuta sin privilegios. El proxy dirige api.harkai.lat a ese puerto. Cloudflare debe apuntar al servidor de Dokploy; HTTPS requiere un certificado válido en origen y en el proxy.
 
+La API está fijada a rangelserver2, donde Dokploy construye su imagen local, con límites de 512 MB y 0.5 CPU. MinIO permanece fijado a rangelserver1, donde existe el HDD. Para mover o replicar la API a otros nodos debe configurarse distribución de imagen mediante registro.
+
 El inicio comprueba conexión e índices antes de aceptar tráfico. La señal SIGTERM inicia apagado con plazo de 15 segundos. La API impone límites de tamaño, timeouts HTTP y CORS exacto. No incluye credenciales en logs ni respuestas. Readiness: `/health/ready`; liveness: `/health/live`.
 
 ## Persistencia y copias
