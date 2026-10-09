@@ -12,9 +12,9 @@ Roles user/gov/admin se autorizan en Go. Gov puede consultar reportes y exportar
 
 ## Pendiente antes de cerrar la migración
 
-- Completar aplicaciones Android/web del proyecto harkai-acceso y probar el acceso real con Google.
-- Conectar FCM a un registro de dispositivos y entrega durable en Go; la capacidad push continúa desactivada hasta tener ese circuito verificado.
-- Desplegar el trabajador privado de medios, API y panel en Dokploy; conectar la landing cuando el panel esté operativo.
+- Probar el acceso real con Google en los dispositivos objetivo; Android/web ya usan harkai-acceso.
+- Comprobar la recepción real FCM en Android y navegador. El registro privado de dispositivos, la cola durable y las credenciales están conectados; producción declara push_notifications=true.
+- Revisar con usuarios el trabajador de medios, API, panel y landing ya desplegados en Dokploy.
 - Validar STT con voces peruanas y el filtro de fotos con un conjunto de evaluación.
 - Configurar contactos institucionales y una fuente editorial de noticias. Actualidad actualmente muestra reportes comunitarios.
 - Completar traducción inglesa y firma de publicación Android.
