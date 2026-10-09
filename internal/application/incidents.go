@@ -20,7 +20,7 @@ func (s Service) Report(ctx context.Context, user core.User, input core.Incident
 	if err = s.Limits.Allow(ctx, "report:"+user.ID, 20, time.Hour, now); err != nil {
 		return core.Incident{}, err
 	}
-	if input.Type != "place" && input.Type != "event" {
+	if input.Type != "place" {
 		if err = s.Incidents.ClaimCooldown(ctx, user.ID, input.Type, now); err != nil {
 			return core.Incident{}, err
 		}

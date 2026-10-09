@@ -39,7 +39,7 @@ func (s *Store) ListIncidents(ctx context.Context, q core.IncidentQuery, now tim
 }
 
 func IncidentFilter(q core.IncidentQuery, now time.Time) bson.M {
-	filter := bson.M{}
+	filter := bson.M{"type": bson.M{"$in": core.IncidentTypes()}}
 	if !q.IncludeInactive {
 		filter["status"] = "active"
 		filter["$or"] = bson.A{bson.M{"expires_at": bson.M{"$exists": false}}, bson.M{"expires_at": nil}, bson.M{"expires_at": bson.M{"$gt": now}}}

@@ -22,6 +22,9 @@ type Incident struct {
 	District     string     `json:"district,omitempty" bson:"district,omitempty"`
 	City         string     `json:"city,omitempty" bson:"city,omitempty"`
 	Country      string     `json:"country,omitempty" bson:"country,omitempty"`
+	Verification string     `json:"verification,omitempty" bson:"verification,omitempty"`
+	VerifiedBy   string     `json:"-" bson:"verified_by,omitempty"`
+	VerifiedAt   *time.Time `json:"verified_at,omitempty" bson:"verified_at,omitempty"`
 	Verified     bool       `json:"verified" bson:"verified"`
 	CreatedAt    time.Time  `json:"created_at" bson:"created_at"`
 	UpdatedAt    time.Time  `json:"updated_at" bson:"updated_at"`
@@ -60,7 +63,11 @@ type IncidentPage struct {
 }
 
 func IncidentTypes() []string {
-	return []string{"fire", "crash", "theft", "pet", "emergency", "place", "event"}
+	types := make([]string, 0, len(Categories()))
+	for _, category := range Categories() {
+		types = append(types, category.ID)
+	}
+	return types
 }
 
 func PublicIncident(i Incident) Incident {
@@ -70,4 +77,4 @@ func PublicIncident(i Incident) Incident {
 	return i
 }
 
-func CriticalType(t string) bool { return t == "fire" || t == "theft" || t == "emergency" }
+func CriticalType(t string) bool { category, ok := CategoryFor(t); return ok && category.Critical }

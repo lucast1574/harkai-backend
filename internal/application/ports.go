@@ -12,6 +12,8 @@ type Users interface {
 	UserByID(context.Context, string) (core.User, error)
 	UpdatePreferences(context.Context, string, core.Preferences) (core.User, error)
 	UpdateName(context.Context, string, string) (core.User, error)
+	ListUsers(context.Context, string, int) (core.UserPage, error)
+	AssignRole(context.Context, string, string, string, time.Time) (core.User, error)
 }
 
 type Sessions interface {
@@ -27,6 +29,7 @@ type Incidents interface {
 	ListIncidents(context.Context, core.IncidentQuery, time.Time) (core.IncidentPage, error)
 	SetIncidentStatus(context.Context, string, string, string, time.Time) (core.Incident, error)
 	ClaimCooldown(context.Context, string, string, time.Time) error
+	ConfirmIncident(context.Context, string, string, time.Time) (core.Incident, error)
 }
 
 type Limits interface {

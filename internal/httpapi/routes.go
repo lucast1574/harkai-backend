@@ -29,6 +29,10 @@ func (a *API) routes() int {
 		{"PATCH /v1/incidents/{id}/status", true, a.incidentStatus},
 		{"GET /v1/alerts", true, a.alerts},
 		{"GET /v1/admin/incidents", true, a.adminIncidents},
+		{"GET /v1/gov/incidents", true, a.govIncidents},
+		{"POST /v1/incidents/{id}/confirm", true, a.confirmReport},
+		{"GET /v1/admin/users", true, a.adminUsers},
+		{"PATCH /v1/admin/users/{id}/role", true, a.assignRole},
 		{"POST /v1/media", true, a.upload},
 		{"GET /v1/media/{id}", false, a.download},
 		{"GET /v1/emergency-contacts", false, a.contacts},
@@ -52,5 +56,5 @@ func (a *API) ready(r *http.Request, _ core.User) (Result, error) {
 }
 
 func (a *API) meta(_ *http.Request, _ core.User) (Result, error) {
-	return Result{Body: map[string]any{"api_version": "v1", "incident_types": core.IncidentTypes(), "capabilities": map[string]bool{"email_auth": true, "geo_reports": true, "media": true, "pull_alerts": true, "push_notifications": false, "payments": false, "ai": false}}}, nil
+	return Result{Body: map[string]any{"api_version": "v1", "incident_types": core.IncidentTypes(), "categories": core.Categories(), "roles": core.Roles(), "verification": "one_other_user", "capabilities": map[string]bool{"email_auth": true, "geo_reports": true, "media": true, "pull_alerts": true, "push_notifications": false, "payments": false, "ai": false}}}, nil
 }

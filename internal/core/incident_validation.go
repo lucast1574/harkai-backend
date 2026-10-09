@@ -30,7 +30,7 @@ func BuildIncident(input IncidentInput, id, userID string, now time.Time) (Incid
 	if len(input.ContactInfo) > 40 || len(input.City) > 100 || len(input.District) > 100 || len(input.Country) > 100 {
 		return Incident{}, fmt.Errorf("%w: contact or address too long", ErrInvalid)
 	}
-	if input.Type == "pet" || input.Type == "event" || input.Type == "place" {
+	if input.Type == "pet" || input.Type == "place" {
 		if input.MediaID == "" || len(strings.TrimSpace(input.ContactInfo)) < 6 {
 			return Incident{}, fmt.Errorf("%w: media_id and contact_info required", ErrInvalid)
 		}
@@ -43,15 +43,8 @@ func BuildIncident(input IncidentInput, id, userID string, now time.Time) (Incid
 }
 
 func IncidentExpiry(kind string, endsAt *time.Time, now time.Time) (*time.Time, error) {
-	if kind == "event" {
-		if endsAt == nil || !endsAt.After(now) || endsAt.After(now.Add(90*24*time.Hour)) {
-			return nil, fmt.Errorf("%w: events require future ends_at within 90 days", ErrInvalid)
-		}
-		t := endsAt.UTC()
-		return &t, nil
-	}
 	if endsAt != nil {
-		return nil, fmt.Errorf("%w: ends_at only applies to events", ErrInvalid)
+		return nil, fmt.Errorf("%w: ends_at is no longer supported", ErrInvalid)
 	}
 	if kind == "place" {
 		return nil, nil
