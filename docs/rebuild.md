@@ -41,4 +41,4 @@ Conectar Google y FCM del proyecto nuevo; moderación/STT; reestructurar cliente
 
 ## Landing independiente
 
-Repositorio `harkai-landing`, copia local junto a los otros repos y proyecto propio en Dokploy. `harkai.lat` es la landing; `panel.harkai.lat` aloja la aplicación web. Mantener branding existente y estilo moderno inspirado en Nexode, con navegación lateral. No inventar métricas, pagos, usuarios ni descargas disponibles.
+Repositorio `harkai-landing`, copia local junto a los otros repos y servicio propio dentro del proyecto `harkai` en Dokploy. `harkai.lat` es la landing; `panel.harkai.lat` aloja la aplicación web. Mantener branding existente y estilo moderno inspirado en Nexode, con navegación lateral. No inventar métricas, pagos, usuarios ni descargas disponibles.
