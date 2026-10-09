@@ -25,6 +25,9 @@ func (s Service) Report(ctx context.Context, user core.User, input core.Incident
 			return core.Incident{}, err
 		}
 	}
+	if s.PushEnabled {
+		incident.Push = &core.PushJob{State: "pending", NextAt: now}
+	}
 	incident, err = s.Incidents.CreateIncident(ctx, incident)
 	incident.ViewerIsAuthor = true
 	return core.PublicIncident(incident), err

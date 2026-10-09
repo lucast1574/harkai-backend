@@ -42,6 +42,8 @@ type Districts interface {
 }
 
 type Service struct {
+	Devices           Devices
+	PushEnabled       bool
 	Districts         Districts
 	Comments          Comments
 	Users             Users

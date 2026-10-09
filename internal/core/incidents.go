@@ -8,6 +8,7 @@ type Point struct {
 }
 
 type Incident struct {
+	Push           *PushJob   `json:"-" bson:"push,omitempty"`
 	ViewerIsAuthor bool       `json:"viewer_is_author" bson:"-"`
 	ID             string     `json:"id" bson:"_id"`
 	UserID         string     `json:"-" bson:"user_id"`

@@ -9,6 +9,7 @@ import (
 )
 
 type Config struct {
+	FCMKeyBase64   string
 	GoogleProject  string
 	MediaWorkerURL string
 	MediaWorkerKey string
@@ -28,6 +29,10 @@ func Load() (Config, error) { return Parse(os.Getenv) }
 func Parse(get func(string) string) (Config, error) {
 	c := Config{Port: value(get, "PORT", "8080"), MongoURI: get("MONGODB_URI"), Database: value(get, "MONGODB_DATABASE", "harkai")}
 	c.GoogleProject = get("GOOGLE_PROJECT_ID")
+	c.FCMKeyBase64 = get("FCM_SERVICE_ACCOUNT_BASE64")
+	if len(c.FCMKeyBase64) > 90000 || (c.FCMKeyBase64 != "" && c.GoogleProject == "") {
+		return c, errors.New("invalid FCM environment configuration")
+	}
 	c.MediaWorkerURL, c.MediaWorkerKey = get("MEDIA_WORKER_URL"), get("MEDIA_WORKER_KEY")
 	if (c.MediaWorkerURL == "") != (c.MediaWorkerKey == "") {
 		return c, errors.New("both media worker URL and key are required")

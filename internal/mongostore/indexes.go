@@ -9,6 +9,7 @@ import (
 
 func (s *Store) EnsureIndexes(ctx context.Context) error {
 	indexes := map[string][]mongo.IndexModel{
+		"devices":  {{Keys: bson.D{{Key: "location", Value: "2dsphere"}}}, {Keys: bson.D{{Key: "session_id", Value: 1}}}, {Keys: bson.D{{Key: "expires_at", Value: 1}}, Options: options.Index().SetExpireAfterSeconds(0)}},
 		"comments": {{Keys: bson.D{{Key: "incident_id", Value: 1}, {Key: "_id", Value: 1}}}, {Keys: bson.D{{Key: "user_id", Value: 1}}}},
 		"users":    {{Keys: bson.D{{Key: "email", Value: 1}}, Options: options.Index().SetUnique(true)}, {Keys: bson.D{{Key: "google_subject", Value: 1}}, Options: options.Index().SetUnique(true).SetSparse(true)}},
 		"sessions": {
@@ -18,6 +19,7 @@ func (s *Store) EnsureIndexes(ctx context.Context) error {
 			{Keys: bson.D{{Key: "user_id", Value: 1}}},
 		},
 		"incidents": {
+			{Keys: bson.D{{Key: "push.state", Value: 1}, {Key: "push.next_at", Value: 1}}},
 			{Keys: bson.D{{Key: "location", Value: "2dsphere"}}},
 			{Keys: bson.D{{Key: "status", Value: 1}, {Key: "type", Value: 1}, {Key: "_id", Value: -1}}},
 			{Keys: bson.D{{Key: "user_id", Value: 1}, {Key: "_id", Value: -1}}},

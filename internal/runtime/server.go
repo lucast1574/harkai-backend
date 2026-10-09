@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"context"
+	"encoding/base64"
 	"errors"
 	"github.com/lucast1574/harkai-backend/internal/application"
 	"github.com/lucast1574/harkai-backend/internal/config"
@@ -9,6 +10,7 @@ import (
 	"github.com/lucast1574/harkai-backend/internal/httpapi"
 	"github.com/lucast1574/harkai-backend/internal/mediatools"
 	"github.com/lucast1574/harkai-backend/internal/mongostore"
+	"github.com/lucast1574/harkai-backend/internal/push"
 	"github.com/lucast1574/harkai-backend/internal/s3store"
 	"github.com/lucast1574/harkai-backend/internal/security"
 	"log/slog"
@@ -18,6 +20,8 @@ import (
 )
 
 func Run(ctx context.Context, c config.Config) error {
+	ctx, stop := context.WithCancel(ctx)
+	defer stop()
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	startup, cancel := context.WithTimeout(ctx, 20*time.Second)
 	defer cancel()
@@ -53,6 +57,26 @@ func Run(ctx context.Context, c config.Config) error {
 		}
 		return photos.Ping(ctx)
 	}
+	if c.FCMKeyBase64 != "" {
+		raw, err := base64.StdEncoding.DecodeString(c.FCMKeyBase64)
+		if err != nil {
+			return errors.New("invalid FCM credential encoding")
+		}
+		sender, err := push.New(ctx, c.GoogleProject, raw)
+		if err != nil {
+			return err
+		}
+		validation, cancelValidation := context.WithTimeout(ctx, 15*time.Second)
+		err = sender.Validate(validation)
+		cancelValidation()
+		if err != nil {
+			return err
+		}
+		service.PushEnabled = true
+		worker := push.Worker{Store: store, Sender: sender, Now: UTCNow, ID: mongostore.NewID}
+		stopWorker := startPush(ctx, worker, logger)
+		defer stopWorker()
+	}
 	handler := httpapi.New(service, ready, c.Origins, logger)
 	server := &http.Server{Addr: ":" + c.Port, Handler: handler, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 30 * time.Second, WriteTimeout: 50 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 16 << 10}
 	logger.Info("Harkai API listening", "port", c.Port)
@@ -64,7 +88,7 @@ func NewService(store *mongostore.Store, photos application.PhotoStore) (applica
 	if err != nil {
 		return application.Service{}, err
 	}
-	return application.Service{Districts: store, Comments: store, Users: store, Sessions: store, Incidents: store, Limits: store, Media: store, Photos: photos, Directory: store, NormalizeImage: security.NormalizeImage, Now: UTCNow, ID: mongostore.NewID, Token: security.Token, HashPassword: security.HashPassword, CheckPassword: security.CheckPassword, HashToken: security.HashToken, DummyPasswordHash: dummy}, nil
+	return application.Service{Districts: store, Devices: store, Comments: store, Users: store, Sessions: store, Incidents: store, Limits: store, Media: store, Photos: photos, Directory: store, NormalizeImage: security.NormalizeImage, Now: UTCNow, ID: mongostore.NewID, Token: security.Token, HashPassword: security.HashPassword, CheckPassword: security.CheckPassword, HashToken: security.HashToken, DummyPasswordHash: dummy}, nil
 }
 
 func UTCNow() time.Time { return time.Now().UTC() }

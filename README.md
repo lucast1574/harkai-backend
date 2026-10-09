@@ -12,6 +12,7 @@ API Go compartida por el frontend web y la app móvil. Autenticación propia, Mo
 | `internal/s3store` | Fotos privadas en S3/MinIO |
 | `internal/security` | Tokens aleatorios, bcrypt e imágenes normalizadas |
 | `internal/httpapi` | API HTTP v1, respuestas, autenticación y CORS |
+| `internal/push` | Entrega FCM, reintentos y cola persistente ligada al reporte |
 | `internal/config` | Lectura y validación del entorno |
 | `internal/runtime` | Composición, arranque y apagado |
 | `cmd/api` | Entrada mínima del servidor |
@@ -42,7 +43,7 @@ Consulta `docs/api.md` y `internal/httpapi/openapi.json`. El contrato OpenAPI ta
 
 Los usuarios creados por registro público reciben rol `user`. Las fotos se suben antes de crear el reporte; solo su propietario puede adjuntarlas. Los contactos se publican únicamente con consentimiento explícito. Los reportes comienzan como no verificados.
 
-La primera versión proporciona alertas consultables por zona, no push nativo. `/v1/meta` declara las capacidades disponibles. Las reglas de texto, transcripción local de audio y revisión local de imágenes tienen adaptadores reales. Google requiere `GOOGLE_PROJECT_ID`; audio y fotos requieren `MEDIA_WORKER_URL` y `MEDIA_WORKER_KEY`. Recuperación de contraseña, pagos, push, SSE y migración histórica siguen pendientes; no hay endpoints simulados. El trabajador privado se construye con `media-worker/Dockerfile`; consulta su README para modelos y fuentes.
+Las alertas por zona están disponibles. El adaptador FCM y su cola persistente están implementados, pero la credencial y el registro de dispositivos en clientes siguen pendientes en producción. `/v1/meta` declara las capacidades disponibles. Las reglas de texto, transcripción local de audio y revisión local de imágenes tienen adaptadores reales. Google requiere `GOOGLE_PROJECT_ID`; audio y fotos requieren `MEDIA_WORKER_URL` y `MEDIA_WORKER_KEY`. Recuperación de contraseña, pagos, activación push en clientes, SSE y migración histórica siguen pendientes; no hay endpoints simulados. El trabajador privado se construye con `media-worker/Dockerfile`; consulta su README para modelos y fuentes.
 
 ## Despliegue
 
