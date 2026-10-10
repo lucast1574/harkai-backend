@@ -3,6 +3,7 @@ package httpapi
 import (
 	"fmt"
 	"github.com/lucast1574/harkai-backend/internal/core"
+	"github.com/lucast1574/harkai-backend/internal/districtgeo"
 	"net/http"
 	"strconv"
 	"time"
@@ -52,5 +53,20 @@ func incidentQuery(r *http.Request, geoRequired bool) (core.IncidentQuery, error
 		}
 		q.Before = &t
 	}
-	return core.ValidateQuery(q)
+	q, err := core.ValidateQuery(q)
+	if err != nil {
+		return q, err
+	}
+	if id := values.Get("ubigeo"); id != "" {
+		district, err := districtgeo.Area(id, values.Get("scope"))
+		if err != nil {
+			return q, err
+		}
+		q.Ubigeo = id
+		q.Boundary = &district.Geometry
+	}
+	if values.Get("scope") != "" && q.Boundary == nil {
+		return q, fmt.Errorf("%w: scope requires ubigeo", core.ErrInvalid)
+	}
+	return q, nil
 }

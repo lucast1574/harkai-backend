@@ -6,6 +6,7 @@ import (
 	"errors"
 	"github.com/lucast1574/harkai-backend/internal/application"
 	"github.com/lucast1574/harkai-backend/internal/config"
+	"github.com/lucast1574/harkai-backend/internal/districtgeo"
 	"github.com/lucast1574/harkai-backend/internal/googleauth"
 	"github.com/lucast1574/harkai-backend/internal/httpapi"
 	"github.com/lucast1574/harkai-backend/internal/mediatools"
@@ -22,6 +23,9 @@ import (
 func Run(ctx context.Context, c config.Config) error {
 	ctx, stop := context.WithCancel(ctx)
 	defer stop()
+	if err := districtgeo.Warm(); err != nil {
+		return errors.New("district reference catalog failed")
+	}
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	startup, cancel := context.WithTimeout(ctx, 20*time.Second)
 	defer cancel()

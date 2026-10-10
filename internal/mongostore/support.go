@@ -19,6 +19,9 @@ func (s *Store) SupportDirectory(ctx context.Context, city string) ([]core.Suppo
 }
 func (s *Store) SupportPlaces(ctx context.Context, q core.IncidentQuery) ([]core.SupportPlace, error) {
 	filter := bson.M{"location": bson.M{"$near": bson.M{"$geometry": core.Point{Type: "Point", Coordinates: []float64{q.Longitude, q.Latitude}}, "$maxDistance": q.RadiusMeters}}}
+	if q.Boundary != nil {
+		filter["location"] = bson.M{"$geoWithin": bson.M{"$geometry": q.Boundary}}
+	}
 	cursor, err := s.DB.Collection("support_places").Find(ctx, filter, options.Find().SetLimit(100))
 	if err != nil {
 		return nil, err

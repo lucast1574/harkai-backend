@@ -1226,6 +1226,28 @@
               "type": "string",
               "format": "date-time"
             }
+          },
+          {
+            "name": "ubigeo",
+            "in": "query",
+            "description": "Reference INEI district ID; spatial polygon replaces radius filtering.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{6}$"
+            }
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "description": "Requires ubigeo. city selects all reference districts of the province.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "district",
+                "city"
+              ],
+              "default": "district"
+            }
           }
         ]
       }
@@ -1400,6 +1422,28 @@
             "schema": {
               "type": "string",
               "format": "date-time"
+            }
+          },
+          {
+            "name": "ubigeo",
+            "in": "query",
+            "description": "Reference INEI district ID; spatial polygon replaces radius filtering.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{6}$"
+            }
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "description": "Requires ubigeo. city selects all reference districts of the province.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "district",
+                "city"
+              ],
+              "default": "district"
             }
           }
         ]
@@ -2718,6 +2762,28 @@
               "type": "string",
               "format": "date-time"
             }
+          },
+          {
+            "name": "ubigeo",
+            "in": "query",
+            "description": "Reference INEI district ID; spatial polygon replaces radius filtering.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{6}$"
+            }
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "description": "Requires ubigeo. city selects all reference districts of the province.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "district",
+                "city"
+              ],
+              "default": "district"
+            }
           }
         ],
         "description": "Government and admin access. Includes inactive reports within the requested area. Does not expose private contacts."
@@ -3530,6 +3596,28 @@
               "type": "string"
             },
             "description": "Exclusive RFC3339 end time"
+          },
+          {
+            "name": "ubigeo",
+            "in": "query",
+            "description": "Reference INEI district ID; spatial polygon replaces radius filtering.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{6}$"
+            }
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "description": "Requires ubigeo. city selects all reference districts of the province.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "district",
+                "city"
+              ],
+              "default": "district"
+            }
           }
         ],
         "responses": {
@@ -4086,6 +4174,28 @@
               "maximum": 100000,
               "default": 5000
             }
+          },
+          {
+            "name": "ubigeo",
+            "in": "query",
+            "description": "Reference INEI district ID; spatial polygon replaces radius filtering.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{6}$"
+            }
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "description": "Requires ubigeo. city selects all reference districts of the province.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "district",
+                "city"
+              ],
+              "default": "district"
+            }
           }
         ],
         "responses": {
@@ -4115,6 +4225,62 @@
           },
           "503": {
             "description": "Directory temporarily unavailable"
+          }
+        }
+      }
+    },
+    "/v1/geo/district": {
+      "get": {
+        "operationId": "resolveGeographicDistrict",
+        "summary": "Reverse geocode locally and return district or province reference boundary",
+        "description": "Provide ubigeo, or both lat and lng. Embedded SENACE/INEI reference cartography June 2020; recently created districts are not represented. No external geocoder is called.",
+        "parameters": [
+          {
+            "name": "ubigeo",
+            "in": "query",
+            "description": "Reference INEI district ID; spatial polygon replaces radius filtering.",
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{6}$"
+            }
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "description": "Requires ubigeo. city selects all reference districts of the province.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "district",
+                "city"
+              ],
+              "default": "district"
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lng",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "district metadata, area geometry (Polygon or MultiPolygon), province district choices and source/year. Supports gzip."
+          },
+          "400": {
+            "description": "Invalid coordinates, ID or scope"
+          },
+          "404": {
+            "description": "Outside the reference coverage"
           }
         }
       }

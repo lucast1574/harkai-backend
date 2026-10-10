@@ -48,6 +48,8 @@ type IncidentInput struct {
 }
 
 type IncidentQuery struct {
+	Boundary        *AreaGeometry
+	Ubigeo          string
 	PublicOnly      bool
 	District        string
 	Before          *time.Time

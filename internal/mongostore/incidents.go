@@ -50,9 +50,12 @@ func IncidentFilter(q core.IncidentQuery, now time.Time) bson.M {
 	if q.District != "" {
 		filter["district"] = q.District
 	}
+	if q.Boundary != nil {
+		filter["location"] = bson.M{"$geoWithin": bson.M{"$geometry": q.Boundary}}
+	}
 	if q.OwnerID != "" {
 		filter["user_id"] = q.OwnerID
-	} else {
+	} else if q.Boundary == nil {
 		filter["location"] = bson.M{"$geoWithin": bson.M{"$centerSphere": bson.A{bson.A{q.Longitude, q.Latitude}, float64(q.RadiusMeters) / 6371008.8}}}
 	}
 	if q.Type != "" {
