@@ -1,0 +1,32 @@
+package core
+
+// Support resources are directory records, never incidents or push jobs.
+type SupportContact struct {
+	Label      string `json:"label" bson:"label"`
+	Phone      string `json:"phone" bson:"phone"`
+	Scope      string `json:"scope" bson:"scope"`
+	SourceURL  string `json:"source_url" bson:"source_url"`
+	ReviewedAt string `json:"reviewed_at" bson:"reviewed_at"`
+}
+type SupportDistrict struct {
+	ID       string           `json:"-" bson:"_id"`
+	Country  string           `json:"country" bson:"country"`
+	City     string           `json:"city" bson:"city"`
+	District string           `json:"district" bson:"district"`
+	Contacts []SupportContact `json:"contacts" bson:"contacts"`
+}
+type SupportPlace struct {
+	ID                string  `json:"id" bson:"_id"`
+	Name              string  `json:"name" bson:"name"`
+	Kind              string  `json:"kind" bson:"kind"`
+	City              string  `json:"city" bson:"city"`
+	District          string  `json:"district" bson:"district"`
+	Address           string  `json:"address" bson:"address"`
+	Latitude          float64 `json:"latitude" bson:"latitude"`
+	Longitude         float64 `json:"longitude" bson:"longitude"`
+	Location          Point   `json:"-" bson:"location"`
+	Phone             string  `json:"phone,omitempty" bson:"phone,omitempty"`
+	SourceURL         string  `json:"source_url" bson:"source_url"`
+	LocationSourceURL string  `json:"location_source_url" bson:"location_source_url"`
+	ReviewedAt        string  `json:"reviewed_at" bson:"reviewed_at"`
+}

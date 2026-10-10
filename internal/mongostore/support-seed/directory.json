@@ -1,0 +1,2487 @@
+[
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Lima",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "013185050",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Ancón",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Ate",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "014941210",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Barranco",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "012470366",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Breña",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "014239492",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Carabayllo",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Chaclacayo",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "013582415",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Chorrillos",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "012517001",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Cieneguilla",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Comas",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "El Agustino",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Independencia",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Jesús María",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "014611070",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "La Molina",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "013134455",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "La Victoria",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "014313000",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Lince",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "014716389",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Los Olivos",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "016138210",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Lurigancho",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Lurín",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Magdalena del Mar",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Miraflores",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "016177281",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Pachacámac",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Pucusana",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Pueblo Libre",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "013193160",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Puente Piedra",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Punta Hermosa",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Punta Negra",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Rímac",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "015004040",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "San Bartolo",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "San Borja",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "016311000",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "San Isidro",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "013190450",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "San Juan de Lurigancho",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "San Juan de Miraflores",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "San Luis",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "San Martín de Porres",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "017146000",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "San Miguel",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "013133003",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Santa Anita",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "013630396",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Santa María del Mar",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Santa Rosa",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Santiago de Surco",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "014115555",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Surquillo",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "014481680",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Villa El Salvador",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "lima",
+    "district": "Villa María del Triunfo",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "trujillo",
+    "district": "Trujillo",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Seguridad ciudadana · Las Quintanas",
+        "phone": "044531450",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/institucion/munitrujillo/noticias/1346331-mpt-da-a-conocer-numeros-donde-llamar-ante-una-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "trujillo",
+    "district": "El Porvenir",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "trujillo",
+    "district": "Florencia de Mora",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "trujillo",
+    "district": "Huanchaco",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "trujillo",
+    "district": "La Esperanza",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Serenazgo distrital",
+        "phone": "958431697",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/institucion/munilaesperanza/contacto-y-numeros-de-emergencias",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "trujillo",
+    "district": "Laredo",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Municipalidad · informes (no emergencias)",
+        "phone": "044435519",
+        "scope": "distrital",
+        "source_url": "https://www.munilaredo.gob.pe/",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "trujillo",
+    "district": "Moche",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Municipalidad · informes (no emergencias)",
+        "phone": "044465471",
+        "scope": "distrital",
+        "source_url": "https://www.gob.pe/institucion/munimoche/contacto-y-numeros-de-emergencias",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "trujillo",
+    "district": "Poroto",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "trujillo",
+    "district": "Salaverry",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "trujillo",
+    "district": "Simbal",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "trujillo",
+    "district": "Víctor Larco Herrera",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  },
+  {
+    "country": "PE",
+    "city": "trujillo",
+    "district": "Alto Trujillo",
+    "contacts": [
+      {
+        "label": "Policía · emergencias",
+        "phone": "105",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Bomberos · emergencias",
+        "phone": "116",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "SAMU · emergencias médicas",
+        "phone": "106",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 100 · violencia familiar y sexual",
+        "phone": "100",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      },
+      {
+        "label": "Línea 113 · orientación en salud",
+        "phone": "113",
+        "scope": "nacional",
+        "source_url": "https://www.gob.pe/547-telefonos-de-emergencia",
+        "reviewed_at": "2026-10-10"
+      }
+    ]
+  }
+]

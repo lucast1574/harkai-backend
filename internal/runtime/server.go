@@ -33,6 +33,9 @@ func Run(ctx context.Context, c config.Config) error {
 	if err = store.EnsureIndexes(startup); err != nil {
 		return errors.New("database indexes failed")
 	}
+	if err = store.SeedSupport(startup); err != nil {
+		return errors.New("support directory seed failed")
+	}
 	photos, err := s3store.Connect(startup, c.S3Endpoint, c.S3AccessKey, c.S3SecretKey, c.S3Bucket, c.S3Secure)
 	if err != nil {
 		return err
@@ -88,7 +91,7 @@ func NewService(store *mongostore.Store, photos application.PhotoStore) (applica
 	if err != nil {
 		return application.Service{}, err
 	}
-	return application.Service{Districts: store, Devices: store, Comments: store, Users: store, Sessions: store, Incidents: store, Limits: store, Media: store, Photos: photos, Directory: store, NormalizeImage: security.NormalizeImage, Now: UTCNow, ID: mongostore.NewID, Token: security.Token, HashPassword: security.HashPassword, CheckPassword: security.CheckPassword, HashToken: security.HashToken, DummyPasswordHash: dummy}, nil
+	return application.Service{Support: store, Districts: store, Devices: store, Comments: store, Users: store, Sessions: store, Incidents: store, Limits: store, Media: store, Photos: photos, Directory: store, NormalizeImage: security.NormalizeImage, Now: UTCNow, ID: mongostore.NewID, Token: security.Token, HashPassword: security.HashPassword, CheckPassword: security.CheckPassword, HashToken: security.HashToken, DummyPasswordHash: dummy}, nil
 }
 
 func UTCNow() time.Time { return time.Now().UTC() }

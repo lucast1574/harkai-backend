@@ -4002,6 +4002,122 @@
           }
         }
       }
+    },
+    "/v1/support/directory": {
+      "get": {
+        "operationId": "supportDirectory",
+        "summary": "Public curated support directory; records are not incidents",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "lima",
+                "trujillo"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Directory records with provenance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SupportDistrict"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid city or geo query"
+          },
+          "503": {
+            "description": "Directory temporarily unavailable"
+          }
+        }
+      }
+    },
+    "/v1/support/places": {
+      "get": {
+        "operationId": "supportPlaces",
+        "summary": "Public curated support directory; records are not incidents",
+        "parameters": [
+          {
+            "name": "lat",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            }
+          },
+          {
+            "name": "lng",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            }
+          },
+          {
+            "name": "radius_meters",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 100000,
+              "default": 5000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Directory records with provenance",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/SupportPlace"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid city or geo query"
+          },
+          "503": {
+            "description": "Directory temporarily unavailable"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -4608,6 +4724,117 @@
           "updated_at": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "SupportContact": {
+        "type": "object",
+        "required": [
+          "label",
+          "phone",
+          "scope",
+          "source_url",
+          "reviewed_at"
+        ],
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "nacional",
+              "distrital"
+            ]
+          },
+          "source_url": {
+            "type": "string"
+          },
+          "reviewed_at": {
+            "type": "string"
+          }
+        }
+      },
+      "SupportDistrict": {
+        "type": "object",
+        "required": [
+          "country",
+          "city",
+          "district",
+          "contacts"
+        ],
+        "properties": {
+          "country": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "district": {
+            "type": "string"
+          },
+          "contacts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SupportContact"
+            }
+          }
+        }
+      },
+      "SupportPlace": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "kind",
+          "city",
+          "district",
+          "address",
+          "source_url",
+          "location_source_url",
+          "reviewed_at",
+          "latitude",
+          "longitude"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "district": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "source_url": {
+            "type": "string"
+          },
+          "location_source_url": {
+            "type": "string"
+          },
+          "reviewed_at": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "latitude": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
           }
         }
       }

@@ -14,6 +14,8 @@ func (a *API) routes() int {
 		{"GET /health/live", false, a.live},
 		{"GET /health/ready", false, a.ready},
 		{"GET /v1/meta", false, a.meta},
+		{"GET /v1/support/directory", false, a.supportDirectory},
+		{"GET /v1/support/places", false, a.supportPlaces},
 		{"POST /v1/analysis/text", true, a.analyzeText},
 		{"POST /v1/analysis/audio", true, a.analyzeAudio},
 		{"GET /v1/media-tools/source", false, a.mediaSource},
