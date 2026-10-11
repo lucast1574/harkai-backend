@@ -9,6 +9,7 @@ import (
 
 func (s *Store) EnsureIndexes(ctx context.Context) error {
 	indexes := map[string][]mongo.IndexModel{
+		"forum_threads":     {{Keys: bson.D{{Key: "province_id", Value: 1}, {Key: "deleted_at", Value: 1}, {Key: "_id", Value: -1}}}, {Keys: bson.D{{Key: "province_id", Value: 1}, {Key: "district_id", Value: 1}, {Key: "deleted_at", Value: 1}, {Key: "_id", Value: -1}}}},
 		"support_places":    {{Keys: bson.D{{Key: "location", Value: "2dsphere"}}}},
 		"support_directory": {{Keys: bson.D{{Key: "city", Value: 1}, {Key: "district", Value: 1}}}},
 		"devices":           {{Keys: bson.D{{Key: "location", Value: "2dsphere"}}}, {Keys: bson.D{{Key: "session_id", Value: 1}}}, {Keys: bson.D{{Key: "expires_at", Value: 1}}, Options: options.Index().SetExpireAfterSeconds(0)}},

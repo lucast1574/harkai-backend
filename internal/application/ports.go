@@ -42,6 +42,8 @@ type Districts interface {
 }
 
 type Service struct {
+	Forum             ForumStore
+	DistrictByID      func(string) (core.GeographicDistrict, error)
 	Support           SupportStore
 	Devices           Devices
 	PushEnabled       bool

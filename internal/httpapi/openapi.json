@@ -3840,7 +3840,7 @@
         ],
         "responses": {
           "200": {
-            "description": "50 oldest comments per page with next_cursor. can_delete computed for the viewer; no account ID or email returned."
+            "description": "50 oldest anonymous comments per page. author_name is always Vecino anónimo; no real name, account ID or email is exposed, including existing comments. can_delete computed for viewer."
           },
           "404": {
             "description": "Report is hidden or missing"
@@ -3892,6 +3892,9 @@
           },
           "429": {
             "description": "5 per minute or 30 per hour per account"
+          },
+          "400": {
+            "description": "invalid_input or content_rejected: profanity and obscene text rejected before persistence."
           }
         }
       }
@@ -4281,6 +4284,244 @@
           },
           "404": {
             "description": "Outside the reference coverage"
+          }
+        }
+      }
+    },
+    "/v1/forum": {
+      "get": {
+        "operationId": "forumFeed",
+        "description": "Anonymous conversations, district by default; city includes only the same province. Account IDs, emails, real names and exact locations are never returned. Optional bearer token computes can_delete.",
+        "parameters": [
+          {
+            "name": "ubigeo",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9]{6}$"
+            }
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "district",
+                "city"
+              ],
+              "default": "district"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{24}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "30 newest conversations with items and next_cursor."
+          },
+          "400": {
+            "description": "Invalid district, scope or cursor"
+          }
+        }
+      },
+      "post": {
+        "operationId": "startForumThread",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "body",
+                  "district_id"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "body": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 1000
+                  },
+                  "district_id": {
+                    "type": "string",
+                    "pattern": "^[0-9]{6}$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Anonymous district conversation created; not an incident or map alert."
+          },
+          "400": {
+            "description": "invalid_input or content_rejected: edit profanity/obscenities before publishing."
+          },
+          "429": {
+            "description": "10 conversations per hour per account"
+          }
+        }
+      }
+    },
+    "/v1/forum/{id}": {
+      "delete": {
+        "operationId": "removeForumThread",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{24}$"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Owner or admin withdraws thread. Its replies become inaccessible."
+          },
+          "404": {
+            "description": "Missing thread or not owned"
+          }
+        }
+      }
+    },
+    "/v1/forum/{id}/comments": {
+      "get": {
+        "operationId": "forumComments",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{24}$"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "50 replies in chronological order; public author_name is always Vecino anónimo. Optional bearer computes can_delete."
+          },
+          "404": {
+            "description": "Report is hidden or missing"
+          }
+        }
+      },
+      "post": {
+        "operationId": "replyForumThread",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{24}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "body"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "body": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 1000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Comment persisted in MongoDB"
+          },
+          "429": {
+            "description": "5 per minute or 30 per hour per account"
+          },
+          "400": {
+            "description": "invalid_input or content_rejected"
+          }
+        }
+      }
+    },
+    "/v1/forum/{id}/comments/{commentID}": {
+      "delete": {
+        "operationId": "removeForumReply",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{24}$"
+            }
+          },
+          {
+            "name": "commentID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Author or admin removes public text and displayed name, leaving a tombstone"
+          },
+          "404": {
+            "description": "Missing comment or actor has no permission"
           }
         }
       }

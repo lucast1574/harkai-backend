@@ -1,11 +1,6 @@
 package core
 
-import (
-	"fmt"
-	"strings"
-	"time"
-	"unicode/utf8"
-)
+import "time"
 
 type Comment struct {
 	ID         string     `json:"id" bson:"_id"`
@@ -23,18 +18,32 @@ type CommentPage struct {
 }
 
 func BuildComment(body, id, incidentID string, u User, now time.Time) (Comment, error) {
-	body = strings.TrimSpace(body)
-	if utf8.RuneCountInString(body) < 2 || utf8.RuneCountInString(body) > 1000 || strings.ContainsRune(body, '\x00') {
-		return Comment{}, fmt.Errorf("%w: comment must contain 2 to 1000 characters", ErrInvalid)
+	body, err := ValidateCommunityText(body)
+	if err != nil {
+		return Comment{}, err
 	}
 	if !ValidID(incidentID) {
 		return Comment{}, ErrInvalid
 	}
-	return Comment{ID: id, IncidentID: incidentID, UserID: u.ID, AuthorName: u.Name, Body: body, CreatedAt: now}, nil
+	return Comment{ID: id, IncidentID: incidentID, UserID: u.ID, AuthorName: "Vecino anónimo", Body: body, CreatedAt: now}, nil
 }
-func ValidID(id string) bool { return len(id) == 24 && strings.Trim(id, "0123456789abcdef") == "" }
+func ValidID(id string) bool {
+	if len(id) != 24 {
+		return false
+	}
+	for _, r := range id {
+		if !(r >= '0' && r <= '9' || r >= 'a' && r <= 'f') {
+			return false
+		}
+	}
+	return true
+}
 func PublicComment(c Comment, u User) Comment {
 	c.CanDelete = u.ID != "" && (u.ID == c.UserID || u.Role == "admin") && c.DeletedAt == nil
+	c.AuthorName = "Vecino anónimo"
+	if !CommunityTextAllowed(c.Body) {
+		c.Body = "Comentario oculto por lenguaje inapropiado."
+	}
 	if c.DeletedAt != nil {
 		c.Body = ""
 		c.AuthorName = ""

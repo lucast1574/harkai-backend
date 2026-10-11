@@ -17,10 +17,11 @@ func TestCommentsOwnershipAndArchivedReport(t *testing.T) {
 	path := "/v1/incidents/" + report.ID + "/comments"
 	request(t, api, "POST", path, "", map[string]string{"body": "Lo observé también"}, 401)
 	request(t, api, "POST", path, a.AccessToken, map[string]string{"body": "x"}, 400)
+	request(t, api, "POST", path, a.AccessToken, map[string]string{"body": "p.u.t.a"}, 400)
 	w = request(t, api, "POST", path, a.AccessToken, map[string]string{"body": "Las personas ya se alejaron"}, 201)
 	var comment core.Comment
 	_ = json.Unmarshal(w.Body.Bytes(), &comment)
-	if !comment.CanDelete || strings.Contains(w.Body.String(), a.User.ID) || strings.Contains(w.Body.String(), a.User.Email) {
+	if comment.AuthorName != "Vecino anónimo" || strings.Contains(w.Body.String(), a.User.Name) || !comment.CanDelete || strings.Contains(w.Body.String(), a.User.ID) || strings.Contains(w.Body.String(), a.User.Email) {
 		t.Fatal("ownership or privacy")
 	}
 	request(t, api, "DELETE", path+"/"+comment.ID, b.AccessToken, nil, 404)
