@@ -102,7 +102,7 @@ func Province(id string) ([]map[string]string, error) {
 	items := []map[string]string{}
 	seen := map[string]bool{}
 	for _, e := range catalog {
-		if strings.HasPrefix(e.district.ID, id[:4]) && !seen[e.district.ID] {
+		if sameCity(e.district.ID, id) && !seen[e.district.ID] {
 			seen[e.district.ID] = true
 			items = append(items, map[string]string{"id": e.district.ID, "name": e.district.Name})
 		}

@@ -4229,7 +4229,8 @@
           "503": {
             "description": "Directory temporarily unavailable"
           }
-        }
+        },
+        "description": "Lugares permanentes de salud y ayuda; no caducan como incidentes. Devuelve todos los resultados del área geográfica sin recorte a cien. Lima y Callao comparten la cobertura metropolitana."
       }
     },
     "/v1/geo/district": {
@@ -4522,6 +4523,65 @@
           },
           "404": {
             "description": "Missing comment or actor has no permission"
+          }
+        }
+      }
+    },
+    "/v1/support/coverage": {
+      "get": {
+        "operationId": "supportCoverage",
+        "summary": "Cobertura de la beta por ubicación, sin descargar polígonos",
+        "parameters": [
+          {
+            "name": "lat",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "lng",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "covered distingue una ciudad fuera de cobertura de una zona sin reportes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "covered"
+                  ],
+                  "properties": {
+                    "covered": {
+                      "type": "boolean"
+                    },
+                    "province_id": {
+                      "type": "string"
+                    },
+                    "province": {
+                      "type": "string"
+                    },
+                    "district_id": {
+                      "type": "string"
+                    },
+                    "district": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Coordenadas inválidas"
           }
         }
       }
@@ -5242,6 +5302,24 @@
           },
           "longitude": {
             "type": "number"
+          },
+          "registry_id": {
+            "type": "string"
+          },
+          "district_id": {
+            "type": "string"
+          },
+          "institution": {
+            "type": "string"
+          },
+          "classification": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "source_updated_at": {
+            "type": "string"
           }
         }
       }

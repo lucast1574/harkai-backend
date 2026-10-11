@@ -17,6 +17,12 @@ type SupportDistrict struct {
 }
 type SupportPlace struct {
 	ID                string  `json:"id" bson:"_id"`
+	RegistryID        string  `json:"registry_id,omitempty" bson:"registry_id,omitempty"`
+	DistrictID        string  `json:"district_id,omitempty" bson:"district_id,omitempty"`
+	Institution       string  `json:"institution,omitempty" bson:"institution,omitempty"`
+	Classification    string  `json:"classification,omitempty" bson:"classification,omitempty"`
+	Category          string  `json:"category,omitempty" bson:"category,omitempty"`
+	SourceUpdatedAt   string  `json:"source_updated_at,omitempty" bson:"source_updated_at,omitempty"`
 	Name              string  `json:"name" bson:"name"`
 	Kind              string  `json:"kind" bson:"kind"`
 	City              string  `json:"city" bson:"city"`

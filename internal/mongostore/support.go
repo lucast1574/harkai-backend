@@ -22,7 +22,7 @@ func (s *Store) SupportPlaces(ctx context.Context, q core.IncidentQuery) ([]core
 	if q.Boundary != nil {
 		filter["location"] = bson.M{"$geoWithin": bson.M{"$geometry": q.Boundary}}
 	}
-	cursor, err := s.DB.Collection("support_places").Find(ctx, filter, options.Find().SetLimit(100))
+	cursor, err := s.DB.Collection("support_places").Find(ctx, filter)
 	if err != nil {
 		return nil, err
 	}

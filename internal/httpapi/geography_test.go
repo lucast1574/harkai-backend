@@ -33,7 +33,7 @@ func TestGeographicEndpointAndValidation(t *testing.T) {
 	if err = json.NewDecoder(reader).Decode(&body); err != nil {
 		t.Fatal(err)
 	}
-	if body.District.ID != "150130" || body.Area.Scope != "city" || len(body.Districts) != 43 {
+	if body.District.ID != "150130" || body.Area.Scope != "city" || len(body.Districts) != 50 {
 		t.Fatalf("wrong resolution: %s %s %d", body.District.ID, body.Area.Scope, len(body.Districts))
 	}
 	for _, query := range []string{"lat=NaN&lng=-77", "ubigeo=bad", "ubigeo=150130&scope=bogus", "lat=-12"} {

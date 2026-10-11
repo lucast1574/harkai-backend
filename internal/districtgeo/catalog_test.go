@@ -12,7 +12,7 @@ func TestReferenceDistrictsAndCity(t *testing.T) {
 		lat, lng float64
 		id       string
 		count    int
-	}{{-12.083, -76.992, "150130", 43}, {-8.1116, -79.0287, "130101", 11}} {
+	}{{-12.083, -76.992, "150130", 50}, {-8.1116, -79.0287, "130101", 11}} {
 		d, err := At(p.lat, p.lng)
 		if err != nil || d.ID != p.id {
 			t.Fatalf("district %+v: %v", d, err)
@@ -22,7 +22,7 @@ func TestReferenceDistrictsAndCity(t *testing.T) {
 			t.Fatalf("neighbors %d: %v", len(neighbors), err)
 		}
 		a, err := Area(d.ID, "city")
-		if err != nil || a.Geometry.Type != "MultiPolygon" || a.Name != d.Province {
+		if err != nil || a.Geometry.Type != "MultiPolygon" || (a.Name != d.Province && a.Name != "Lima y Callao") {
 			t.Fatalf("city: %+v %v", a, err)
 		}
 		b, _ := json.Marshal(a)
@@ -50,5 +50,31 @@ func BenchmarkDistrictLookup(b *testing.B) {
 	b.ResetTimer()
 	for range b.N {
 		_, _ = At(-12.083, -76.992)
+	}
+}
+
+func TestLimaCallaoMetropolitanCoverage(t *testing.T) {
+	for _, id := range []string{"150130", "070101", "070107"} {
+		districts, err := Province(id)
+		if err != nil || len(districts) != 50 {
+			t.Fatalf("metro %s: %d %v", id, len(districts), err)
+		}
+		seen := map[string]bool{}
+		for _, district := range districts {
+			seen[district["id"]] = true
+		}
+		for _, callao := range []string{"070101", "070102", "070103", "070104", "070105", "070106", "070107"} {
+			if !seen[callao] {
+				t.Fatalf("missing Callao district %s", callao)
+			}
+		}
+		area, err := Area(id, "city")
+		if err != nil || area.Name != "Lima y Callao" {
+			t.Fatalf("metro area: %+v %v", area, err)
+		}
+		district, err := Area(id, "district")
+		if err != nil || district.ID != id || district.Scope != "district" {
+			t.Fatalf("district lost: %+v %v", district, err)
+		}
 	}
 }

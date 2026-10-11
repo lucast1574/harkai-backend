@@ -3,9 +3,11 @@ package mongostore_test
 import (
 	"context"
 	"github.com/lucast1574/harkai-backend/internal/core"
+	"github.com/lucast1574/harkai-backend/internal/districtgeo"
 	"github.com/lucast1574/harkai-backend/internal/mongostore"
 	"github.com/lucast1574/harkai-backend/internal/testutil"
 	"go.mongodb.org/mongo-driver/v2/bson"
+	"strings"
 	"testing"
 )
 
@@ -34,11 +36,15 @@ func TestSupportSeedCoverageAndProvenance(t *testing.T) {
 			}
 		}
 	}
-	if cities["lima"] != 43 || cities["trujillo"] != 12 {
+	if cities["lima"] != 50 || cities["trujillo"] != 12 {
 		t.Fatal("district coverage", cities)
 	}
 	seen = map[string]bool{}
+	coverage := map[string]map[string]bool{"lima": {}, "trujillo": {}}
 	for _, p := range places {
+		if p.RegistryID != "" {
+			coverage[p.City][p.DistrictID] = true
+		}
 		if seen[p.ID] {
 			t.Fatal("duplicate place", p.ID)
 		}
@@ -46,6 +52,9 @@ func TestSupportSeedCoverageAndProvenance(t *testing.T) {
 		if p.LocationSourceURL == "" || len(p.Location.Coordinates) != 2 || p.Location.Coordinates[0] != p.Longitude {
 			t.Fatal("coordinate provenance", p.ID)
 		}
+	}
+	if len(places) < 1500 || len(coverage["lima"]) != 50 || len(coverage["trujillo"]) != 12 {
+		t.Fatal("health place coverage", len(places), coverage)
 	}
 }
 
@@ -62,7 +71,7 @@ func TestSupportSeedIdempotenceAndGeoIsolation(t *testing.T) {
 	if err = store.SeedSupport(ctx); err != nil {
 		t.Fatal(err)
 	}
-	for city, want := range map[string]int{"lima": 43, "trujillo": 12} {
+	for city, want := range map[string]int{"lima": 50, "trujillo": 12} {
 		districts, err := store.SupportDirectory(ctx, city)
 		if err != nil || len(districts) != want {
 			t.Fatalf("%s: count=%d error=%v", city, len(districts), err)
@@ -81,6 +90,9 @@ func TestSupportSeedIdempotenceAndGeoIsolation(t *testing.T) {
 		if err != nil || len(places) == 0 {
 			t.Fatalf("geo results %v %v", places, err)
 		}
+		if len(places) <= 100 {
+			t.Fatalf("directory truncated: %d", len(places))
+		}
 		want := "lima"
 		if q.Latitude > -10 {
 			want = "trujillo"
@@ -94,6 +106,23 @@ func TestSupportSeedIdempotenceAndGeoIsolation(t *testing.T) {
 	places, err := store.SupportPlaces(ctx, core.IncidentQuery{Latitude: 40, Longitude: 20, RadiusMeters: 5000})
 	if err != nil || len(places) != 0 {
 		t.Fatalf("far query %v %v", places, err)
+	}
+	metro, err := districtgeo.Area("150130", "city")
+	if err != nil {
+		t.Fatal(err)
+	}
+	resources, err := store.SupportPlaces(ctx, core.IncidentQuery{Boundary: &metro.Geometry})
+	if err != nil || len(resources) < 1000 {
+		t.Fatalf("metropolitan directory: %d %v", len(resources), err)
+	}
+	callao := 0
+	for _, resource := range resources {
+		if strings.HasPrefix(resource.DistrictID, "0701") {
+			callao++
+		}
+	}
+	if callao < 100 {
+		t.Fatalf("Callao missing from Lima city query: %d", callao)
 	}
 	for _, collection := range []string{"incidents", "push_jobs"} {
 		count, err := store.DB.Collection(collection).CountDocuments(ctx, bson.M{})

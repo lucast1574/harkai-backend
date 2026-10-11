@@ -21,7 +21,7 @@ func TestPublicSupportRoutes(t *testing.T) {
 		t.Fatal(err)
 	}
 	api := httpapi.New(service, store.Ping, []string{"https://panel.harkai.lat"}, slog.Default())
-	for city, want := range map[string]int{"lima": 43, "trujillo": 12} {
+	for city, want := range map[string]int{"lima": 50, "trujillo": 12} {
 		w := request(t, api, "GET", "/v1/support/directory?city="+city, "", nil, 200)
 		var result struct {
 			Items []core.SupportDistrict `json:"items"`

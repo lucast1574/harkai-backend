@@ -18,6 +18,9 @@ var supportDirectorySeed []byte
 //go:embed support-seed/places.json
 var supportPlacesSeed []byte
 
+//go:embed support-seed/renipress.json
+var supportRegistrySeed []byte
+
 // SeedSupport inserts missing curated records; reruns never overwrite edited records.
 func (s *Store) SeedSupport(ctx context.Context) error {
 	districts, places, err := ReadSupportSeed()
@@ -57,6 +60,11 @@ func ReadSupportSeed() ([]core.SupportDistrict, []core.SupportPlace, error) {
 	if err := json.Unmarshal(supportPlacesSeed, &places); err != nil {
 		return nil, nil, err
 	}
+	var registry []core.SupportPlace
+	if err := json.Unmarshal(supportRegistrySeed, &registry); err != nil {
+		return nil, nil, err
+	}
+	places = append(places, registry...)
 	for n := range districts {
 		hash := sha256.Sum256([]byte(districts[n].City + ":" + districts[n].District))
 		districts[n].ID = hex.EncodeToString(hash[:])

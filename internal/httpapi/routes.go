@@ -23,6 +23,7 @@ func (a *API) routes() int {
 		{"GET /v1/geo/district", false, a.geographicDistrict},
 		{"GET /v1/support/directory", false, a.supportDirectory},
 		{"GET /v1/support/places", false, a.supportPlaces},
+		{"GET /v1/support/coverage", false, a.supportCoverage},
 		{"POST /v1/analysis/text", true, a.analyzeText},
 		{"POST /v1/analysis/audio", true, a.analyzeAudio},
 		{"GET /v1/media-tools/source", false, a.mediaSource},

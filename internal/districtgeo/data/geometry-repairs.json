@@ -1,0 +1,11 @@
+{
+  "input_sha256": "e27170d36ebad1ff0c0499c8c6ff32c40386764a83b109e131d56c306151a52c",
+  "output_sha256": "9a290a988fa20b1f8f5e6beb9d9066293b5b02fd30d9d1cc9a206d27cd7f6651",
+  "method": "GEOS make_valid, retaining polygon parts and holes; WGS84 unchanged",
+  "repaired": [
+    {
+      "district_id": "070101",
+      "parts": 3
+    }
+  ]
+}
