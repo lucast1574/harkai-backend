@@ -58,10 +58,13 @@ func isCoveredDistrict(id string) bool {
 }
 
 func resolveAutoDistrict(r *http.Request) (core.GeographicDistrict, *[2]float64, error) {
+	if d, pt, ok := lookupClientIPGeo(r); ok {
+		return d, pt, nil
+	}
 	for _, pair := range [][2]string{
+		{"X-Geo-Latitude", "X-Geo-Longitude"},
 		{"CF-IPLatitude", "CF-IPLongitude"},
 		{"X-Vercel-IP-Latitude", "X-Vercel-IP-Longitude"},
-		{"X-Geo-Latitude", "X-Geo-Longitude"},
 	} {
 		lat, latErr := strconv.ParseFloat(r.Header.Get(pair[0]), 64)
 		lng, lngErr := strconv.ParseFloat(r.Header.Get(pair[1]), 64)
@@ -72,7 +75,7 @@ func resolveAutoDistrict(r *http.Request) (core.GeographicDistrict, *[2]float64,
 			}
 		}
 	}
-	for _, key := range []string{"CF-IPCity", "X-Vercel-IP-City", "X-Geo-City"} {
+	for _, key := range []string{"X-Geo-City", "CF-IPCity", "X-Vercel-IP-City"} {
 		city := strings.TrimSpace(r.Header.Get(key))
 		if strings.EqualFold(city, "Trujillo") {
 			d, err := districtgeo.ByID("130101")
@@ -87,15 +90,12 @@ func resolveAutoDistrict(r *http.Request) (core.GeographicDistrict, *[2]float64,
 			return d, nil, err
 		}
 	}
-	if d, pt, ok := lookupClientIPGeo(r); ok {
-		return d, pt, nil
-	}
 	d, err := districtgeo.ByID("150101")
 	return d, nil, err
 }
 
 func clientIP(r *http.Request) string {
-	for _, header := range []string{"CF-Connecting-IP", "X-Real-IP", "X-Forwarded-For"} {
+	for _, header := range []string{"X-Harkai-Client-IP", "CF-Connecting-IP", "X-Real-IP", "X-Forwarded-For"} {
 		raw := strings.TrimSpace(r.Header.Get(header))
 		if raw == "" {
 			continue
@@ -119,7 +119,7 @@ func lookupClientIPGeo(r *http.Request) (core.GeographicDistrict, *[2]float64, b
 	ctx, cancel := context.WithTimeout(r.Context(), 2500*time.Millisecond)
 	defer cancel()
 
-	freeIPURL := "https://freeipapi.com/api/json/"
+	freeIPURL := "https://free.freeipapi.com/api/v1/json/"
 	if ip != "" {
 		freeIPURL += url.PathEscape(ip)
 	}
@@ -139,35 +139,6 @@ func lookupClientIPGeo(r *http.Request) (core.GeographicDistrict, *[2]float64, b
 					return d, &pt, true
 				}
 				if strings.Contains(strings.ToLower(payload.CityName), "trujillo") || strings.Contains(strings.ToLower(payload.RegionName), "libertad") {
-					if d, err := districtgeo.ByID("130101"); err == nil {
-						return d, nil, true
-					}
-				}
-			}
-		}
-	}
-
-	ipwhoURL := "https://ipwho.is/"
-	if ip != "" {
-		ipwhoURL += url.PathEscape(ip)
-	}
-	if req, err := http.NewRequestWithContext(ctx, http.MethodGet, ipwhoURL, nil); err == nil {
-		if resp, err := http.DefaultClient.Do(req); err == nil {
-			var payload struct {
-				Success   bool    `json:"success"`
-				City      string  `json:"city"`
-				Region    string  `json:"region"`
-				Latitude  float64 `json:"latitude"`
-				Longitude float64 `json:"longitude"`
-			}
-			decodeErr := json.NewDecoder(resp.Body).Decode(&payload)
-			resp.Body.Close()
-			if resp.StatusCode == http.StatusOK && decodeErr == nil && payload.Success {
-				if d, err := districtgeo.At(payload.Latitude, payload.Longitude); err == nil && isCoveredDistrict(d.ID) {
-					pt := [2]float64{payload.Latitude, payload.Longitude}
-					return d, &pt, true
-				}
-				if strings.Contains(strings.ToLower(payload.City), "trujillo") || strings.Contains(strings.ToLower(payload.Region), "libertad") {
 					if d, err := districtgeo.ByID("130101"); err == nil {
 						return d, nil, true
 					}
