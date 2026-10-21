@@ -7,7 +7,20 @@ import (
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
+func isDefaultAdmin(email string) bool {
+	return email == "lucasraulsantillanarevalo@gmail.com" || email == "lucasraulsantllanarevalo@gmail.com"
+}
+
+func (s *Store) EnsureAdmins(ctx context.Context) error {
+	emails := []string{"lucasraulsantillanarevalo@gmail.com", "lucasraulsantllanarevalo@gmail.com"}
+	_, err := s.DB.Collection("users").UpdateMany(ctx, bson.M{"email": bson.M{"$in": emails}}, bson.M{"$set": bson.M{"role": "admin"}})
+	return translate(err)
+}
+
 func (s *Store) CreateUser(ctx context.Context, user core.User) (core.User, error) {
+	if isDefaultAdmin(user.Email) {
+		user.Role = "admin"
+	}
 	_, err := s.DB.Collection("users").InsertOne(ctx, user)
 	return user, translate(err)
 }

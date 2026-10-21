@@ -40,6 +40,9 @@ func Run(ctx context.Context, c config.Config) error {
 	if err = store.SeedSupport(startup); err != nil {
 		return errors.New("support directory seed failed")
 	}
+	if err = store.EnsureAdmins(startup); err != nil {
+		return errors.New("admin role sync failed")
+	}
 	photos, err := s3store.Connect(startup, c.S3Endpoint, c.S3AccessKey, c.S3SecretKey, c.S3Bucket, c.S3Secure)
 	if err != nil {
 		return err
