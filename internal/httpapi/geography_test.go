@@ -29,12 +29,20 @@ func TestGeographicEndpointAndValidation(t *testing.T) {
 		District  core.GeographicDistrict
 		Area      core.GeographicArea
 		Districts []map[string]string
+		Center    map[string]float64
 	}
 	if err = json.NewDecoder(reader).Decode(&body); err != nil {
 		t.Fatal(err)
 	}
-	if body.District.ID != "150130" || body.Area.Scope != "city" || len(body.Districts) != 50 {
-		t.Fatalf("wrong resolution: %s %s %d", body.District.ID, body.Area.Scope, len(body.Districts))
+	if body.District.ID != "150130" || body.Area.Scope != "city" || len(body.Districts) != 50 || body.Center["latitude"] == 0 {
+		t.Fatalf("wrong resolution: %s %s %d %+v", body.District.ID, body.Area.Scope, len(body.Districts), body.Center)
+	}
+	autoReq := httptest.NewRequest("GET", "/v1/geo/district?auto=1", nil)
+	autoReq.Header.Set("CF-IPCity", "Trujillo")
+	w = httptest.NewRecorder()
+	api.ServeHTTP(w, autoReq)
+	if w.Code != 200 {
+		t.Fatalf("auto resolution failed: %d", w.Code)
 	}
 	for _, query := range []string{"lat=NaN&lng=-77", "ubigeo=bad", "ubigeo=150130&scope=bogus", "lat=-12"} {
 		w = httptest.NewRecorder()

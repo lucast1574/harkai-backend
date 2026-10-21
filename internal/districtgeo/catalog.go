@@ -24,6 +24,7 @@ const Source = "https://geosenace.senace.gob.pe/arcgis/rest/services/EVA_SERVER/
 type entry struct {
 	district core.GeographicDistrict
 	bounds   [4]float64
+	center   [2]float64
 }
 
 func load() error {
@@ -50,6 +51,8 @@ func load() error {
 	for _, f := range collection.Features {
 		d := core.GeographicDistrict{ID: f.Properties.ID, Name: title.String(strings.ToLower(f.Properties.Name)), Province: title.String(strings.ToLower(f.Properties.Province)), Department: title.String(strings.ToLower(f.Properties.Department)), Geometry: f.Geometry, SourceURL: Source, ReferenceYear: 2020}
 		bounds := [4]float64{180, 90, -180, -90}
+		var sumLng, sumLat float64
+		var count int
 		for _, ring := range d.Geometry.Coordinates {
 			for _, p := range ring {
 				if len(p) != 2 {
@@ -59,9 +62,16 @@ func load() error {
 				bounds[1] = min(bounds[1], p[1])
 				bounds[2] = max(bounds[2], p[0])
 				bounds[3] = max(bounds[3], p[1])
+				sumLng += p[0]
+				sumLat += p[1]
+				count++
 			}
 		}
-		catalog = append(catalog, entry{d, bounds})
+		center := [2]float64{(bounds[1] + bounds[3]) / 2, (bounds[0] + bounds[2]) / 2}
+		if count > 0 && !contains(d.Geometry.Coordinates, center[1], center[0]) {
+			center = [2]float64{sumLat / float64(count), sumLng / float64(count)}
+		}
+		catalog = append(catalog, entry{d, bounds, center})
 	}
 	return nil
 }
@@ -76,6 +86,17 @@ func ByID(id string) (core.GeographicDistrict, error) {
 		}
 	}
 	return core.GeographicDistrict{}, fmt.Errorf("%w: unknown geographic district", core.ErrInvalid)
+}
+func Center(id string) (float64, float64, error) {
+	if err := ready(); err != nil {
+		return 0, 0, err
+	}
+	for _, e := range catalog {
+		if e.district.ID == id {
+			return e.center[0], e.center[1], nil
+		}
+	}
+	return 0, 0, fmt.Errorf("%w: unknown geographic district", core.ErrInvalid)
 }
 func At(latitude, longitude float64) (core.GeographicDistrict, error) {
 	if err := core.ValidateCoordinates(latitude, longitude); err != nil {
@@ -93,6 +114,29 @@ func At(latitude, longitude float64) (core.GeographicDistrict, error) {
 			return e.district, nil
 		}
 	}
+	const margin = 0.15
+	bestDistSq := margin * margin
+	var best *core.GeographicDistrict
+	for i := range catalog {
+		e := &catalog[i]
+		b := e.bounds
+		if longitude < b[0]-margin || longitude > b[2]+margin || latitude < b[1]-margin || latitude > b[3]+margin {
+			continue
+		}
+		for _, ring := range e.district.Geometry.Coordinates {
+			for _, p := range ring {
+				dx := p[0] - longitude
+				dy := p[1] - latitude
+				if dSq := dx*dx + dy*dy; dSq < bestDistSq {
+					bestDistSq = dSq
+					best = &e.district
+				}
+			}
+		}
+	}
+	if best != nil {
+		return *best, nil
+	}
 	return core.GeographicDistrict{}, core.ErrNotFound
 }
 func Province(id string) ([]map[string]string, error) {
@@ -104,7 +148,12 @@ func Province(id string) ([]map[string]string, error) {
 	for _, e := range catalog {
 		if sameCity(e.district.ID, id) && !seen[e.district.ID] {
 			seen[e.district.ID] = true
-			items = append(items, map[string]string{"id": e.district.ID, "name": e.district.Name})
+			items = append(items, map[string]string{
+				"id":   e.district.ID,
+				"name": e.district.Name,
+				"lat":  fmt.Sprintf("%.5f", e.center[0]),
+				"lng":  fmt.Sprintf("%.5f", e.center[1]),
+			})
 		}
 	}
 	sort.Slice(items, func(i, j int) bool { return items[i]["name"] < items[j]["name"] })
