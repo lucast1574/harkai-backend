@@ -9,6 +9,7 @@ import (
 type Devices interface {
 	SaveDevice(context.Context, core.Device) (core.Device, error)
 	DeleteDevice(context.Context, string, string) error
+	MoveDevice(context.Context, string, string, string, core.Point, time.Time, time.Time) (core.Device, error)
 }
 
 func (s Service) RegisterDevice(ctx context.Context, u core.User, access string, input core.DeviceInput) (core.Device, error) {

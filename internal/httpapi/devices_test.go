@@ -27,6 +27,16 @@ func TestDeviceRegistrationIsPrivateAndSessionBound(t *testing.T) {
 		}
 	}
 	request(t, api, "PUT", "/v1/me/devices", b.AccessToken, input, 409)
+	location := map[string]float64{"latitude": -12.05, "longitude": -77.05}
+	path := "/v1/me/devices/" + d.ID + "/location"
+	request(t, api, "PATCH", path, "", location, 401)
+	request(t, api, "PATCH", path, b.AccessToken, location, 404)
+	request(t, api, "PATCH", path, a.AccessToken, map[string]float64{"latitude": -12}, 400)
+	request(t, api, "PATCH", path, a.AccessToken, map[string]float64{"latitude": 91, "longitude": 0}, 400)
+	moved := request(t, api, "PATCH", path, a.AccessToken, location, 200)
+	if strings.Contains(moved.Body.String(), "latitude") || strings.Contains(moved.Body.String(), "longitude") {
+		t.Fatal("public location response leaked precise coordinates")
+	}
 	request(t, api, "DELETE", "/v1/me/devices/"+d.ID, b.AccessToken, nil, 204)
 	request(t, api, "PUT", "/v1/me/devices", b.AccessToken, input, 409)
 	request(t, api, "DELETE", "/v1/me/devices/"+d.ID, a.AccessToken, nil, 204)

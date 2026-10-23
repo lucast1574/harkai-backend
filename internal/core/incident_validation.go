@@ -71,7 +71,7 @@ func ValidateQuery(q IncidentQuery) (IncidentQuery, error) {
 	if q.Limit < 1 || q.Limit > 100 {
 		return q, fmt.Errorf("%w: limit must be 1 to 100", ErrInvalid)
 	}
-	if q.Type != "" && !slices.Contains(IncidentTypes(), q.Type) {
+	if q.Type != "" && q.Type != "crime" && !slices.Contains(IncidentTypes(), q.Type) {
 		return q, fmt.Errorf("%w: type", ErrInvalid)
 	}
 	if q.Cursor != "" && (len(q.Cursor) != 24 || strings.Trim(q.Cursor, "0123456789abcdef") != "") {

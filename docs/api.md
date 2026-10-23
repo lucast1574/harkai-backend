@@ -88,3 +88,13 @@ Cada dispositivo queda ligado a la sesión de registro: rotar access/refresh con
 Go encola la publicación de un reporte y selecciona destinatarios por preferencias actuales y radio. Los no verificados también son elegibles. No entrega reportes propios, ocultos, resueltos, vencidos ni anteriores al registro de la zona. El mensaje no contiene descripción, contacto ni coordenadas. FCM sirve solo como transporte. La entrega es al menos una vez: una caída después de enviar y antes de guardar el cursor puede repetirla; el tag del reporte permite sustituir avisos repetidos. El cliente siempre debe consultar el estado actual al abrir.
 
 La configuración requiere GOOGLE_PROJECT_ID y FCM_SERVICE_ACCOUNT_BASE64 privados. El arranque valida los permisos con validate_only, sin enviar notificaciones. Sin credencial, la capacidad permanece false; los clientes incluyen consentimiento y registro de token; la activación del proveedor y la recepción real deben comprobarse por separado.
+
+### Ubicación durante el recorrido
+
+`PATCH /v1/me/devices/{deviceID}/location` recibe `latitude` y `longitude`, actualiza la última posición del teléfono y devuelve su contrato público con `location_updated_at`. Requiere la cuenta y la sesión que registraron el teléfono, coordenadas válidas y un dispositivo vigente. No cambia la generación FCM ni conserva historial. Límite separado: 360/hora por cuenta. La cola de nuevos reportes usa esta posición y el radio/preferencias del destinatario; no es una geocerca que vuelva a enviar todos los reportes antiguos al entrar en un área.
+
+### Categorías globales y reporte rápido
+
+`GET /v1/meta` incluye `report_categories`: Crimen con sus subcategorías y las otras categorías principales. `GET /v1/incidents?type=crime` y las consultas de archivo/administración agrupan robo, extorsión, secuestro, violencia y hechos graves. Los identificadores previos siguen válidos. Las respuestas públicas incluyen `category` y `subcategory`, manteniendo `type` compatible.
+
+`POST /v1/incidents` admite `category` en lugar de `type` para el reporte rápido. El servidor identifica el subtipo de crimen mediante las reglas de texto y valida coincidencia para las demás categorías. Un texto sin coincidencia o de otra categoría se rechaza; nunca se publica como un delito arbitrario. Los clientes anteriores que envían `type` mantienen su contrato.

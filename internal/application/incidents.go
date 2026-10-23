@@ -9,6 +9,17 @@ import (
 )
 
 func (s Service) Report(ctx context.Context, user core.User, input core.IncidentInput) (core.Incident, error) {
+	if input.Category != "" || input.Type == "crime" {
+		category := input.Category
+		if category == "" {
+			category = "crime"
+		}
+		kind, err := core.ResolveReportType(input.Description, category)
+		if err != nil {
+			return core.Incident{}, err
+		}
+		input.Type = kind
+	}
 	now := s.Now()
 	incident, err := core.BuildIncident(input, s.ID(), user.ID, now)
 	if err != nil {

@@ -23,7 +23,7 @@ type textRule struct {
 }
 
 var textRules = []textRule{
-	{"extortion", regexp.MustCompile(`\b(extorsion\w*|cobro de cupos|pago de cupos|pagar (un |el )?cupo|amenaz\w* (de muerte|por telefono|por whatsapp)|me (estan |esta )?(extorsionando|amenazando))\b`)},
+	{"extortion", regexp.MustCompile(`\b(extorsion\w*|cobro de cupos|cobrando (un |el )?cupos?|cobran (un |el )?cupos?|cobrar (un |el )?cupos?|pago de cupos|pagar (un |el )?cupo|amenaz\w* (de muerte|por telefono|por whatsapp)|me (estan |esta )?(extorsionando|amenazando))\b`)},
 	{"kidnapping", regexp.MustCompile(`\b(secuestr\w*|raptar\w*|raptaron|privad[oa] de (su |la )?libertad|se lo llevaron a la fuerza)\b`)},
 	{"homicide", regexp.MustCompile(`\b(asesinat\w*|asesinaron|homicidi\w*|sicari\w*|persona (asesinada|muerta)|cadaver)\b`)},
 	{"fire", regexp.MustCompile(`\b(incendi\w*|fuego|llamas|quemando|humo (negro|denso))\b`)},
@@ -31,7 +31,7 @@ var textRules = []textRule{
 	{"theft", regexp.MustCompile(`\b(rob[oa]\w*|robar\w*|asalt\w*|hurto\w*)\b`)},
 	{"violence", regexp.MustCompile(`\b(agresi\w*|agred\w*|golpeando|golpearon|violencia|dispar\w*|balacera|tiroteo|violacion)\b`)},
 	{"emergency", regexp.MustCompile(`\b(desmay\w*|no respira|no puede respirar|herid\w*|sangrand\w*|convulsion\w*|emergencia medica|ambulancia)\b`)},
-	{"pet", regexp.MustCompile(`\b(mascota|perr[oa]|gat[oa])\b.*\b(perdid\w*|extraviad\w*|encontrad\w*)\b|\b(perdid\w*|extraviad\w*|encontrad\w*)\b.*\b(mascota|perr[oa]|gat[oa])\b`)},
+	{"pet", regexp.MustCompile(`\b(mascota|perr[oa]|gat[oa])\b.*\b(perdid\w*|perdio|perdi|extraviad\w*|encontrad\w*)\b|\b(perdid\w*|perdio|perdi|extraviad\w*|encontrad\w*)\b.*\b(mascota|perr[oa]|gat[oa])\b`)},
 	{"place", regexp.MustCompile(`\b(lugar de ayuda|puesto de auxilio|refugio|centro de apoyo|registrar (un |una )?(lugar|negocio))\b`)},
 }
 
@@ -43,7 +43,7 @@ func AnalyzeText(text, selected string) (TextAnalysis, error) {
 	if utf8.RuneCountInString(strings.TrimSpace(text)) < 5 || utf8.RuneCountInString(text) > 2000 {
 		return TextAnalysis{}, fmt.Errorf("%w: text must contain 5 to 2000 characters", ErrInvalid)
 	}
-	if selected != "" {
+	if selected != "" && selected != "crime" {
 		if _, ok := CategoryFor(selected); !ok {
 			return TextAnalysis{}, fmt.Errorf("%w: selected_type", ErrInvalid)
 		}
@@ -66,8 +66,21 @@ func AnalyzeText(text, selected string) (TextAnalysis, error) {
 	} else if len(result.Candidates) > 1 {
 		result.Reason = "El texto menciona más de una categoría. Confirma cuál describe el hecho principal."
 	}
-	adviceType := result.SuggestedType
 	if selected != "" {
+		result.SuggestedType = ""
+		for _, candidate := range result.Candidates {
+			if candidate == selected || selected == "crime" && IsCrime(candidate) {
+				result.SuggestedType = candidate
+				result.Reason = "Categoría identificada por las reglas de texto. Revisa tu descripción antes de publicar."
+				break
+			}
+		}
+		if result.SuggestedType == "" {
+			result.Reason = "Describe con más detalle lo ocurrido para identificar la categoría seleccionada."
+		}
+	}
+	adviceType := result.SuggestedType
+	if selected != "" && selected != "crime" {
 		adviceType = selected
 	}
 	if category, ok := CategoryFor(adviceType); ok {

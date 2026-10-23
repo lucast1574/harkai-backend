@@ -4585,6 +4585,148 @@
           }
         }
       }
+    },
+    "/v1/me/devices/{deviceID}/location": {
+      "patch": {
+        "operationId": "updateDeviceLocation",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Device"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "latitude",
+                  "longitude"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "latitude": {
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  },
+                  "longitude": {
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Actualizar ubicación del dispositivo durante el recorrido",
+        "description": "Actualiza solo la última ubicación y su fecha, sin cambiar el token ni la generación. Requiere la misma cuenta y sesión que registraron el dispositivo. Máximo 360 actualizaciones por hora por cuenta. No conserva un historial de recorridos.",
+        "parameters": [
+          {
+            "name": "deviceID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -4812,13 +4954,36 @@
           "ends_at": {
             "type": "string",
             "format": "date-time"
+          },
+          "category": {
+            "type": "string",
+            "description": "Categoría global para reporte rápido. crime se clasifica en el servidor mediante reglas de texto.",
+            "enum": [
+              "crime",
+              "fire",
+              "crash",
+              "emergency",
+              "pet",
+              "place"
+            ]
           }
         },
         "required": [
-          "type",
           "description",
           "latitude",
           "longitude"
+        ],
+        "anyOf": [
+          {
+            "required": [
+              "type"
+            ]
+          },
+          {
+            "required": [
+              "category"
+            ]
+          }
         ]
       },
       "Incident": {
@@ -4913,6 +5078,22 @@
           "viewer_is_author": {
             "type": "boolean",
             "description": "Per-request ownership flag; author identity is never exposed."
+          },
+          "category": {
+            "type": "string",
+            "description": "Categoría global para reporte rápido. crime se clasifica en el servidor mediante reglas de texto.",
+            "enum": [
+              "crime",
+              "fire",
+              "crash",
+              "emergency",
+              "pet",
+              "place"
+            ]
+          },
+          "subcategory": {
+            "type": "string",
+            "description": "Subtipo de crimen; type conserva el identificador compatible."
           }
         },
         "required": [

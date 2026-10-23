@@ -60,6 +60,9 @@ func IncidentFilter(q core.IncidentQuery, now time.Time) bson.M {
 	}
 	if q.Type != "" {
 		filter["type"] = q.Type
+		if q.Type == "crime" {
+			filter["type"] = bson.M{"$in": core.CrimeTypes()}
+		}
 	}
 	if q.Cursor != "" {
 		filter["_id"] = bson.M{"$lt": q.Cursor}

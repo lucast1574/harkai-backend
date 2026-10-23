@@ -8,6 +8,8 @@ type Point struct {
 }
 
 type Incident struct {
+	Category       string     `json:"category" bson:"-"`
+	Subcategory    string     `json:"subcategory,omitempty" bson:"-"`
 	Push           *PushJob   `json:"-" bson:"push,omitempty"`
 	ViewerIsAuthor bool       `json:"viewer_is_author" bson:"-"`
 	ID             string     `json:"id" bson:"_id"`
@@ -34,6 +36,7 @@ type Incident struct {
 }
 
 type IncidentInput struct {
+	Category     string     `json:"category,omitempty"`
 	Type         string     `json:"type"`
 	Description  string     `json:"description"`
 	Latitude     float64    `json:"latitude"`
@@ -78,6 +81,10 @@ func IncidentTypes() []string {
 }
 
 func PublicIncident(i Incident) Incident {
+	i.Category = i.Type
+	if IsCrime(i.Type) {
+		i.Category, i.Subcategory = "crime", i.Type
+	}
 	if !i.ShareContact {
 		i.ContactInfo = ""
 	}

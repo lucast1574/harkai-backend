@@ -34,6 +34,7 @@ func (a *API) routes() int {
 		{"POST /v1/auth/refresh", false, a.refresh},
 		{"POST /v1/auth/logout", true, a.logout},
 		{"PUT /v1/me/devices", true, a.device},
+		{"PATCH /v1/me/devices/{deviceID}/location", true, a.deviceLocation},
 		{"DELETE /v1/me/devices/{deviceID}", true, a.deleteDevice},
 		{"GET /v1/me", true, a.me},
 		{"PATCH /v1/me", true, a.profile},
@@ -77,5 +78,5 @@ func (a *API) ready(r *http.Request, _ core.User) (Result, error) {
 }
 
 func (a *API) meta(_ *http.Request, _ core.User) (Result, error) {
-	return Result{Body: map[string]any{"api_version": "v1", "incident_types": core.IncidentTypes(), "categories": core.Categories(), "roles": core.Roles(), "verification": "one_other_user", "capabilities": map[string]bool{"email_auth": true, "google_auth": a.Service.VerifyGoogle != nil, "geo_reports": true, "media": a.Service.ModerateImage != nil, "text_rules": true, "audio": a.Service.TranscribeAudio != nil, "pull_alerts": true, "push_notifications": a.Service.PushEnabled, "payments": false, "generative_ai": false}}}, nil
+	return Result{Body: map[string]any{"api_version": "v1", "incident_types": core.IncidentTypes(), "categories": core.Categories(), "report_categories": core.ReportCategories(), "roles": core.Roles(), "verification": "one_other_user", "capabilities": map[string]bool{"email_auth": true, "google_auth": a.Service.VerifyGoogle != nil, "geo_reports": true, "media": a.Service.ModerateImage != nil, "text_rules": true, "audio": a.Service.TranscribeAudio != nil, "pull_alerts": true, "push_notifications": a.Service.PushEnabled, "payments": false, "generative_ai": false}}}, nil
 }

@@ -14,15 +14,16 @@ type DeviceInput struct {
 	Longitude float64 `json:"longitude"`
 }
 type Device struct {
-	ID         string    `json:"id" bson:"_id"`
-	UserID     string    `json:"-" bson:"user_id"`
-	SessionID  string    `json:"-" bson:"session_id"`
-	Token      string    `json:"-" bson:"token"`
-	Generation string    `json:"-" bson:"generation"`
-	Platform   string    `json:"platform" bson:"platform"`
-	Location   Point     `json:"-" bson:"location"`
-	UpdatedAt  time.Time `json:"updated_at" bson:"updated_at"`
-	ExpiresAt  time.Time `json:"-" bson:"expires_at"`
+	ID                string    `json:"id" bson:"_id"`
+	UserID            string    `json:"-" bson:"user_id"`
+	SessionID         string    `json:"-" bson:"session_id"`
+	Token             string    `json:"-" bson:"token"`
+	Generation        string    `json:"-" bson:"generation"`
+	Platform          string    `json:"platform" bson:"platform"`
+	Location          Point     `json:"-" bson:"location"`
+	UpdatedAt         time.Time `json:"updated_at" bson:"updated_at"`
+	LocationUpdatedAt time.Time `json:"location_updated_at" bson:"location_updated_at"`
+	ExpiresAt         time.Time `json:"-" bson:"expires_at"`
 }
 
 // The job is embedded in the report so publication and queueing are one write.
