@@ -18,6 +18,13 @@ func (s Service) GoogleLogin(ctx context.Context, token string) (core.AuthResult
 	}
 	user, err := s.Users.UserByGoogle(ctx, identity.Subject)
 	if err == nil {
+		photo := core.GooglePhotoURL(identity.PhotoURL)
+		if photo != user.PhotoURL {
+			user, err = s.Users.UpdateGooglePhoto(ctx, user.ID, identity.Subject, photo)
+			if err != nil {
+				return core.AuthResult{}, err
+			}
+		}
 		return s.newSession(ctx, user)
 	}
 	if !errors.Is(err, core.ErrNotFound) {
@@ -32,7 +39,7 @@ func (s Service) GoogleLogin(ctx context.Context, token string) (core.AuthResult
 		name = "Usuario de Google"
 	}
 	// Do not silently link a password account by email: prove ownership separately.
-	user, err = s.Users.CreateUser(ctx, core.User{ID: s.ID(), GoogleSubject: identity.Subject, Email: email, Name: name, Role: "user", Preferences: core.DefaultPreferences(), CreatedAt: s.Now()})
+	user, err = s.Users.CreateUser(ctx, core.User{ID: s.ID(), GoogleSubject: identity.Subject, Email: email, Name: name, PhotoURL: core.GooglePhotoURL(identity.PhotoURL), Role: "user", Preferences: core.DefaultPreferences(), CreatedAt: s.Now()})
 	if errors.Is(err, core.ErrConflict) {
 		user, err = s.Users.UserByGoogle(ctx, identity.Subject)
 		if errors.Is(err, core.ErrNotFound) {

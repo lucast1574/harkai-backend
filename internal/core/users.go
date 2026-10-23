@@ -16,6 +16,7 @@ type Preferences struct {
 }
 
 type User struct {
+	PhotoURL      string      `json:"photo_url,omitempty" bson:"photo_url,omitempty"`
 	GoogleSubject string      `json:"-" bson:"google_subject,omitempty"`
 	ID            string      `json:"id" bson:"_id"`
 	Email         string      `json:"email" bson:"email"`

@@ -30,6 +30,7 @@ type claims struct {
 	Issuer        string `json:"iss"`
 	Email         string `json:"email"`
 	Name          string `json:"name"`
+	Picture       string `json:"picture"`
 	EmailVerified bool   `json:"email_verified"`
 	Expires       int64  `json:"exp"`
 	Issued        int64  `json:"iat"`
@@ -83,7 +84,7 @@ func (v *Verifier) Verify(ctx context.Context, token string) (core.GoogleIdentit
 	if err != nil {
 		return core.GoogleIdentity{}, core.ErrUnauthorized
 	}
-	return core.GoogleIdentity{Subject: c.Subject, Email: email, Name: c.Name}, nil
+	return core.GoogleIdentity{Subject: c.Subject, Email: email, Name: c.Name, PhotoURL: core.GooglePhotoURL(c.Picture)}, nil
 }
 func decodePart(value string, dst any) error {
 	raw, err := base64.RawURLEncoding.DecodeString(value)

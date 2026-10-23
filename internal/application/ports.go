@@ -13,6 +13,7 @@ type Users interface {
 	UserByID(context.Context, string) (core.User, error)
 	UpdatePreferences(context.Context, string, core.Preferences) (core.User, error)
 	UpdateName(context.Context, string, string) (core.User, error)
+	UpdateGooglePhoto(context.Context, string, string, string) (core.User, error)
 	ListUsers(context.Context, string, int) (core.UserPage, error)
 	AssignRole(context.Context, string, string, string, time.Time) (core.User, error)
 }
