@@ -29,5 +29,8 @@ func (s *Store) SupportPlaces(ctx context.Context, q core.IncidentQuery) ([]core
 	defer cursor.Close(ctx)
 	items := make([]core.SupportPlace, 0)
 	err = cursor.All(ctx, &items)
-	return items, err
+	if err != nil {
+		return nil, err
+	}
+	return EnrichSupportPlaces(items)
 }

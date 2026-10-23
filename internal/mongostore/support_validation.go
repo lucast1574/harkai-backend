@@ -44,6 +44,21 @@ func ValidateSupportPlace(p core.SupportPlace) error {
 	if p.Phone != "" && !supportPhone.MatchString(p.Phone) {
 		return fmt.Errorf("invalid support phone")
 	}
+	for _, phone := range p.Phones {
+		if !supportPhone.MatchString(phone) {
+			return fmt.Errorf("invalid support phone")
+		}
+	}
+	for _, raw := range p.PhotoURLs {
+		photo, err := url.Parse(raw)
+		if err != nil || photo.User != nil || photo.Hostname() == "" {
+			return fmt.Errorf("invalid support photo")
+		}
+		legacy := photo.Scheme == "http" && photo.Host == "app20.susalud.gob.pe:8080" && photo.Path == "/registro-renipress-webapp/ipress.htm" && photo.Query().Get("action") == "downloadFile" && photo.Query().Get("idArchivo") != ""
+		if photo.Scheme != "https" && !legacy {
+			return fmt.Errorf("invalid support photo")
+		}
+	}
 	if p.Kind != "hospital" && p.Kind != "health_center" && p.Kind != "support" {
 		return fmt.Errorf("invalid place kind")
 	}

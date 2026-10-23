@@ -3,3 +3,4 @@
 /coverage.out
 /media/
 *.log
+/scripts/__pycache__/

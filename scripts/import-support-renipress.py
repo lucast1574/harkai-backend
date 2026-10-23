@@ -7,6 +7,7 @@ import hashlib
 import json
 import pathlib
 import re
+from urllib.parse import urlparse, parse_qs
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 SOURCE = 'https://www.datosabiertos.gob.pe/dataset/registro-nacional-de-entidades-prestadoras-de-servicios-de-salud-renipress/resource/2d4389ed'
@@ -21,7 +22,10 @@ CLASSES = {
     'CENTROS MEDICOS ESPECIALIZADOS': 'health_center',
 }
 # These already have curated records; preserve their coordinates and contacts.
-CURATED = {'00006207', '00006206', '00006197', '00005196', '00005195', '00005204', '00005201', '00005199'}
+CURATED = {'00006207': 'lima-loayza', '00006206': 'lima-dosdemayo',
+           '00006197': 'lima-san-isidro', '00005196': 'trujillo-regional',
+           '00005195': 'trujillo-belen', '00005204': 'trujillo-noria',
+           '00005201': 'trujillo-aranjuez', '00005199': 'trujillo-union'}
 
 
 def phone(raw, city):
@@ -38,9 +42,28 @@ def phone(raw, city):
         return '+511' + digits
     if len(digits) == 6 and city == 'trujillo':
         return '+5144' + digits
-    if len(digits) == 11 and digits.startswith('51'):
+    if (len(digits) == 11 and digits.startswith('519')) or (len(digits) == 10 and digits.startswith(('511', '5144'))):
         return '+' + digits
     return ''
+
+
+def phones(raw, city):
+    return list(dict.fromkeys(number for fragment in re.split(r'[/;,\n]', raw)
+                             if (number := phone(fragment, city))))
+
+
+def photos(row):
+    result = []
+    for key in ('IMAGEN_1', 'IMAGEN_2', 'IMAGEN_3'):
+        raw = row.get(key, '').strip()
+        parsed = urlparse(raw)
+        query = parse_qs(parsed.query)
+        if (parsed.scheme == 'http' and parsed.netloc == 'app20.susalud.gob.pe:8080'
+                and parsed.path == '/registro-renipress-webapp/ipress.htm'
+                and query.get('action') == ['downloadFile']
+                and re.fullmatch(r'[\w.-]+\.(?:jpe?g|png|webp)', query.get('idArchivo', [''])[0], re.I)):
+            result.append(raw)
+    return list(dict.fromkeys(result))
 
 
 def place(row, reviewed):
@@ -61,12 +84,14 @@ def place(row, reviewed):
     address = row['DIRECCION'].strip()
     if not address or address.upper() in {'ACTUALIZAR', 'NO REGISTRA', 'SIN DATOS'}:
         return None
+    contacts = phones(row['TELEFONO'], city)
     return {
         'id': 'renipress-' + code, 'registry_id': code,
         'name': row['NOMBRE'].strip(), 'kind': kind, 'city': city,
         'district': row['DISTRITO'].strip().title(), 'district_id': row['UBIGEO'].zfill(6),
         'address': address, 'latitude': latitude, 'longitude': longitude,
-        'phone': phone(row['TELEFONO'], city), 'institution': row['INSTITUCION'],
+        'phone': contacts[0] if contacts else '', 'phones': contacts,
+        'photo_urls': photos(row), 'institution': row['INSTITUCION'],
         'classification': row['CLASIFICACION'], 'category': row['CATEGORIA'],
         'source_url': SOURCE, 'location_source_url': SOURCE,
         'source_updated_at': '2026-09-30', 'reviewed_at': reviewed,
@@ -82,7 +107,11 @@ def main():
     raw = args.csv.read_bytes()
     rows = csv.DictReader(raw.decode('utf-8-sig').splitlines(), delimiter=';')
     places = {}
+    curated_media = {}
     for row in rows:
+        code = row['COD_IPRESS'].zfill(8)
+        if code in CURATED:
+            curated_media[CURATED[code]] = (code, photos(row), row['UBIGEO'].zfill(6))
         result = place(row, args.reviewed)
         if result:
             if result['id'] in places:
@@ -90,12 +119,21 @@ def main():
             places[result['id']] = result
     items = sorted(places.values(), key=lambda p: (p['city'], p['district'], p['name']))
     target = ROOT / 'internal/mongostore/support-seed'
-    (target / 'renipress.json').write_text(json.dumps(items, ensure_ascii=False, indent=2) + '\n')
+    curated = json.loads((target / 'places.json').read_text(encoding='utf-8'))
+    for item in curated:
+        if item['id'] in curated_media:
+            code, images, district_id = curated_media[item['id']]
+            item.setdefault('registry_id', code)
+            item.setdefault('district_id', district_id)
+            if not item.get('photo_urls') and images:
+                item['photo_urls'] = images
+    (target / 'places.json').write_text(json.dumps(curated, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    (target / 'renipress.json').write_text(json.dumps(items, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     summary = {'source_url': SOURCE, 'source_updated_at': '2026-09-30',
                'reviewed_at': args.reviewed, 'input_sha256': hashlib.sha256(raw).hexdigest(),
                'imported': len(items), 'by_city': dict(collections.Counter(p['city'] for p in items)),
                'districts': dict(collections.Counter(p['city'] for p in {p['district_id']: p for p in items}.values()))}
-    (target / 'renipress-manifest.json').write_text(json.dumps(summary, indent=2) + '\n')
+    (target / 'renipress-manifest.json').write_text(json.dumps(summary, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(summary, ensure_ascii=False))
     return len(items)
 

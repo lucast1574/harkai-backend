@@ -11,7 +11,12 @@
     "phone": "015094800",
     "source_url": "https://www.gob.pe/institucion/hospitalloayza/sedes",
     "location_source_url": "https://www.gob.pe/institucion/hospitalloayza/sedes",
-    "reviewed_at": "2026-10-10"
+    "reviewed_at": "2026-10-10",
+    "registry_id": "00006207",
+    "photo_urls": [
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=INSASU20191129114822.JPG"
+    ],
+    "district_id": "150101"
   },
   {
     "id": "lima-dosdemayo",
@@ -25,7 +30,9 @@
     "phone": "981127991",
     "source_url": "https://www.hdosdemayo.gob.pe/Institucional/Mision",
     "location_source_url": "https://www.gob.pe/institucion/hndosdemayo/sedes",
-    "reviewed_at": "2026-10-10"
+    "reviewed_at": "2026-10-10",
+    "registry_id": "00006206",
+    "district_id": "150101"
   },
   {
     "id": "lima-san-isidro",
@@ -39,7 +46,14 @@
     "phone": "012643125",
     "source_url": "https://larcoherrera.gob.pe/wp-content/uploads/2023/03/RD-033-2023-DG-HVLH-MINSA.pdf",
     "location_source_url": "https://www.openstreetmap.org/node/4077392666",
-    "reviewed_at": "2026-10-10"
+    "reviewed_at": "2026-10-10",
+    "registry_id": "00006197",
+    "photo_urls": [
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=INSASU20180713180808.jpg",
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=INSASU20230928130819.jpg",
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=INSASU20230928131603.jpeg"
+    ],
+    "district_id": "150131"
   },
   {
     "id": "trujillo-regional",
@@ -53,7 +67,14 @@
     "phone": "983856669",
     "source_url": "https://www.gob.pe/institucion/hrdocente-trujillo/sedes",
     "location_source_url": "https://www.gob.pe/institucion/hrdocente-trujillo/sedes",
-    "reviewed_at": "2026-10-10"
+    "reviewed_at": "2026-10-10",
+    "registry_id": "00005196",
+    "photo_urls": [
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=Fotografia_5196_06273232_1447764297945.png",
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=Fotografia_5196_06273232_1447764966301.png",
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=Fotografia_5196_06273232_1447765084596.png"
+    ],
+    "district_id": "130101"
   },
   {
     "id": "trujillo-belen",
@@ -67,7 +88,14 @@
     "phone": "044480200",
     "source_url": "https://hbt.gob.pe/pages/directorio",
     "location_source_url": "https://www.openstreetmap.org/way/110959962",
-    "reviewed_at": "2026-10-10"
+    "reviewed_at": "2026-10-10",
+    "registry_id": "00005195",
+    "photo_urls": [
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=Fotografia_5195_45283729_1448036346682.png",
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=Fotografia_5195_45283729_1448036416111.png",
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=Fotografia_5195_45283729_1448036631793.png"
+    ],
+    "district_id": "130101"
   },
   {
     "id": "trujillo-noria",
@@ -81,7 +109,14 @@
     "phone": "044317622",
     "source_url": "https://visor.geoperu.gob.pe/reportes/consulta_instituciones_salud.phtml?descarga=1&ocampo=gid&olayer=peru_hospitales&ovalor=00005204",
     "location_source_url": "https://www.openstreetmap.org/way/521903100",
-    "reviewed_at": "2026-10-10"
+    "reviewed_at": "2026-10-10",
+    "registry_id": "00005204",
+    "photo_urls": [
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=Fotografia_5204_18220675_1449757270135.png",
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=Fotografia_5204_18220675_1449757358068.png",
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=Fotografia_5204_18220675_1449757406257.png"
+    ],
+    "district_id": "130101"
   },
   {
     "id": "trujillo-aranjuez",
@@ -95,7 +130,14 @@
     "phone": "",
     "source_url": "https://cdn.www.gob.pe/uploads/document/file/3801163/CS.Vacunacion_regiones_nov22.pdf.pdf",
     "location_source_url": "https://www.openstreetmap.org/node/7083037932",
-    "reviewed_at": "2026-10-10"
+    "reviewed_at": "2026-10-10",
+    "registry_id": "00005201",
+    "photo_urls": [
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=Fotografia_5201_45283729_1497631371639.png",
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=Fotografia_5201_45283729_1497631392492.png",
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=Fotografia_5201_45283729_1497631410794.png"
+    ],
+    "district_id": "130101"
   },
   {
     "id": "trujillo-union",
@@ -109,6 +151,13 @@
     "phone": "",
     "source_url": "https://cdn.www.gob.pe/uploads/document/file/3801163/CS.Vacunacion_regiones_nov22.pdf.pdf",
     "location_source_url": "https://www.establecimientosdesalud.info/la-libertad/centro-de-salud-la-union-trujillo/",
-    "reviewed_at": "2026-10-10"
+    "reviewed_at": "2026-10-10",
+    "registry_id": "00005199",
+    "photo_urls": [
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=Fotografia_5199_18220675_1449758466435.png",
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=Fotografia_5199_18220675_1449758488623.png",
+      "http://app20.susalud.gob.pe:8080/registro-renipress-webapp/ipress.htm?action=downloadFile&idArchivo=Fotografia_5199_18220675_1449758524970.png"
+    ],
+    "district_id": "130101"
   }
 ]
