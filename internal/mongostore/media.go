@@ -23,5 +23,11 @@ func (s *Store) MediaIsPublic(ctx context.Context, id string, now time.Time) (bo
 	delete(filter, "user_id")
 	filter["media_id"] = id
 	count, err := s.DB.Collection("incidents").CountDocuments(ctx, filter)
+	if err != nil || count > 0 {
+		return count > 0, err
+	}
+	business := BusinessPublicFilter(now)
+	business["media_id"] = id
+	count, err = s.DB.Collection("business_points").CountDocuments(ctx, business)
 	return count > 0, err
 }

@@ -44,7 +44,7 @@ func IncidentFilter(q core.IncidentQuery, now time.Time) bson.M {
 		filter["status"] = "active"
 		filter["$or"] = bson.A{bson.M{"expires_at": bson.M{"$exists": false}}, bson.M{"expires_at": nil}, bson.M{"expires_at": bson.M{"$gt": now}}}
 	}
-	if q.PublicOnly {
+	if q.PublicOnly && q.IncludeInactive {
 		filter["status"] = bson.M{"$in": bson.A{"active", "resolved"}}
 	}
 	if q.District != "" {
@@ -68,6 +68,9 @@ func IncidentFilter(q core.IncidentQuery, now time.Time) bson.M {
 		filter["_id"] = bson.M{"$lt": q.Cursor}
 	}
 	dateFilter := bson.M{}
+	if !q.IncludeInactive {
+		dateFilter["$gt"] = now.Add(-3 * time.Hour)
+	}
 	if q.After != nil {
 		dateFilter["$gte"] = *q.After
 	}

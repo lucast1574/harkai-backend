@@ -9,10 +9,11 @@ import (
 )
 
 type Preferences struct {
-	Notifications string `json:"notifications" bson:"notifications"`
-	RadiusMeters  int    `json:"radius_meters" bson:"radius_meters"`
-	Language      string `json:"language" bson:"language"`
-	Theme         string `json:"theme" bson:"theme"`
+	BusinessNotifications bool   `json:"business_notifications" bson:"business_notifications"`
+	Notifications         string `json:"notifications" bson:"notifications"`
+	RadiusMeters          int    `json:"radius_meters" bson:"radius_meters"`
+	Language              string `json:"language" bson:"language"`
+	Theme                 string `json:"theme" bson:"theme"`
 }
 
 type User struct {

@@ -43,6 +43,10 @@ type Districts interface {
 }
 
 type Service struct {
+	DistrictAt          func(float64, float64) (core.GeographicDistrict, error)
+	Businesses          BusinessStore
+	Billing             BusinessBillingVerifier
+	Publications        PublicationStore
 	Forum               ForumStore
 	DistrictByID        func(string) (core.GeographicDistrict, error)
 	Support             SupportStore

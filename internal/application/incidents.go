@@ -31,9 +31,12 @@ func (s Service) Report(ctx context.Context, user core.User, input core.Incident
 	if err = s.Limits.Allow(ctx, "report:"+user.ID, 20, time.Hour, now); err != nil {
 		return core.Incident{}, err
 	}
-	if input.Type != "place" {
-		if err = s.Incidents.ClaimCooldown(ctx, user.ID, input.Type, now); err != nil {
-			return core.Incident{}, err
+	if err = s.Incidents.ClaimCooldown(ctx, user.ID, input.Type, now); err != nil {
+		return core.Incident{}, err
+	}
+	if s.DistrictAt != nil {
+		if district, e := s.DistrictAt(incident.Latitude, incident.Longitude); e == nil {
+			incident.District, incident.City, incident.Country = district.Name, district.Province, "Perú"
 		}
 	}
 	if s.PushEnabled {

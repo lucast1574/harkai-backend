@@ -45,7 +45,7 @@ func ValidateDevice(v DeviceInput) (DeviceInput, error) {
 	return v, ValidateCoordinates(v.Latitude, v.Longitude)
 }
 func PushEligible(i Incident, d Device, u User, now time.Time) bool {
-	if u.ID == i.UserID || i.Status != "active" || now.Sub(i.CreatedAt) > 24*time.Hour || (i.ExpiresAt != nil && !i.ExpiresAt.After(now)) || !d.ExpiresAt.After(now) {
+	if u.ID == i.UserID || i.Status != "active" || now.Sub(i.CreatedAt) >= 3*time.Hour || (i.ExpiresAt != nil && !i.ExpiresAt.After(now)) || !d.ExpiresAt.After(now) {
 		return false
 	}
 	if u.Preferences.Notifications == "none" || (u.Preferences.Notifications == "critical" && !CriticalType(i.Type)) || len(d.Location.Coordinates) != 2 {

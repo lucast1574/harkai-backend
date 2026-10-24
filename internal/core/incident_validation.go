@@ -31,8 +31,8 @@ func BuildIncident(input IncidentInput, id, userID string, now time.Time) (Incid
 		return Incident{}, fmt.Errorf("%w: contact or address too long", ErrInvalid)
 	}
 	if input.Type == "pet" || input.Type == "place" {
-		if input.MediaID == "" || len(strings.TrimSpace(input.ContactInfo)) < 6 {
-			return Incident{}, fmt.Errorf("%w: media_id and contact_info required", ErrInvalid)
+		if len(strings.TrimSpace(input.ContactInfo)) > 0 && len(strings.TrimSpace(input.ContactInfo)) < 6 {
+			return Incident{}, fmt.Errorf("%w: contact_info must contain at least six characters", ErrInvalid)
 		}
 	}
 	expiry, err := IncidentExpiry(input.Type, input.EndsAt, now)
@@ -46,13 +46,7 @@ func IncidentExpiry(kind string, endsAt *time.Time, now time.Time) (*time.Time, 
 	if endsAt != nil {
 		return nil, fmt.Errorf("%w: ends_at is no longer supported", ErrInvalid)
 	}
-	if kind == "place" {
-		return nil, nil
-	}
 	duration := 3 * time.Hour
-	if kind == "pet" {
-		duration = 24 * time.Hour
-	}
 	t := now.Add(duration)
 	return &t, nil
 }

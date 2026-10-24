@@ -10,7 +10,7 @@ import (
 
 func (s *Store) ClaimPush(ctx context.Context, lease string, now time.Time) (core.Incident, error) {
 	var i core.Incident
-	filter := bson.M{"push.state": "pending", "push.next_at": bson.M{"$lte": now}, "status": "active", "created_at": bson.M{"$gt": now.Add(-24 * time.Hour)}, "$or": bson.A{bson.M{"expires_at": nil}, bson.M{"expires_at": bson.M{"$gt": now}}}}
+	filter := bson.M{"push.state": "pending", "push.next_at": bson.M{"$lte": now}, "status": "active", "created_at": bson.M{"$gt": now.Add(-3 * time.Hour)}, "$or": bson.A{bson.M{"expires_at": nil}, bson.M{"expires_at": bson.M{"$gt": now}}}}
 	update := bson.M{"$set": bson.M{"push.lease": lease, "push.next_at": now.Add(90 * time.Second)}, "$inc": bson.M{"push.attempts": 1}}
 	err := s.DB.Collection("incidents").FindOneAndUpdate(ctx, filter, update, options.FindOneAndUpdate().SetReturnDocument(options.After).SetSort(bson.D{{Key: "_id", Value: 1}})).Decode(&i)
 	return i, translate(err)

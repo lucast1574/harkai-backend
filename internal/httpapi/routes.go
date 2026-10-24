@@ -14,6 +14,17 @@ func (a *API) routes() int {
 		{"GET /health/live", false, a.live},
 		{"GET /health/ready", false, a.ready},
 		{"GET /v1/meta", false, a.meta},
+		{"GET /v1/publications", false, a.publications},
+		{"GET /v1/businesses", false, a.businessList},
+		{"GET /v1/businesses/{id}", false, a.business},
+		{"GET /v1/me/businesses", true, a.businessList},
+		{"POST /v1/me/businesses", true, a.saveBusiness},
+		{"PUT /v1/me/businesses/{id}", true, a.saveBusiness},
+		{"PATCH /v1/me/businesses/{id}/enabled", true, a.enableBusiness},
+		{"GET /v1/admin/businesses", true, a.businessList},
+		{"PATCH /v1/admin/businesses/{id}/moderation", true, a.moderateBusiness},
+		{"POST /v1/business-billing/webhook", false, a.businessBilling},
+		{"POST /v1/me/business-notices/{id}/ack", true, a.ackBusinessNotice},
 		{"GET /v1/forum", false, a.forum},
 		{"POST /v1/forum", true, a.startForum},
 		{"DELETE /v1/forum/{id}", true, a.deleteForum},
@@ -78,5 +89,5 @@ func (a *API) ready(r *http.Request, _ core.User) (Result, error) {
 }
 
 func (a *API) meta(_ *http.Request, _ core.User) (Result, error) {
-	return Result{Body: map[string]any{"api_version": "v1", "incident_types": core.IncidentTypes(), "categories": core.Categories(), "report_categories": core.ReportCategories(), "roles": core.Roles(), "verification": "one_other_user", "capabilities": map[string]bool{"email_auth": true, "google_auth": a.Service.VerifyGoogle != nil, "geo_reports": true, "media": a.Service.ModerateImage != nil, "text_rules": true, "audio": a.Service.TranscribeAudio != nil, "pull_alerts": true, "push_notifications": a.Service.PushEnabled, "payments": false, "generative_ai": false}}}, nil
+	return Result{Body: map[string]any{"api_version": "v1", "incident_types": core.IncidentTypes(), "categories": core.Categories(), "report_categories": core.ReportCategories(), "roles": core.Roles(), "verification": "one_other_user", "capabilities": map[string]bool{"email_auth": true, "google_auth": a.Service.VerifyGoogle != nil, "geo_reports": true, "media": a.Service.ModerateImage != nil, "text_rules": true, "audio": a.Service.TranscribeAudio != nil, "pull_alerts": true, "push_notifications": a.Service.PushEnabled, "payments": a.Service.Billing != nil, "business_points": true, "generative_ai": false}}}, nil
 }

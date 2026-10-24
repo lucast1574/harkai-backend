@@ -8,6 +8,7 @@ type Point struct {
 }
 
 type Incident struct {
+	PublicURL      string     `json:"public_url" bson:"-"`
 	Category       string     `json:"category" bson:"-"`
 	Subcategory    string     `json:"subcategory,omitempty" bson:"-"`
 	Push           *PushJob   `json:"-" bson:"push,omitempty"`
@@ -81,6 +82,11 @@ func IncidentTypes() []string {
 }
 
 func PublicIncident(i Incident) Incident {
+	i.PublicURL = "https://panel.harkai.lat/incidents/" + i.ID
+	expiry := i.CreatedAt.Add(3 * time.Hour)
+	if i.ExpiresAt == nil || i.ExpiresAt.After(expiry) {
+		i.ExpiresAt = &expiry
+	}
 	i.Category = i.Type
 	if IsCrime(i.Type) {
 		i.Category, i.Subcategory = "crime", i.Type
