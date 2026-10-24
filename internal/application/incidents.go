@@ -85,25 +85,9 @@ func (s Service) ChangeStatus(ctx context.Context, user core.User, id, status st
 }
 
 func (s Service) Alerts(ctx context.Context, user core.User, q core.IncidentQuery) (core.IncidentPage, error) {
-	q.RadiusMeters = user.Preferences.RadiusMeters
+	q.RadiusMeters = core.ProximityBands()[0]
 	q.Type = ""
 	q.IncludeInactive = false
 	q.OwnerID = ""
-	if user.Preferences.Notifications == "none" {
-		return core.IncidentPage{Items: []core.Incident{}}, nil
-	}
-	page, err := s.FindIncidents(ctx, q)
-	if err != nil {
-		return page, err
-	}
-	if user.Preferences.Notifications == "critical" {
-		filtered := make([]core.Incident, 0, len(page.Items))
-		for _, i := range page.Items {
-			if core.CriticalType(i.Type) {
-				filtered = append(filtered, i)
-			}
-		}
-		page.Items = filtered
-	}
-	return page, nil
+	return s.FindIncidents(ctx, q)
 }

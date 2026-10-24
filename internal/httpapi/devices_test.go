@@ -21,9 +21,18 @@ func TestDeviceRegistrationIsPrivateAndSessionBound(t *testing.T) {
 	if err := json.Unmarshal(w.Body.Bytes(), &d); err != nil || len(d.ID) != 64 {
 		t.Fatal("invalid public device contract")
 	}
-	for _, private := range []string{input.Token, a.User.ID, "session_id", "generation", "location"} {
+	for _, private := range []string{input.Token, a.User.ID, "session_id", "generation"} {
 		if strings.Contains(w.Body.String(), private) {
 			t.Fatal("private device data leaked")
+		}
+	}
+	var public map[string]any
+	if err := json.Unmarshal(w.Body.Bytes(), &public); err != nil {
+		t.Fatal(err)
+	}
+	for _, key := range []string{"location", "latitude", "longitude"} {
+		if _, exists := public[key]; exists {
+			t.Fatalf("private coordinates leaked: %s", key)
 		}
 	}
 	request(t, api, "PUT", "/v1/me/devices", b.AccessToken, input, 409)

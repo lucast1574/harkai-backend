@@ -3,9 +3,13 @@ package core
 import (
 	"net/url"
 	"strings"
+	"time"
 )
 
-type GoogleIdentity struct{ Subject, Email, Name, PhotoURL string }
+type GoogleIdentity struct {
+	Subject, Email, Name, PhotoURL string
+	AuthAt                         time.Time
+}
 
 func GooglePhotoURL(value string) string {
 	parsed, err := url.Parse(value)

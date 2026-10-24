@@ -57,3 +57,7 @@ func (s *Store) Get(ctx context.Context, id string) ([]byte, error) {
 	}
 	return data, nil
 }
+
+func (s *Store) Delete(ctx context.Context, id string) error {
+	return s.client.RemoveObject(ctx, s.bucket, "photos/"+id+".jpg", minio.RemoveObjectOptions{})
+}

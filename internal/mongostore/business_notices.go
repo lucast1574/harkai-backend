@@ -10,7 +10,7 @@ import (
 )
 
 func (s *Store) QueueBusinessNotice(ctx context.Context, n core.BusinessNotice) error {
-	filter := bson.M{"_id": n.ID, "next_eligible_at": bson.M{"$lte": n.CreatedAt}}
+	filter := bson.M{"_id": n.ID, "$or": bson.A{bson.M{"next_eligible_at": bson.M{"$lte": n.CreatedAt}}, bson.M{"stage": bson.M{"$gt": n.Stage}}}}
 	_, err := s.DB.Collection("business_notices").ReplaceOne(ctx, filter, n, options.Replace().SetUpsert(true))
 	if mongo.IsDuplicateKeyError(err) {
 		return nil
@@ -18,7 +18,7 @@ func (s *Store) QueueBusinessNotice(ctx context.Context, n core.BusinessNotice) 
 	return err
 }
 func (s *Store) BusinessNotices(ctx context.Context, user, session, device string, now time.Time) ([]core.BusinessNotice, error) {
-	rows, err := s.DB.Collection("business_notices").Find(ctx, bson.M{"user_id": user, "session_id": session, "device_id": device, "pending": true, "created_at": bson.M{"$gt": now.Add(-24 * time.Hour)}}, options.Find().SetSort(bson.D{{Key: "created_at", Value: 1}}).SetLimit(3))
+	rows, err := s.DB.Collection("business_notices").Find(ctx, bson.M{"user_id": user, "session_id": session, "device_id": device, "pending": true, "created_at": bson.M{"$gt": now.Add(-24 * time.Hour)}}, options.Find().SetSort(bson.D{{Key: "kind", Value: -1}, {Key: "created_at", Value: 1}}).SetLimit(50))
 	if err != nil {
 		return nil, err
 	}
@@ -29,12 +29,24 @@ func (s *Store) BusinessNotices(ctx context.Context, user, session, device strin
 	}
 	result := []core.BusinessNotice{}
 	for _, n := range items {
-		p, e := s.BusinessByID(ctx, n.PointID)
-		if e == nil && p.Public(now) {
-			n.Name = p.Name
+		valid := false
+		if n.Kind == "incident" {
+			i, e := s.IncidentByID(ctx, n.PointID)
+			if e != nil && e != core.ErrNotFound {
+				return nil, e
+			}
+			valid = e == nil && core.MapIncidentActive(i, now)
+		} else {
+			p, e := s.BusinessByID(ctx, n.PointID)
+			if e != nil && e != core.ErrNotFound {
+				return nil, e
+			}
+			valid = e == nil && p.Public(now)
+		}
+		if valid {
 			result = append(result, n)
-		} else if e == nil || e == core.ErrNotFound {
-			if err = s.AckBusinessNotice(ctx, user, session, n.ID); err != nil {
+		} else {
+			if err = s.AckProximityNotice(ctx, user, session, n.ID, n.Stage); err != nil {
 				return nil, err
 			}
 		}
@@ -42,6 +54,14 @@ func (s *Store) BusinessNotices(ctx context.Context, user, session, device strin
 	return result, nil
 }
 func (s *Store) AckBusinessNotice(ctx context.Context, user, session, id string) error {
-	_, err := s.DB.Collection("business_notices").UpdateOne(ctx, bson.M{"_id": id, "user_id": user, "session_id": session}, bson.M{"$set": bson.M{"pending": false}})
+	return s.AckProximityNotice(ctx, user, session, id, 0)
+}
+func (s *Store) AckProximityNotice(ctx context.Context, user, session, id string, stage int) error {
+	filter := bson.M{"_id": id, "user_id": user, "session_id": session, "stage": stage}
+	if stage == 0 {
+		delete(filter, "stage")
+		filter["$or"] = bson.A{bson.M{"stage": 0}, bson.M{"stage": bson.M{"$exists": false}}}
+	}
+	_, err := s.DB.Collection("business_notices").UpdateOne(ctx, filter, bson.M{"$set": bson.M{"pending": false}})
 	return err
 }

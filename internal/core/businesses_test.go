@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func TestBusinessRequiresReviewAndPaidTerm(t *testing.T) {
+func TestBusinessRequiresReviewAndOnePayment(t *testing.T) {
 	now := time.Now().UTC()
 	in := BusinessInput{Name: "Clínica vecinal", Kind: "health", Description: "Atención odontológica", Latitude: -12, Longitude: -77, RadiusMeters: 250}
 	p, err := BuildBusiness(in, "123456789012345678901234", "owner", now)
@@ -21,7 +21,7 @@ func TestBusinessRequiresReviewAndPaidTerm(t *testing.T) {
 		t.Fatal("review minted billing rights")
 	}
 	p.BillingStatus = "active"
-	p.PaidUntil = now.Add(time.Hour)
+	p.PaidAt = &now
 	if !p.Public(now) {
 		t.Fatal("paid approved point hidden")
 	}
@@ -30,8 +30,8 @@ func TestBusinessRequiresReviewAndPaidTerm(t *testing.T) {
 		t.Fatal("paused point public")
 	}
 	p.Enabled = true
-	if p.Public(now.Add(time.Hour)) {
-		t.Fatal("expired payment public")
+	if !p.Public(now.Add(365 * 24 * time.Hour)) {
+		t.Fatal("one-time payment unexpectedly expired")
 	}
 	p.BillingStatus = "past_due"
 	if p.Public(now) {

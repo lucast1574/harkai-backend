@@ -31,7 +31,7 @@ func TestBusinessBillingVisibilityAndProximityDelivery(t *testing.T) {
 	if _, err = store.ModerateBusiness(ctx, p.ID, "approved", now); err != nil {
 		t.Fatal(err)
 	}
-	e := core.BusinessEntitlement{PointID: p.ID, OwnerID: "owner", EventID: "event1", SubscriptionID: "sub1", Status: "active", EventAt: now, PaidUntil: now.Add(24 * time.Hour)}
+	e := core.BusinessEntitlement{PointID: p.ID, OwnerID: "owner", EventID: "event1", Mode: "one_time", PaymentID: "payment1", PaidAt: &now, Status: "active", EventAt: now, PaidUntil: now.Add(24 * time.Hour)}
 	if err = store.ApplyBusinessEntitlement(ctx, e, now); err != nil {
 		t.Fatal(err)
 	}
@@ -58,8 +58,8 @@ func TestBusinessBillingVisibilityAndProximityDelivery(t *testing.T) {
 	u := core.User{ID: "visitor", Preferences: core.DefaultPreferences()}
 	d := core.Device{ID: "device1", UserID: u.ID, SessionID: "session1"}
 	notices, err := s.VisitBusinesses(ctx, u, d, -12, -77, 10, now)
-	if err != nil || len(notices) != 0 {
-		t.Fatal("no consent delivered", err)
+	if err != nil || len(notices) != 1 {
+		t.Fatal("app-managed business notification missing", err)
 	}
 	u.Preferences.BusinessNotifications = true
 	notices, err = s.VisitBusinesses(ctx, u, d, -12, -77, 101, now)
@@ -75,14 +75,14 @@ func TestBusinessBillingVisibilityAndProximityDelivery(t *testing.T) {
 	if err != nil || len(notices) != 1 || notices[0].ID != id {
 		t.Fatal("lost response not recoverable", err)
 	}
-	if err = store.AckBusinessNotice(ctx, u.ID, "wrong-session", id); err != nil {
+	if err = store.AckProximityNotice(ctx, u.ID, "wrong-session", id, 15); err != nil {
 		t.Fatal(err)
 	}
 	notices, _ = store.BusinessNotices(ctx, u.ID, d.SessionID, d.ID, now)
 	if len(notices) != 1 {
 		t.Fatal("foreign ack removed notice")
 	}
-	if err = store.AckBusinessNotice(ctx, u.ID, d.SessionID, id); err != nil {
+	if err = store.AckProximityNotice(ctx, u.ID, d.SessionID, id, 15); err != nil {
 		t.Fatal(err)
 	}
 	notices, err = s.VisitBusinesses(ctx, u, d, -12, -77, 10, now)
@@ -91,8 +91,8 @@ func TestBusinessBillingVisibilityAndProximityDelivery(t *testing.T) {
 	}
 	now = now.Add(25 * time.Hour)
 	page, err = store.ListBusinesses(ctx, q, "", false, now)
-	if err != nil || len(page.Items) != 0 {
-		t.Fatal("expired payment still public", err)
+	if err != nil || len(page.Items) != 1 {
+		t.Fatal("one-time point unexpectedly expired", err)
 	}
 	if err = s.BusinessBillingEvent(ctx, []byte(`{}`), "forged"); !errors.Is(err, core.ErrUnavailable) {
 		t.Fatal("unconfigured billing accepted", err)

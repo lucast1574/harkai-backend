@@ -81,8 +81,8 @@ func TestUnverifiedDeliveryIsDurableAndRetryable(t *testing.T) {
 		t.Fatal("completed job replayed")
 	}
 }
-func TestLogoutAndPreferenceChangesSuppressDelivery(t *testing.T) {
-	for _, mode := range []string{"logout", "none", "moved", "hidden"} {
+func TestLogoutAndDeviceChangesSuppressDelivery(t *testing.T) {
+	for _, mode := range []string{"logout", "revoked", "moved", "hidden"} {
 		t.Run(mode, func(t *testing.T) {
 			s, d, now := fixture(t)
 			ctx := context.Background()
@@ -92,10 +92,8 @@ func TestLogoutAndPreferenceChangesSuppressDelivery(t *testing.T) {
 				if err := s.DeleteSession(ctx, "access"); err != nil {
 					t.Fatal(err)
 				}
-			case "none":
-				p := core.DefaultPreferences()
-				p.Notifications = "none"
-				if _, err := s.UpdatePreferences(ctx, d.UserID, p); err != nil {
+			case "revoked":
+				if err := s.DeleteDevice(ctx, d.UserID, d.ID); err != nil {
 					t.Fatal(err)
 				}
 			case "moved":

@@ -9,7 +9,7 @@ import (
 )
 
 func (s Service) SavePreferences(ctx context.Context, userID string, p core.Preferences) (core.User, error) {
-	p, err := core.ValidatePreferences(p)
+	p, err := core.ValidatePreferences(core.AppPreferences(p))
 	if err != nil {
 		return core.User{}, err
 	}

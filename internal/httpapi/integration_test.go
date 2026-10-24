@@ -112,8 +112,8 @@ func TestReportGeoOwnershipAndPreferences(t *testing.T) {
 	request(t, api, "PUT", "/v1/me/preferences", other.AccessToken, p, 200)
 	w = request(t, api, "GET", "/v1/alerts?lat=-8.1&lng=-79", other.AccessToken, nil, 200)
 	_ = json.Unmarshal(w.Body.Bytes(), &page)
-	if len(page.Items) != 0 {
-		t.Fatal("none notifications ignored")
+	if len(page.Items) != 1 {
+		t.Fatal("legacy preferences must not disable app-managed safety alerts")
 	}
 	request(t, api, "PATCH", "/v1/incidents/"+incident.ID+"/status", owner.AccessToken, map[string]string{"status": "hidden"}, 200)
 	request(t, api, "GET", "/v1/incidents/"+incident.ID, "", nil, 404)

@@ -55,6 +55,7 @@ func (s Service) Authenticate(ctx context.Context, token string) (core.User, err
 	if errors.Is(err, core.ErrNotFound) {
 		return core.User{}, core.ErrUnauthorized
 	}
+	user.Preferences = core.AppPreferences(user.Preferences)
 	return user, err
 }
 
@@ -103,6 +104,7 @@ func (s Service) Refresh(ctx context.Context, token string) (core.AuthResult, er
 	if err != nil {
 		return core.AuthResult{}, fmt.Errorf("refresh user: %w", err)
 	}
+	user.Preferences = core.AppPreferences(user.Preferences)
 	result.User = user
 	return result, nil
 }

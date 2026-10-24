@@ -87,6 +87,8 @@ func Run(ctx context.Context, c config.Config) error {
 		stopWorker := startPush(ctx, worker, logger)
 		defer stopWorker()
 	}
+	stopDeletion := startAccountDeletion(ctx, service, photos, logger)
+	defer stopDeletion()
 	handler := httpapi.New(service, ready, c.Origins, logger)
 	server := &http.Server{Addr: ":" + c.Port, Handler: handler, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 30 * time.Second, WriteTimeout: 50 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 16 << 10}
 	logger.Info("Harkai API listening", "port", c.Port)
@@ -98,7 +100,7 @@ func NewService(store *mongostore.Store, photos application.PhotoStore) (applica
 	if err != nil {
 		return application.Service{}, err
 	}
-	return application.Service{Businesses: store, DistrictAt: districtgeo.At, Publications: store, Forum: store, DistrictByID: districtgeo.ByID, Support: store, Districts: store, Devices: store, Comments: store, Users: store, Sessions: store, Incidents: store, Limits: store, Media: store, Photos: photos, Directory: store, NormalizeImage: security.NormalizeImage, Now: UTCNow, ID: mongostore.NewID, Token: security.Token, DeriveSessionTokens: security.DeriveSessionTokens, HashPassword: security.HashPassword, CheckPassword: security.CheckPassword, HashToken: security.HashToken, DummyPasswordHash: dummy}, nil
+	return application.Service{AccountDeletion: store, Businesses: store, DistrictAt: districtgeo.At, Publications: store, Forum: store, DistrictByID: districtgeo.ByID, Support: store, Districts: store, Devices: store, Comments: store, Users: store, Sessions: store, Incidents: store, Limits: store, Media: store, Photos: photos, Directory: store, NormalizeImage: security.NormalizeImage, Now: UTCNow, ID: mongostore.NewID, Token: security.Token, DeriveSessionTokens: security.DeriveSessionTokens, HashPassword: security.HashPassword, CheckPassword: security.CheckPassword, HashToken: security.HashToken, DummyPasswordHash: dummy}, nil
 }
 
 func UTCNow() time.Time { return time.Now().UTC() }

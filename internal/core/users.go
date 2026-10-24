@@ -17,6 +17,7 @@ type Preferences struct {
 }
 
 type User struct {
+	DeletedAt     *time.Time  `json:"-" bson:"deleted_at,omitempty"`
 	PhotoURL      string      `json:"photo_url,omitempty" bson:"photo_url,omitempty"`
 	GoogleSubject string      `json:"-" bson:"google_subject,omitempty"`
 	ID            string      `json:"id" bson:"_id"`
@@ -60,7 +61,7 @@ func ValidateRegistration(input Credentials) (Credentials, error) {
 }
 
 func DefaultPreferences() Preferences {
-	return Preferences{Notifications: "all", RadiusMeters: 500, Language: "es", Theme: "system"}
+	return Preferences{Notifications: "all", BusinessNotifications: true, RadiusMeters: ProximityBands()[0], Language: "es", Theme: "system"}
 }
 
 func ValidatePreferences(p Preferences) (Preferences, error) {

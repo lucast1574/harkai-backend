@@ -10,7 +10,20 @@ import (
 )
 
 func BuildBusiness(in BusinessInput, id, owner string, now time.Time) (BusinessPoint, error) {
+	in.RadiusMeters = ProximityBands()[0]
+	in.DiscountCode = strings.ToUpper(strings.TrimSpace(in.DiscountCode))
+	if utf8.RuneCountInString(in.Offer) > 160 || len(in.DiscountCode) > 32 {
+		return BusinessPoint{}, ErrInvalid
+	}
+	for _, c := range in.DiscountCode {
+		if !(c >= 'A' && c <= 'Z' || c >= '0' && c <= '9' || c == '-' || c == '_') {
+			return BusinessPoint{}, ErrInvalid
+		}
+	}
 	in.Name, in.Description = strings.TrimSpace(in.Name), strings.TrimSpace(in.Description)
+	if !CommunityTextAllowed(in.Name + " " + in.Description + " " + in.Offer + " " + in.DiscountCode) {
+		return BusinessPoint{}, ErrContentRejected
+	}
 	if utf8.RuneCountInString(in.Name) < 2 || len(in.Name) > 200 || utf8.RuneCountInString(in.Description) < 5 || utf8.RuneCountInString(in.Description) > 2000 || !slices.Contains(BusinessKinds(), in.Kind) {
 		return BusinessPoint{}, fmt.Errorf("%w: business name, description or kind", ErrInvalid)
 	}
@@ -31,16 +44,19 @@ func BuildBusiness(in BusinessInput, id, owner string, now time.Time) (BusinessP
 			return BusinessPoint{}, fmt.Errorf("%w: phone", ErrInvalid)
 		}
 	}
-	return BusinessPoint{ID: id, OwnerID: owner, Name: in.Name, Kind: in.Kind, Subtype: strings.TrimSpace(in.Subtype), Description: in.Description, Address: strings.TrimSpace(in.Address), City: strings.TrimSpace(in.City), District: strings.TrimSpace(in.District), Latitude: in.Latitude, Longitude: in.Longitude, Location: Point{Type: "Point", Coordinates: []float64{in.Longitude, in.Latitude}}, RadiusMeters: in.RadiusMeters, MediaID: in.MediaID, Phone: in.Phone, Website: in.Website, Moderation: "pending", BillingStatus: "pending", Enabled: true, CreatedAt: now, UpdatedAt: now}, nil
+	return BusinessPoint{Offer: strings.TrimSpace(in.Offer), DiscountCode: in.DiscountCode, PaymentMode: "one_time", ID: id, OwnerID: owner, Name: in.Name, Kind: in.Kind, Subtype: strings.TrimSpace(in.Subtype), Description: in.Description, Address: strings.TrimSpace(in.Address), City: strings.TrimSpace(in.City), District: strings.TrimSpace(in.District), Latitude: in.Latitude, Longitude: in.Longitude, Location: Point{Type: "Point", Coordinates: []float64{in.Longitude, in.Latitude}}, RadiusMeters: in.RadiusMeters, MediaID: in.MediaID, Phone: in.Phone, Website: in.Website, Moderation: "pending", BillingStatus: "pending", Enabled: true, CreatedAt: now, UpdatedAt: now}, nil
 }
 func ValidateBusinessEntitlement(e BusinessEntitlement, now time.Time) error {
-	if !ValidID(e.PointID) || e.OwnerID == "" || e.EventID == "" || len(e.EventID) > 200 || e.SubscriptionID == "" || len(e.SubscriptionID) > 200 || e.EventAt.IsZero() || e.EventAt.After(now.Add(time.Minute)) {
+	if !ValidID(e.PointID) || e.OwnerID == "" || e.EventID == "" || len(e.EventID) > 200 || len(e.SubscriptionID) > 200 || e.EventAt.IsZero() || e.EventAt.After(now.Add(time.Minute)) {
 		return ErrInvalid
 	}
-	if !slices.Contains([]string{"active", "past_due", "canceled", "expired"}, e.Status) {
+	if !slices.Contains([]string{"active", "canceled", "refunded"}, e.Status) {
 		return ErrInvalid
 	}
-	if e.Status == "active" && (!e.PaidUntil.After(now) || e.PaidUntil.After(now.Add(370*24*time.Hour))) {
+	if e.Mode != "one_time" || e.PaymentID == "" || len(e.PaymentID) > 200 {
+		return ErrInvalid
+	}
+	if e.Status == "active" && (e.PaidAt == nil || e.PaidAt.After(now) || e.PaidAt.IsZero()) {
 		return ErrInvalid
 	}
 	return nil

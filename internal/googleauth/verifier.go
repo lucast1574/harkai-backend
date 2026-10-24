@@ -84,7 +84,7 @@ func (v *Verifier) Verify(ctx context.Context, token string) (core.GoogleIdentit
 	if err != nil {
 		return core.GoogleIdentity{}, core.ErrUnauthorized
 	}
-	return core.GoogleIdentity{Subject: c.Subject, Email: email, Name: c.Name, PhotoURL: core.GooglePhotoURL(c.Picture)}, nil
+	return core.GoogleIdentity{AuthAt: time.Unix(c.AuthTime, 0).UTC(), Subject: c.Subject, Email: email, Name: c.Name, PhotoURL: core.GooglePhotoURL(c.Picture)}, nil
 }
 func decodePart(value string, dst any) error {
 	raw, err := base64.RawURLEncoding.DecodeString(value)

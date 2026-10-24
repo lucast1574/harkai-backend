@@ -17,6 +17,7 @@ type BusinessStore interface {
 	QueueBusinessNotice(context.Context, core.BusinessNotice) error
 	BusinessNotices(context.Context, string, string, string, time.Time) ([]core.BusinessNotice, error)
 	AckBusinessNotice(context.Context, string, string, string) error
+	AckProximityNotice(context.Context, string, string, string, int) error
 }
 type BusinessBillingVerifier interface {
 	VerifyBusinessEntitlement(context.Context, []byte, string) (core.BusinessEntitlement, error)
@@ -30,6 +31,11 @@ func (s Service) SaveBusiness(ctx context.Context, u core.User, id string, in co
 	next, err := core.BuildBusiness(in, s.ID(), u.ID, now)
 	if err != nil {
 		return next, err
+	}
+	if s.DistrictAt != nil {
+		if district, e := s.DistrictAt(next.Latitude, next.Longitude); e == nil {
+			next.District, next.City = district.Name, district.Province
+		}
 	}
 	if err = s.ValidateMedia(ctx, u.ID, in.MediaID); err != nil {
 		return next, err
@@ -54,6 +60,7 @@ func (s Service) SaveBusiness(ctx context.Context, u core.User, id string, in co
 	// Editing public content requires moderation again, but cannot mint billing rights.
 	next.BillingStatus, next.PaidUntil, next.SubscriptionID = old.BillingStatus, old.PaidUntil, old.SubscriptionID
 	next.BillingEventAt, next.BillingEventID = old.BillingEventAt, old.BillingEventID
+	next.PaymentMode, next.PaymentID, next.PaidAt = old.PaymentMode, old.PaymentID, old.PaidAt
 	return s.Businesses.UpdateBusiness(ctx, next)
 }
 func (s Service) Business(ctx context.Context, u core.User, id string) (core.BusinessPoint, error) {

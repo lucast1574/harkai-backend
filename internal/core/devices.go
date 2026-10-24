@@ -48,10 +48,10 @@ func PushEligible(i Incident, d Device, u User, now time.Time) bool {
 	if u.ID == i.UserID || i.Status != "active" || now.Sub(i.CreatedAt) >= 3*time.Hour || (i.ExpiresAt != nil && !i.ExpiresAt.After(now)) || !d.ExpiresAt.After(now) {
 		return false
 	}
-	if u.Preferences.Notifications == "none" || (u.Preferences.Notifications == "critical" && !CriticalType(i.Type)) || len(d.Location.Coordinates) != 2 {
+	if len(d.Location.Coordinates) != 2 {
 		return false
 	}
-	return DistanceMeters(i.Latitude, i.Longitude, d.Location.Coordinates[1], d.Location.Coordinates[0]) <= float64(u.Preferences.RadiusMeters)
+	return DistanceMeters(i.Latitude, i.Longitude, d.Location.Coordinates[1], d.Location.Coordinates[0]) <= float64(ProximityBands()[0])
 }
 func DistanceMeters(a, b, c, d float64) float64 {
 	const r = math.Pi / 180

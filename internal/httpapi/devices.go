@@ -34,11 +34,11 @@ func (a *API) deviceLocation(r *http.Request, u core.User) (Result, error) {
 		return Result{}, err
 	}
 	if input.Accuracy != nil {
-		notices, e := a.Service.VisitBusinesses(r.Context(), u, result, *input.Latitude, *input.Longitude, *input.Accuracy, input.ObservedAt)
+		notices, e := a.Service.VisitNearbyPoints(r.Context(), u, result, *input.Latitude, *input.Longitude, *input.Accuracy, input.ObservedAt, true)
 		if e == nil {
 			return Result{Body: struct {
 				core.Device
-				Notices []core.BusinessNotice `json:"business_notices"`
+				Notices []core.BusinessNotice `json:"proximity_notices"`
 			}{result, notices}}, nil
 		}
 	}

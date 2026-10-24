@@ -39,7 +39,7 @@ func (s *Store) UserByGoogle(ctx context.Context, subject string) (core.User, er
 
 func (s *Store) UserByID(ctx context.Context, id string) (core.User, error) {
 	var user core.User
-	err := s.DB.Collection("users").FindOne(ctx, bson.M{"_id": id}).Decode(&user)
+	err := s.DB.Collection("users").FindOne(ctx, bson.M{"_id": id, "deleted_at": bson.M{"$exists": false}}).Decode(&user)
 	return user, translate(err)
 }
 

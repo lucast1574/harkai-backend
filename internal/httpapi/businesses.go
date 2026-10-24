@@ -90,3 +90,13 @@ func (a *API) businessBilling(r *http.Request, _ core.User) (Result, error) {
 func (a *API) ackBusinessNotice(r *http.Request, u core.User) (Result, error) {
 	return Result{Status: 204}, a.Service.AckBusinessNotice(r.Context(), u, strings.TrimPrefix(r.Header.Get("Authorization"), "Bearer "), r.PathValue("id"))
 }
+
+func (a *API) ackProximityNotice(r *http.Request, u core.User) (Result, error) {
+	var in struct {
+		Stage int `json:"stage"`
+	}
+	if err := decode(r, &in); err != nil {
+		return Result{}, err
+	}
+	return Result{Status: 204}, a.Service.AckProximityNotice(r.Context(), u, strings.TrimPrefix(r.Header.Get("Authorization"), "Bearer "), r.PathValue("id"), in.Stage)
+}

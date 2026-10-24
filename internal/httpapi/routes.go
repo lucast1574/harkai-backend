@@ -25,6 +25,7 @@ func (a *API) routes() int {
 		{"PATCH /v1/admin/businesses/{id}/moderation", true, a.moderateBusiness},
 		{"POST /v1/business-billing/webhook", false, a.businessBilling},
 		{"POST /v1/me/business-notices/{id}/ack", true, a.ackBusinessNotice},
+		{"POST /v1/me/proximity-notices/{id}/ack", true, a.ackProximityNotice},
 		{"GET /v1/forum", false, a.forum},
 		{"POST /v1/forum", true, a.startForum},
 		{"DELETE /v1/forum/{id}", true, a.deleteForum},
@@ -48,6 +49,8 @@ func (a *API) routes() int {
 		{"PATCH /v1/me/devices/{deviceID}/location", true, a.deviceLocation},
 		{"DELETE /v1/me/devices/{deviceID}", true, a.deleteDevice},
 		{"GET /v1/me", true, a.me},
+		{"GET /v1/me/account-deletion-options", true, a.accountDeletionOptions},
+		{"DELETE /v1/me", true, a.deleteMyAccount},
 		{"PATCH /v1/me", true, a.profile},
 		{"PUT /v1/me/preferences", true, a.preferences},
 		{"GET /v1/me/incidents", true, a.myIncidents},
@@ -89,5 +92,5 @@ func (a *API) ready(r *http.Request, _ core.User) (Result, error) {
 }
 
 func (a *API) meta(_ *http.Request, _ core.User) (Result, error) {
-	return Result{Body: map[string]any{"api_version": "v1", "incident_types": core.IncidentTypes(), "categories": core.Categories(), "report_categories": core.ReportCategories(), "roles": core.Roles(), "verification": "one_other_user", "capabilities": map[string]bool{"email_auth": true, "google_auth": a.Service.VerifyGoogle != nil, "geo_reports": true, "media": a.Service.ModerateImage != nil, "text_rules": true, "audio": a.Service.TranscribeAudio != nil, "pull_alerts": true, "push_notifications": a.Service.PushEnabled, "payments": a.Service.Billing != nil, "business_points": true, "generative_ai": false}}}, nil
+	return Result{Body: map[string]any{"api_version": "v1", "incident_types": core.IncidentTypes(), "proximity_bands_meters": core.ProximityBands(), "business_payment_mode": "one_time", "categories": core.Categories(), "report_categories": core.ReportCategories(), "roles": core.Roles(), "verification": "one_other_user", "capabilities": map[string]bool{"email_auth": true, "google_auth": a.Service.VerifyGoogle != nil, "geo_reports": true, "media": a.Service.ModerateImage != nil, "text_rules": true, "audio": a.Service.TranscribeAudio != nil, "pull_alerts": true, "push_notifications": a.Service.PushEnabled, "payments": a.Service.Billing != nil, "business_points": true, "generative_ai": false}}}, nil
 }
