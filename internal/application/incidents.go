@@ -68,7 +68,7 @@ func (s Service) Incident(ctx context.Context, id string, user core.User) (core.
 		return core.Incident{}, core.ErrNotFound
 	}
 	i.ViewerIsAuthor = user.ID != "" && user.ID == i.UserID
-	return core.PublicIncident(i), nil
+	return s.PublicationIncident(i), nil
 }
 
 func (s Service) ChangeStatus(ctx context.Context, user core.User, id, status string) (core.Incident, error) {

@@ -18,7 +18,25 @@ func (s Service) PublicPublications(ctx context.Context, cursor string, limit in
 	}
 	page, err := s.Publications.ListPublications(ctx, cursor, limit)
 	for n := range page.Items {
-		page.Items[n] = core.PublicIncident(page.Items[n])
+		page.Items[n] = s.PublicationIncident(page.Items[n])
 	}
 	return page, err
+}
+
+// Resolve missing legacy location labels from the bundled district boundaries.
+func (s Service) PublicationIncident(i core.Incident) core.Incident {
+	if s.DistrictAt != nil && (i.District == "" || i.City == "") {
+		if district, err := s.DistrictAt(i.Latitude, i.Longitude); err == nil {
+			if i.District == "" {
+				i.District = district.Name
+			}
+			if i.City == "" {
+				i.City = district.Province
+			}
+			if i.Country == "" {
+				i.Country = "Perú"
+			}
+		}
+	}
+	return core.PublicIncident(i)
 }
