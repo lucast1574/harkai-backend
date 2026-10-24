@@ -56,11 +56,12 @@ func (a *API) refresh(r *http.Request, _ core.User) (Result, error) {
 	}
 	var input struct {
 		RefreshToken string `json:"refresh_token"`
+		RotationID   string `json:"rotation_id,omitempty"`
 	}
 	if err := decode(r, &input); err != nil {
 		return Result{}, err
 	}
-	result, err := a.Service.Refresh(r.Context(), input.RefreshToken)
+	result, err := a.Service.RefreshWithRotation(r.Context(), input.RefreshToken, input.RotationID)
 	return Result{Body: result}, err
 }
 

@@ -18,6 +18,7 @@ func (s *Store) EnsureIndexes(ctx context.Context) error {
 		"sessions": {
 			{Keys: bson.D{{Key: "access_hash", Value: 1}}, Options: options.Index().SetUnique(true)},
 			{Keys: bson.D{{Key: "refresh_hash", Value: 1}}, Options: options.Index().SetUnique(true)},
+			{Keys: bson.D{{Key: "previous_refresh_hash", Value: 1}}, Options: options.Index().SetSparse(true)},
 			{Keys: bson.D{{Key: "expires_at", Value: 1}}, Options: options.Index().SetExpireAfterSeconds(0)},
 			{Keys: bson.D{{Key: "user_id", Value: 1}}},
 		},

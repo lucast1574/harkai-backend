@@ -98,7 +98,7 @@ func NewService(store *mongostore.Store, photos application.PhotoStore) (applica
 	if err != nil {
 		return application.Service{}, err
 	}
-	return application.Service{Forum: store, DistrictByID: districtgeo.ByID, Support: store, Districts: store, Devices: store, Comments: store, Users: store, Sessions: store, Incidents: store, Limits: store, Media: store, Photos: photos, Directory: store, NormalizeImage: security.NormalizeImage, Now: UTCNow, ID: mongostore.NewID, Token: security.Token, HashPassword: security.HashPassword, CheckPassword: security.CheckPassword, HashToken: security.HashToken, DummyPasswordHash: dummy}, nil
+	return application.Service{Forum: store, DistrictByID: districtgeo.ByID, Support: store, Districts: store, Devices: store, Comments: store, Users: store, Sessions: store, Incidents: store, Limits: store, Media: store, Photos: photos, Directory: store, NormalizeImage: security.NormalizeImage, Now: UTCNow, ID: mongostore.NewID, Token: security.Token, DeriveSessionTokens: security.DeriveSessionTokens, HashPassword: security.HashPassword, CheckPassword: security.CheckPassword, HashToken: security.HashToken, DummyPasswordHash: dummy}, nil
 }
 
 func UTCNow() time.Time { return time.Now().UTC() }

@@ -26,7 +26,13 @@ func (s *Store) SessionByAccess(ctx context.Context, hash string, now time.Time)
 func (s *Store) RotateSession(ctx context.Context, hash string, next core.Session, now time.Time) (core.Session, error) {
 	var previous core.Session
 	// Conditional single-document rotation: exactly one request can consume a refresh token.
-	err := s.DB.Collection("sessions").FindOneAndUpdate(ctx, bson.M{"refresh_hash": hash, "expires_at": bson.M{"$gt": now}}, bson.M{"$set": bson.M{"access_hash": next.AccessHash, "refresh_hash": next.RefreshHash, "access_expires_at": next.AccessExpiresAt}}).Decode(&previous)
+	err := s.DB.Collection("sessions").FindOneAndUpdate(ctx, bson.M{"refresh_hash": hash, "expires_at": bson.M{"$gt": now}}, bson.M{"$set": bson.M{"access_hash": next.AccessHash, "refresh_hash": next.RefreshHash, "access_expires_at": next.AccessExpiresAt, "previous_refresh_hash": hash, "rotation_id": next.RotationID}}).Decode(&previous)
+	if errors.Is(err, mongo.ErrNoDocuments) && next.RotationID != "" {
+		// Recover only the exact interrupted rotation, while its result is still
+		// current. A different nonce or a subsequent rotation cannot replay it.
+		filter := bson.M{"previous_refresh_hash": hash, "rotation_id": next.RotationID, "refresh_hash": next.RefreshHash, "expires_at": bson.M{"$gt": now}}
+		err = s.DB.Collection("sessions").FindOneAndUpdate(ctx, filter, bson.M{"$set": bson.M{"access_expires_at": next.AccessExpiresAt}}).Decode(&previous)
+	}
 	if errors.Is(err, mongo.ErrNoDocuments) {
 		return previous, core.ErrUnauthorized
 	}

@@ -12,7 +12,7 @@ Organización Dokploy: lucast. Proyecto: harkai. Entorno: production. La instanc
 - S3_BUCKET: harkai-photos.
 - CORS_ORIGINS: lista de orígenes exactos separados por comas, https://panel.harkai.lat, https://harkai.lat y https://www.harkai.lat.
 
-Dokploy construye el Dockerfile desde codex/harkai-rebuild del repositorio privado harkai-backend. El contenedor escucha en 8080 y se ejecuta sin privilegios. El proxy dirige api.harkai.lat a ese puerto. Cloudflare debe apuntar al servidor de Dokploy; HTTPS requiere un certificado válido en origen y en el proxy.
+Dokploy construye el Dockerfile desde main del repositorio privado harkai-backend. El contenedor escucha en 8080 y se ejecuta sin privilegios. El proxy dirige api.harkai.lat a ese puerto. Cloudflare debe apuntar al servidor de Dokploy; HTTPS requiere un certificado válido en origen y en el proxy.
 
 La API está fijada a rangelserver2, donde Dokploy construye su imagen local, con límites de 512 MB y 0.5 CPU. MinIO permanece fijado a rangelserver1, donde existe el HDD. Para mover o replicar la API a otros nodos debe configurarse distribución de imagen mediante registro.
 
@@ -47,3 +47,9 @@ Activación del 9 de octubre de 2026: validación FCM `validate_only` correcta y
 ## Trabajo pendiente
 
 Recepción push en dispositivos reales, firma Android de publicación, recuperación de contraseña, gestión de territorios institucionales, pagos, actualización en vivo y migración histórica de Firebase. El borrado de cuenta todavía requiere el procedimiento manual publicado; configurar copias y comprobarlo antes de abrir el producto ampliamente.
+
+## Renovación recuperable de sesión móvil
+
+`POST /v1/auth/refresh` acepta `rotation_id` opcional: 32 bytes aleatorios en base64url sin padding (43 caracteres). El cliente lo guarda en almacenamiento seguro antes de renovar y conserva ese ID si pierde la respuesta o se cierra el proceso. Repetir el mismo token anterior y el mismo ID recupera exactamente los tokens de esa renovación mientras siga siendo la última. Una renovación posterior invalida la recuperación anterior; se mantiene el vencimiento absoluto de 30 días y la revocación al cerrar sesión.
+
+MongoDB conserva solo hashes, el ID de operación y vencimientos; nunca tokens bearer. Los tokens recuperables se derivan con HMAC-SHA256, usando el refresh anterior como secreto y propósitos separados para acceso y refresh. Los clientes sin ID conservan la rotación de un solo uso. El índice nuevo es aditivo y no requiere migrar ni eliminar sesiones existentes.

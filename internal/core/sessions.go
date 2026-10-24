@@ -3,12 +3,14 @@ package core
 import "time"
 
 type Session struct {
-	ID              string    `bson:"_id"`
-	UserID          string    `bson:"user_id"`
-	AccessHash      string    `bson:"access_hash"`
-	RefreshHash     string    `bson:"refresh_hash"`
-	AccessExpiresAt time.Time `bson:"access_expires_at"`
-	ExpiresAt       time.Time `bson:"expires_at"`
+	PreviousRefreshHash string    `bson:"previous_refresh_hash,omitempty"`
+	RotationID          string    `bson:"rotation_id,omitempty"`
+	ID                  string    `bson:"_id"`
+	UserID              string    `bson:"user_id"`
+	AccessHash          string    `bson:"access_hash"`
+	RefreshHash         string    `bson:"refresh_hash"`
+	AccessExpiresAt     time.Time `bson:"access_expires_at"`
+	ExpiresAt           time.Time `bson:"expires_at"`
 }
 
 type AuthResult struct {

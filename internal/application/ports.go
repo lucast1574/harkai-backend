@@ -43,30 +43,31 @@ type Districts interface {
 }
 
 type Service struct {
-	Forum             ForumStore
-	DistrictByID      func(string) (core.GeographicDistrict, error)
-	Support           SupportStore
-	Devices           Devices
-	PushEnabled       bool
-	Districts         Districts
-	Comments          Comments
-	Users             Users
-	Sessions          Sessions
-	Incidents         Incidents
-	Limits            Limits
-	Media             MediaStore
-	Photos            PhotoStore
-	Directory         ContactsStore
-	NormalizeImage    func([]byte) ([]byte, error)
-	ModerateImage     func(context.Context, []byte) (string, error)
-	TranscribeAudio   func(context.Context, []byte) (string, error)
-	MediaSource       func(context.Context) ([]byte, error)
-	VerifyGoogle      func(context.Context, string) (core.GoogleIdentity, error)
-	Now               func() time.Time
-	ID                func() string
-	Token             func() (string, error)
-	HashPassword      func(string) (string, error)
-	CheckPassword     func(string, string) bool
-	HashToken         func(string) string
-	DummyPasswordHash string
+	Forum               ForumStore
+	DistrictByID        func(string) (core.GeographicDistrict, error)
+	Support             SupportStore
+	Devices             Devices
+	PushEnabled         bool
+	Districts           Districts
+	Comments            Comments
+	Users               Users
+	Sessions            Sessions
+	Incidents           Incidents
+	Limits              Limits
+	Media               MediaStore
+	Photos              PhotoStore
+	Directory           ContactsStore
+	NormalizeImage      func([]byte) ([]byte, error)
+	ModerateImage       func(context.Context, []byte) (string, error)
+	TranscribeAudio     func(context.Context, []byte) (string, error)
+	MediaSource         func(context.Context) ([]byte, error)
+	VerifyGoogle        func(context.Context, string) (core.GoogleIdentity, error)
+	Now                 func() time.Time
+	ID                  func() string
+	Token               func() (string, error)
+	DeriveSessionTokens func(string, string) (string, string)
+	HashPassword        func(string) (string, error)
+	CheckPassword       func(string, string) bool
+	HashToken           func(string) string
+	DummyPasswordHash   string
 }
