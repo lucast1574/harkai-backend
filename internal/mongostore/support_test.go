@@ -96,12 +96,9 @@ func TestSupportSeedIdempotenceAndGeoIsolation(t *testing.T) {
 		if len(places) <= 100 {
 			t.Fatalf("directory truncated: %d", len(places))
 		}
-		want := "lima"
-		if q.Latitude > -10 {
-			want = "trujillo"
-		}
 		for _, p := range places {
-			if p.City != want {
+			// Nearby provinces legitimately share a 50 km radius. Test distance, not city labels.
+			if core.DistanceMeters(q.Latitude, q.Longitude, p.Latitude, p.Longitude) > float64(q.RadiusMeters)*1.01 {
 				t.Fatal("far place returned", p.ID)
 			}
 		}
@@ -126,6 +123,17 @@ func TestSupportSeedIdempotenceAndGeoIsolation(t *testing.T) {
 	}
 	if callao < 100 {
 		t.Fatalf("Callao missing from Lima city query: %d", callao)
+	}
+	for _, q := range []core.IncidentQuery{{Latitude: -16.3989, Longitude: -71.5369, RadiusMeters: 5000}, {Latitude: -3.7491, Longitude: -73.2538, RadiusMeters: 5000}} {
+		places, e := store.SupportPlaces(ctx, q)
+		if e != nil || len(places) == 0 {
+			t.Fatalf("missing national places: %v %v", places, e)
+		}
+		for _, p := range places {
+			if core.DistanceMeters(q.Latitude, q.Longitude, p.Latitude, p.Longitude) > 5050 {
+				t.Fatal("national query leaked distant place", p.ID)
+			}
+		}
 	}
 	for _, collection := range []string{"incidents", "push_jobs"} {
 		count, err := store.DB.Collection(collection).CountDocuments(ctx, bson.M{})
