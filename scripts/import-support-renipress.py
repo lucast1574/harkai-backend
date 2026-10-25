@@ -7,6 +7,7 @@ import hashlib
 import json
 import pathlib
 import re
+import math
 from urllib.parse import urlparse, parse_qs
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -36,13 +37,13 @@ def phone(raw, city):
     digits = re.sub(r'\D', '', match[1])
     if len(digits) == 9 and digits.startswith('9'):
         return '+51' + digits
-    if (len(digits) == 9 and digits.startswith('01')) or (len(digits) == 9 and digits.startswith('044')):
+    if (len(digits) == 9 and digits.startswith('01')) or (len(digits) == 9 and digits.startswith('0') and not digits.startswith('00')):
         return '+51' + digits[1:]
     if len(digits) == 7 and city == 'lima':
         return '+511' + digits
     if len(digits) == 6 and city == 'trujillo':
         return '+5144' + digits
-    if (len(digits) == 11 and digits.startswith('519')) or (len(digits) == 10 and digits.startswith(('511', '5144'))):
+    if (len(digits) == 11 and digits.startswith('519')) or (len(digits) == 10 and digits.startswith('51') and digits[2] != '0'):
         return '+' + digits
     return ''
 
@@ -67,9 +68,10 @@ def photos(row):
 
 
 def place(row, reviewed):
-    city = {'1501': 'lima', '0701': 'lima', '1301': 'trujillo'}.get(row['UBIGEO'].zfill(6)[:4])
+    province_id = row['UBIGEO'].zfill(6)[:4]
+    city = {'1501': 'lima', '0701': 'lima', '1301': 'trujillo'}.get(province_id, province_id)
     kind = CLASSES.get(row['CLASIFICACION'])
-    if not city or not kind or row['ESTADO'] != 'ACTIVO':
+    if not re.fullmatch(r'\d{6}', row['UBIGEO'].zfill(6)) or not kind or row['ESTADO'] != 'ACTIVO':
         return None
     code = row['COD_IPRESS'].zfill(8)
     if code in CURATED:
@@ -78,8 +80,8 @@ def place(row, reviewed):
         latitude, longitude = float(row['NORTE']), float(row['ESTE'])
     except ValueError:
         return None
-    bounds = (-13, -11, -78, -76) if city == 'lima' else (-9, -7, -80, -78)
-    if not (bounds[0] < latitude < bounds[1] and bounds[2] < longitude < bounds[3]):
+    bounds = (-18.5, 0, -82, -68)
+    if not (math.isfinite(latitude) and math.isfinite(longitude) and bounds[0] < latitude < bounds[1] and bounds[2] < longitude < bounds[3]):
         return None
     address = row['DIRECCION'].strip()
     if not address or address.upper() in {'ACTUALIZAR', 'NO REGISTRA', 'SIN DATOS'}:
@@ -88,6 +90,7 @@ def place(row, reviewed):
     return {
         'id': 'renipress-' + code, 'registry_id': code,
         'name': row['NOMBRE'].strip(), 'kind': kind, 'city': city,
+        'department': row['DEPARTAMENTO'].strip().title(), 'province': row['PROVINCIA'].strip().title(),
         'district': row['DISTRITO'].strip().title(), 'district_id': row['UBIGEO'].zfill(6),
         'address': address, 'latitude': latitude, 'longitude': longitude,
         'phone': contacts[0] if contacts else '', 'phones': contacts,
@@ -132,6 +135,8 @@ def main():
     summary = {'source_url': SOURCE, 'source_updated_at': '2026-09-30',
                'reviewed_at': args.reviewed, 'input_sha256': hashlib.sha256(raw).hexdigest(),
                'imported': len(items), 'by_city': dict(collections.Counter(p['city'] for p in items)),
+               'by_department': dict(sorted(collections.Counter(p['department'] for p in items).items())),
+               'provinces': len({p['district_id'][:4] for p in items}),
                'districts': dict(collections.Counter(p['city'] for p in {p['district_id']: p for p in items}.values()))}
     (target / 'renipress-manifest.json').write_text(json.dumps(summary, indent=2) + '\n', encoding='utf-8')
     print(json.dumps(summary, ensure_ascii=False))

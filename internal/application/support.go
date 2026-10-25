@@ -3,6 +3,7 @@ package application
 import (
 	"context"
 	"fmt"
+
 	"github.com/lucast1574/harkai-backend/internal/core"
 )
 
@@ -12,12 +13,13 @@ type SupportStore interface {
 }
 
 func (s Service) SupportDirectory(ctx context.Context, city string) ([]core.SupportDistrict, error) {
-	_, city, err := core.Region("PE", city)
-	if err != nil {
-		return nil, err
-	}
 	if city != "lima" && city != "trujillo" {
-		return nil, fmt.Errorf("%w: unsupported support city", core.ErrInvalid)
+		if len(city) != 4 || s.DistrictByID == nil {
+			return nil, fmt.Errorf("%w: unknown support province", core.ErrInvalid)
+		}
+		if _, err := s.DistrictByID(city + "01"); err != nil {
+			return nil, fmt.Errorf("%w: unknown support province", core.ErrInvalid)
+		}
 	}
 	if s.Support == nil {
 		return nil, core.ErrUnavailable

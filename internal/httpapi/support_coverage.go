@@ -23,7 +23,7 @@ func (a *API) supportCoverage(r *http.Request, _ core.User) (Result, error) {
 		return Result{}, err
 	}
 	province := district.ID[:4]
-	covered := province == "1501" || province == "0701" || province == "1301"
+	covered := districtgeo.ValidProvince(province)
 	return Result{Body: map[string]any{"covered": covered, "district": district.Name,
-		"district_id": district.ID, "province": district.Province, "province_id": province}}, nil
+		"district_id": district.ID, "province": district.Province, "province_id": province, "department": district.Department, "national": true}}, nil
 }

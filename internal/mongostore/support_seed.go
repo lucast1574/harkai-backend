@@ -65,6 +65,11 @@ func ReadSupportSeed() ([]core.SupportDistrict, []core.SupportPlace, error) {
 		return nil, nil, err
 	}
 	places = append(places, registry...)
+	var err error
+	districts, err = nationalSupportDirectory(districts)
+	if err != nil {
+		return nil, nil, err
+	}
 	for n := range districts {
 		hash := sha256.Sum256([]byte(districts[n].City + ":" + districts[n].District))
 		districts[n].ID = hex.EncodeToString(hash[:])

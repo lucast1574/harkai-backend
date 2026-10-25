@@ -13,13 +13,13 @@ func Area(id, scope string) (core.GeographicArea, error) {
 	if scope == "" {
 		scope = "district"
 	}
-	if scope != "district" && scope != "city" {
+	if scope != "district" && scope != "city" && scope != "province" && scope != "department" {
 		return core.GeographicArea{}, fmt.Errorf("%w: invalid geographic scope", core.ErrInvalid)
 	}
 	a := core.GeographicArea{ID: d.ID, Name: d.Name, Province: d.Province, Department: d.Department, Scope: scope, SourceURL: d.SourceURL, ReferenceYear: d.ReferenceYear, Geometry: core.AreaGeometry{Type: "Polygon", Coordinates: d.Geometry.Coordinates}}
 	polygons := [][][][]float64{}
 	for _, e := range catalog {
-		if (scope == "city" && sameCity(e.district.ID, id)) || (scope == "district" && e.district.ID == id) {
+		if (scope == "city" && sameCity(e.district.ID, id)) || (scope == "province" && e.district.ID[:4] == id[:4]) || (scope == "department" && e.district.ID[:2] == id[:2]) || (scope == "district" && e.district.ID == id) {
 			polygons = append(polygons, e.district.Geometry.Coordinates)
 		}
 	}
@@ -31,6 +31,12 @@ func Area(id, scope string) (core.GeographicArea, error) {
 		if metropolitan(id) {
 			a.Name = "Lima y Callao"
 		}
+	}
+	if scope == "province" {
+		a.Name = d.Province
+	}
+	if scope == "department" {
+		a.Name = d.Department
 	}
 	return a, nil
 }

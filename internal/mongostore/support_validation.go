@@ -3,6 +3,7 @@ package mongostore
 import (
 	"fmt"
 	"github.com/lucast1574/harkai-backend/internal/core"
+	"github.com/lucast1574/harkai-backend/internal/districtgeo"
 	"math"
 	"net/url"
 	"regexp"
@@ -17,7 +18,7 @@ func supportSource(raw string) bool {
 	return err == nil && u.Scheme == "https" && strings.HasSuffix(u.Hostname(), ".gob.pe")
 }
 func ValidateSupportDistrict(d core.SupportDistrict) error {
-	if d.Country != "PE" || (d.City != "lima" && d.City != "trujillo") || strings.TrimSpace(d.District) == "" || len(d.Contacts) < 1 {
+	if d.Country != "PE" || (d.City != "lima" && d.City != "trujillo" && !districtgeo.ValidProvince(d.City)) || strings.TrimSpace(d.District) == "" || len(d.Contacts) < 1 {
 		return fmt.Errorf("invalid support district")
 	}
 	for _, c := range d.Contacts {
@@ -31,7 +32,7 @@ func ValidateSupportDistrict(d core.SupportDistrict) error {
 	return nil
 }
 func ValidateSupportPlace(p core.SupportPlace) error {
-	if p.ID == "" || p.Name == "" || p.Address == "" || p.District == "" || !supportSource(p.SourceURL) || (p.City != "lima" && p.City != "trujillo") {
+	if p.ID == "" || p.Name == "" || p.Address == "" || p.District == "" || !supportSource(p.SourceURL) || (p.City != "lima" && p.City != "trujillo" && !districtgeo.ValidProvince(p.City)) {
 		return fmt.Errorf("invalid support place")
 	}
 	if math.IsNaN(p.Latitude) || math.IsNaN(p.Longitude) || p.Latitude < -19 || p.Latitude > 0 || p.Longitude < -82 || p.Longitude > -68 {

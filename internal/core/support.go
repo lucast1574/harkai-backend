@@ -9,13 +9,18 @@ type SupportContact struct {
 	ReviewedAt string `json:"reviewed_at" bson:"reviewed_at"`
 }
 type SupportDistrict struct {
-	ID       string           `json:"-" bson:"_id"`
-	Country  string           `json:"country" bson:"country"`
-	City     string           `json:"city" bson:"city"`
-	District string           `json:"district" bson:"district"`
-	Contacts []SupportContact `json:"contacts" bson:"contacts"`
+	DistrictID string           `json:"district_id,omitempty" bson:"district_id,omitempty"`
+	Department string           `json:"department,omitempty" bson:"department,omitempty"`
+	Province   string           `json:"province,omitempty" bson:"province,omitempty"`
+	ID         string           `json:"-" bson:"_id"`
+	Country    string           `json:"country" bson:"country"`
+	City       string           `json:"city" bson:"city"`
+	District   string           `json:"district" bson:"district"`
+	Contacts   []SupportContact `json:"contacts" bson:"contacts"`
 }
 type SupportPlace struct {
+	Department        string   `json:"department,omitempty" bson:"department,omitempty"`
+	Province          string   `json:"province,omitempty" bson:"province,omitempty"`
 	ID                string   `json:"id" bson:"_id"`
 	RegistryID        string   `json:"registry_id,omitempty" bson:"registry_id,omitempty"`
 	DistrictID        string   `json:"district_id,omitempty" bson:"district_id,omitempty"`

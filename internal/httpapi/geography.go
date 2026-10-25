@@ -54,7 +54,7 @@ func (a *API) geographicDistrict(r *http.Request, _ core.User) (Result, error) {
 }
 
 func isCoveredDistrict(id string) bool {
-	return len(id) >= 4 && (id[:4] == "1501" || id[:4] == "0701" || id[:4] == "1301")
+	return len(id) == 6 && districtgeo.ValidProvince(id[:4])
 }
 
 func resolveAutoDistrict(r *http.Request) (core.GeographicDistrict, *[2]float64, error) {

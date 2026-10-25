@@ -30,6 +30,16 @@ func TestForumDistrictCityPrivacyModerationAndOwnership(t *testing.T) {
 	if !strings.Contains(w.Body.String(), "otro distrito") || strings.Contains(w.Body.String(), "Consulta en Trujillo") {
 		t.Fatal("province isolation", w.Body.String())
 	}
+	request(t, api, "POST", "/v1/forum", other.AccessToken, map[string]string{"body": "Consulta desde Huaral", "district_id": "150601"}, 201)
+	request(t, api, "POST", "/v1/forum", other.AccessToken, map[string]string{"body": "Consulta desde Callao", "district_id": "070101"}, 201)
+	for _, scope := range []string{"province", "department", "city"} {
+		w = request(t, api, "GET", "/v1/forum?ubigeo=150130&scope="+scope, "", nil, 200)
+		hasHuaral := strings.Contains(w.Body.String(), "Consulta desde Huaral")
+		hasCallao := strings.Contains(w.Body.String(), "Consulta desde Callao")
+		if hasHuaral != (scope == "department") || hasCallao != (scope == "city") || strings.Contains(w.Body.String(), "Consulta en Trujillo") {
+			t.Fatalf("scope %s isolation: %s", scope, w.Body.String())
+		}
+	}
 	request(t, api, "GET", "/v1/forum?ubigeo=150130&scope=all", "", nil, 400)
 	request(t, api, "GET", "/v1/forum?ubigeo=150130&cursor=invalid", "", nil, 400)
 	path := "/v1/forum/" + thread.ID + "/comments"

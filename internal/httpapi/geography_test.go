@@ -56,3 +56,29 @@ func TestGeographicEndpointAndValidation(t *testing.T) {
 		t.Fatal("query did not select geographic city boundary", err)
 	}
 }
+
+func TestNationalCatalogAndBoundaries(t *testing.T) {
+	api := New(application.Service{}, nil, nil, slog.New(slog.NewTextHandler(io.Discard, nil)))
+	r := httptest.NewRequest("GET", "/v1/geo/catalog", nil)
+	r.Header.Set("Accept-Encoding", "gzip")
+	w := httptest.NewRecorder()
+	api.ServeHTTP(w, r)
+	if w.Code != 200 || w.Header().Get("Content-Encoding") != "gzip" || w.Header().Get("Cache-Control") == "" {
+		t.Fatalf("catalog response %d %+v", w.Code, w.Header())
+	}
+	reader, err := gzip.NewReader(w.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer reader.Close()
+	var body struct{ Items []struct{ ID string } }
+	if err = json.NewDecoder(reader).Decode(&body); err != nil || len(body.Items) < 1800 {
+		t.Fatalf("catalog count %d: %v", len(body.Items), err)
+	}
+	for _, scope := range []string{"province", "department"} {
+		q, e := incidentQuery(httptest.NewRequest("GET", "/?lat=-16.4&lng=-71.5&ubigeo=040101&scope="+scope, nil), true)
+		if e != nil || q.Boundary == nil || q.Boundary.Type != "MultiPolygon" {
+			t.Fatalf("national boundary %s: %v", scope, e)
+		}
+	}
+}

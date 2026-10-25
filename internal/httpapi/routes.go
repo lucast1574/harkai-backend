@@ -33,6 +33,7 @@ func (a *API) routes() int {
 		{"POST /v1/forum/{id}/comments", true, a.forumReply},
 		{"DELETE /v1/forum/{id}/comments/{commentID}", true, a.deleteForumReply},
 		{"GET /v1/geo/district", false, a.geographicDistrict},
+		{"GET /v1/geo/catalog", false, a.geographicCatalog},
 		{"GET /v1/support/directory", false, a.supportDirectory},
 		{"GET /v1/support/places", false, a.supportPlaces},
 		{"GET /v1/support/coverage", false, a.supportCoverage},

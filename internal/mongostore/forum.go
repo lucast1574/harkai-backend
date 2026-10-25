@@ -19,6 +19,12 @@ func (s *Store) ForumThreadByID(ctx context.Context, id string) (core.ForumThrea
 }
 func (s *Store) ListForumThreads(ctx context.Context, province, district, cursor string) (core.ForumPage, error) {
 	filter := bson.M{"province_id": province, "deleted_at": nil}
+	if len(province) == 2 {
+		filter["province_id"] = bson.M{"$regex": "^" + province}
+	}
+	if province == "metro-lima" {
+		filter["province_id"] = bson.M{"$in": []string{"1501", "0701"}}
+	}
 	if district != "" {
 		filter["district_id"] = district
 	}

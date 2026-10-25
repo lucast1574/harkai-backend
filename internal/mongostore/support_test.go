@@ -43,6 +43,9 @@ func TestSupportSeedCoverageAndProvenance(t *testing.T) {
 	coverage := map[string]map[string]bool{"lima": {}, "trujillo": {}}
 	for _, p := range places {
 		if p.RegistryID != "" {
+			if coverage[p.City] == nil {
+				coverage[p.City] = map[string]bool{}
+			}
 			coverage[p.City][p.DistrictID] = true
 		}
 		if seen[p.ID] {

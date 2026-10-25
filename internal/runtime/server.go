@@ -27,7 +27,7 @@ func Run(ctx context.Context, c config.Config) error {
 		return errors.New("district reference catalog failed")
 	}
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
-	startup, cancel := context.WithTimeout(ctx, 20*time.Second)
+	startup, cancel := context.WithTimeout(ctx, 60*time.Second)
 	defer cancel()
 	store, err := mongostore.Connect(startup, c.MongoURI, c.Database)
 	if err != nil {

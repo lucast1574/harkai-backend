@@ -14,7 +14,7 @@ type ForumStore interface {
 }
 
 func (s Service) ForumFeed(ctx context.Context, user core.User, districtID, scope, cursor string) (core.ForumPage, error) {
-	if scope != "district" && scope != "city" || cursor != "" && !core.ValidID(cursor) {
+	if scope != "district" && scope != "city" && scope != "province" && scope != "department" || cursor != "" && !core.ValidID(cursor) {
 		return core.ForumPage{}, core.ErrInvalid
 	}
 	district, err := s.DistrictByID(districtID)
@@ -22,10 +22,17 @@ func (s Service) ForumFeed(ctx context.Context, user core.User, districtID, scop
 		return core.ForumPage{}, err
 	}
 	districtFilter := district.ID
-	if scope == "city" {
+	if scope != "district" {
 		districtFilter = ""
 	}
-	page, err := s.Forum.ListForumThreads(ctx, district.ID[:4], districtFilter, cursor)
+	provinceFilter := district.ID[:4]
+	if scope == "department" {
+		provinceFilter = district.ID[:2]
+	}
+	if scope == "city" && (provinceFilter == "1501" || provinceFilter == "0701") {
+		provinceFilter = "metro-lima"
+	}
+	page, err := s.Forum.ListForumThreads(ctx, provinceFilter, districtFilter, cursor)
 	for n := range page.Items {
 		page.Items[n] = core.PublicForumThread(page.Items[n], user)
 	}
