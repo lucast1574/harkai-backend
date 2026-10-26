@@ -1,0 +1,21 @@
+Harkai https://panel.harkai.lat
+
+Tu cuenta está lista
+
+
+TU COMUNIDAD, MÁS CERCA.
+
+Hola{{if .Name}} {{.Name}}{{end}},
+
+Tu cuenta de Harkai ya está lista. Consulta los reportes de tu zona, ajusta tus preferencias y encuentra información útil para tu comunidad.
+
+Entrar a mi espacio {{.ActionURL}}
+
+También puedes abrir este enlace {{.ActionURL}} en tu navegador.
+
+----------------------------------------
+
+El equipo de Harkai
+
+Tu comunidad, más cerca.
+Este correo corresponde únicamente a tu cuenta de Harkai.

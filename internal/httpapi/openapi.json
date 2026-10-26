@@ -4727,6 +4727,264 @@
           }
         ]
       }
+    },
+    "/v1/support/tickets": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "state",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "OPEN",
+                "IN_PROGRESS",
+                "WAITING",
+                "DONE"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000,
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "20 tickets per page: items, total, page, pages. Own tickets for users; all tickets and requester name/email for admins."
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Administrator role required for admin inbox"
+          }
+        },
+        "operationId": "listSupportTickets"
+      },
+      "post": {
+        "operationId": "createSupportTicket",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "description": "Technical app support, separate from emergency reports. Idempotent requestId per account; 5 new submissions/minute. Confirmation email queued atomically. Payload uses camelCase for this ticket contract.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "requestId",
+                  "title",
+                  "description"
+                ],
+                "properties": {
+                  "requestId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "title": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 140
+                  },
+                  "description": {
+                    "type": "string",
+                    "minLength": 10,
+                    "maxLength": 10000
+                  },
+                  "images": {
+                    "type": "array",
+                    "maxItems": 3,
+                    "items": {
+                      "type": "string",
+                      "description": "PNG/JPEG/WebP data URL; max 1 MiB decoded; screenshots are private"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Ticket created or original submission recovered"
+          },
+          "400": {
+            "description": "Invalid text, screenshot or requestId"
+          },
+          "429": {
+            "description": "Too many new submissions"
+          }
+        }
+      }
+    },
+    "/v1/admin/support/tickets": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "state",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "OPEN",
+                "IN_PROGRESS",
+                "WAITING",
+                "DONE"
+              ]
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100000,
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "20 tickets per page: items, total, page, pages. Own tickets for users; all tickets and requester name/email for admins."
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Administrator role required for admin inbox"
+          }
+        },
+        "operationId": "adminSupportTickets"
+      }
+    },
+    "/v1/admin/support/tickets/{id}": {
+      "patch": {
+        "operationId": "updateSupportTicket",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{24}$"
+            }
+          }
+        ],
+        "description": "Admin only. Version-checked updates and chronological history; DONE is final. Resolution email is queued atomically.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "state",
+                  "version"
+                ],
+                "properties": {
+                  "state": {
+                    "type": "string",
+                    "enum": [
+                      "OPEN",
+                      "IN_PROGRESS",
+                      "WAITING",
+                      "DONE"
+                    ]
+                  },
+                  "version": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "note": {
+                    "type": "string",
+                    "maxLength": 1500
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated ticket"
+          },
+          "403": {
+            "description": "Administrator required"
+          },
+          "409": {
+            "description": "Version conflict; reload before editing"
+          }
+        }
+      }
+    },
+    "/v1/support/tickets/{id}/images/{index}": {
+      "get": {
+        "operationId": "privateSupportScreenshot",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "index",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2
+            }
+          }
+        ],
+        "description": "Only requester or admin. Private, no-store binary screenshot.",
+        "responses": {
+          "200": {
+            "description": "PNG/JPEG/WebP bytes"
+          },
+          "404": {
+            "description": "Missing screenshot or another account"
+          }
+        }
+      }
     }
   },
   "components": {

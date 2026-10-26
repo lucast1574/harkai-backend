@@ -43,6 +43,7 @@ type Districts interface {
 }
 
 type Service struct {
+	Tickets             TicketStore
 	AccountDeletion     AccountDeletionStore
 	DistrictAt          func(float64, float64) (core.GeographicDistrict, error)
 	Businesses          BusinessStore

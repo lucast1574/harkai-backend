@@ -3,3 +3,5 @@
 bin
 media
 *.log
+
+**/node_modules

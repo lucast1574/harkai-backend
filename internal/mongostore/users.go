@@ -18,6 +18,7 @@ func (s *Store) EnsureAdmins(ctx context.Context) error {
 }
 
 func (s *Store) CreateUser(ctx context.Context, user core.User) (core.User, error) {
+	user.Mail = map[string]core.EmailDelivery{"welcome": core.PendingEmail(user.CreatedAt)}
 	if isDefaultAdmin(user.Email) {
 		user.Role = "admin"
 	}

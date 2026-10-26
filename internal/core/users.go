@@ -17,16 +17,17 @@ type Preferences struct {
 }
 
 type User struct {
-	DeletedAt     *time.Time  `json:"-" bson:"deleted_at,omitempty"`
-	PhotoURL      string      `json:"photo_url,omitempty" bson:"photo_url,omitempty"`
-	GoogleSubject string      `json:"-" bson:"google_subject,omitempty"`
-	ID            string      `json:"id" bson:"_id"`
-	Email         string      `json:"email" bson:"email"`
-	Name          string      `json:"name" bson:"name"`
-	Role          string      `json:"role" bson:"role"`
-	PasswordHash  string      `json:"-" bson:"password_hash"`
-	Preferences   Preferences `json:"preferences" bson:"preferences"`
-	CreatedAt     time.Time   `json:"created_at" bson:"created_at"`
+	Mail          map[string]EmailDelivery `bson:"mail,omitempty" json:"-"`
+	DeletedAt     *time.Time               `json:"-" bson:"deleted_at,omitempty"`
+	PhotoURL      string                   `json:"photo_url,omitempty" bson:"photo_url,omitempty"`
+	GoogleSubject string                   `json:"-" bson:"google_subject,omitempty"`
+	ID            string                   `json:"id" bson:"_id"`
+	Email         string                   `json:"email" bson:"email"`
+	Name          string                   `json:"name" bson:"name"`
+	Role          string                   `json:"role" bson:"role"`
+	PasswordHash  string                   `json:"-" bson:"password_hash"`
+	Preferences   Preferences              `json:"preferences" bson:"preferences"`
+	CreatedAt     time.Time                `json:"created_at" bson:"created_at"`
 }
 
 type Credentials struct {

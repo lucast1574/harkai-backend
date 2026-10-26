@@ -40,5 +40,5 @@ func (s *Store) EnsureIndexes(ctx context.Context) error {
 			return err
 		}
 	}
-	return nil
+	return s.EnsureTicketIndexes(ctx)
 }

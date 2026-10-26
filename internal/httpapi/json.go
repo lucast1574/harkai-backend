@@ -10,12 +10,14 @@ import (
 	"net/http"
 )
 
-func decode(r *http.Request, dst any) error {
+func decode(r *http.Request, dst any) error { return decodeSized(r, dst, 1<<20) }
+
+func decodeSized(r *http.Request, dst any, limit int64) error {
 	kind, _, err := mime.ParseMediaType(r.Header.Get("Content-Type"))
 	if err != nil || kind != "application/json" {
 		return fmt.Errorf("%w: Content-Type must be application/json", core.ErrInvalid)
 	}
-	r.Body = http.MaxBytesReader(nil, r.Body, 1<<20)
+	r.Body = http.MaxBytesReader(nil, r.Body, limit)
 	d := json.NewDecoder(r.Body)
 	d.DisallowUnknownFields()
 	if err = d.Decode(dst); err != nil {

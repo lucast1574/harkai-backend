@@ -9,6 +9,7 @@ import (
 	"github.com/lucast1574/harkai-backend/internal/districtgeo"
 	"github.com/lucast1574/harkai-backend/internal/googleauth"
 	"github.com/lucast1574/harkai-backend/internal/httpapi"
+	email "github.com/lucast1574/harkai-backend/internal/mail"
 	"github.com/lucast1574/harkai-backend/internal/mediatools"
 	"github.com/lucast1574/harkai-backend/internal/mongostore"
 	"github.com/lucast1574/harkai-backend/internal/push"
@@ -89,6 +90,8 @@ func Run(ctx context.Context, c config.Config) error {
 	}
 	stopDeletion := startAccountDeletion(ctx, service, photos, logger)
 	defer stopDeletion()
+	stopEmail := startEmails(ctx, store, email.Config{APIKey: c.ResendAPIKey, From: c.MailFrom}, logger)
+	defer stopEmail()
 	handler := httpapi.New(service, ready, c.Origins, logger)
 	server := &http.Server{Addr: ":" + c.Port, Handler: handler, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 30 * time.Second, WriteTimeout: 50 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 16 << 10}
 	logger.Info("Harkai API listening", "port", c.Port)
@@ -100,7 +103,7 @@ func NewService(store *mongostore.Store, photos application.PhotoStore) (applica
 	if err != nil {
 		return application.Service{}, err
 	}
-	return application.Service{AccountDeletion: store, Businesses: store, DistrictAt: districtgeo.At, Publications: store, Forum: store, DistrictByID: districtgeo.ByID, Support: store, Districts: store, Devices: store, Comments: store, Users: store, Sessions: store, Incidents: store, Limits: store, Media: store, Photos: photos, Directory: store, NormalizeImage: security.NormalizeImage, Now: UTCNow, ID: mongostore.NewID, Token: security.Token, DeriveSessionTokens: security.DeriveSessionTokens, HashPassword: security.HashPassword, CheckPassword: security.CheckPassword, HashToken: security.HashToken, DummyPasswordHash: dummy}, nil
+	return application.Service{Tickets: store, AccountDeletion: store, Businesses: store, DistrictAt: districtgeo.At, Publications: store, Forum: store, DistrictByID: districtgeo.ByID, Support: store, Districts: store, Devices: store, Comments: store, Users: store, Sessions: store, Incidents: store, Limits: store, Media: store, Photos: photos, Directory: store, NormalizeImage: security.NormalizeImage, Now: UTCNow, ID: mongostore.NewID, Token: security.Token, DeriveSessionTokens: security.DeriveSessionTokens, HashPassword: security.HashPassword, CheckPassword: security.CheckPassword, HashToken: security.HashToken, DummyPasswordHash: dummy}, nil
 }
 
 func UTCNow() time.Time { return time.Now().UTC() }
