@@ -2,7 +2,6 @@ package core
 
 import (
 	"fmt"
-	"regexp"
 	"strings"
 	"unicode/utf8"
 )
@@ -15,24 +14,6 @@ type TextAnalysis struct {
 	Reason               string   `json:"reason"`
 	Advice               []string `json:"advice"`
 	Source               string   `json:"source"`
-}
-
-type textRule struct {
-	kind    string
-	pattern *regexp.Regexp
-}
-
-var textRules = []textRule{
-	{"extortion", regexp.MustCompile(`\b(extorsion\w*|cobro de cupos|cobrando (un |el )?cupos?|cobran (un |el )?cupos?|cobrar (un |el )?cupos?|pago de cupos|pagar (un |el )?cupo|amenaz\w* (de muerte|por telefono|por whatsapp)|me (estan |esta )?(extorsionando|amenazando))\b`)},
-	{"kidnapping", regexp.MustCompile(`\b(secuestr\w*|raptar\w*|raptaron|privad[oa] de (su |la )?libertad|se lo llevaron a la fuerza)\b`)},
-	{"homicide", regexp.MustCompile(`\b(asesinat\w*|asesinaron|homicidi\w*|sicari\w*|persona (asesinada|muerta)|cadaver)\b`)},
-	{"fire", regexp.MustCompile(`\b(incendi\w*|fuego|llamas|quemando|humo (negro|denso))\b`)},
-	{"crash", regexp.MustCompile(`\b(choqu\w*|colision\w*|atropell\w*|accidente (vial|de transito|de auto)|volcadur\w*)\b`)},
-	{"theft", regexp.MustCompile(`\b(rob[oa]\w*|robar\w*|asalt\w*|hurto\w*)\b`)},
-	{"violence", regexp.MustCompile(`\b(agresi\w*|agred\w*|golpeando|golpearon|violencia|dispar\w*|balacera|tiroteo|violacion)\b`)},
-	{"emergency", regexp.MustCompile(`\b(desmay\w*|no respira|no puede respirar|herid\w*|sangrand\w*|convulsion\w*|emergencia medica|ambulancia)\b`)},
-	{"pet", regexp.MustCompile(`\b(mascota|perr[oa]|gat[oa])\b.*\b(perdid\w*|perdio|perdi|extraviad\w*|encontrad\w*)\b|\b(perdid\w*|perdio|perdi|extraviad\w*|encontrad\w*)\b.*\b(mascota|perr[oa]|gat[oa])\b`)},
-	{"place", regexp.MustCompile(`\b(lugar de ayuda|puesto de auxilio|refugio|centro de apoyo|registrar (un |una )?(lugar|negocio))\b`)},
 }
 
 func NormalizeText(text string) string {
@@ -52,7 +33,7 @@ func AnalyzeText(text, selected string) (TextAnalysis, error) {
 	text = NormalizeText(text)
 	for _, rule := range textRules {
 		for _, match := range rule.pattern.FindAllStringIndex(text, -1) {
-			if negatedMatch(text, match[0]) {
+			if negatedMatch(text, match[0]) || contextualMismatch(text, rule.kind, match[0], match[1]) {
 				continue
 			}
 			result.Candidates = append(result.Candidates, rule.kind)
@@ -87,21 +68,4 @@ func AnalyzeText(text, selected string) (TextAnalysis, error) {
 		result.Advice = category.Advice
 	}
 	return result, nil
-}
-
-func negatedMatch(text string, start int) bool {
-	prefix := text[:start]
-	if i := strings.LastIndexAny(prefix, ".,;!?\n"); i >= 0 {
-		prefix = prefix[i+1:]
-	}
-	words := strings.Fields(prefix)
-	if len(words) > 4 {
-		words = words[len(words)-4:]
-	}
-	for _, word := range words {
-		if word == "no" || word == "sin" || word == "nunca" {
-			return true
-		}
-	}
-	return false
 }
