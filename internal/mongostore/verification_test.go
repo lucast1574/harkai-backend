@@ -3,7 +3,6 @@ package mongostore_test
 import (
 	"context"
 	"errors"
-	"fmt"
 	"github.com/lucast1574/harkai-backend/internal/core"
 	"github.com/lucast1574/harkai-backend/internal/testutil"
 	"sync"
@@ -12,11 +11,11 @@ import (
 	"time"
 )
 
-func TestCommunityConfirmationHasOneWinner(t *testing.T) {
+func TestCommunityConfirmationDeduplicatesConcurrentVotes(t *testing.T) {
 	store := testutil.Store(t)
 	now := time.Now().UTC()
 	expires := now.Add(time.Hour)
-	i := core.Incident{ID: "report", UserID: "author", Status: "active", ExpiresAt: &expires, Location: core.Point{Type: "Point", Coordinates: []float64{-77, -12}}}
+	i := core.Incident{ID: "report", CreatedAt: now, UserID: "author", Status: "active", ExpiresAt: &expires, Location: core.Point{Type: "Point", Coordinates: []float64{-77, -12}}}
 	if _, err := store.CreateIncident(context.Background(), i); err != nil {
 		t.Fatal(err)
 	}
@@ -25,9 +24,9 @@ func TestCommunityConfirmationHasOneWinner(t *testing.T) {
 	}
 	var wins atomic.Int32
 	var wg sync.WaitGroup
-	for n := range 20 {
+	for range 20 {
 		wg.Go(func() {
-			confirmed, err := store.ConfirmIncident(context.Background(), i.ID, fmt.Sprint("user-", n), now)
+			confirmed, err := store.ConfirmIncident(context.Background(), i.ID, "same-neighbor", now)
 			if err == nil {
 				wins.Add(1)
 				if !confirmed.Verified || confirmed.Verification != "community" || confirmed.VerifiedAt == nil || confirmed.VerifiedBy == "" {
@@ -41,5 +40,21 @@ func TestCommunityConfirmationHasOneWinner(t *testing.T) {
 	wg.Wait()
 	if wins.Load() != 1 {
 		t.Fatalf("%d winners, want one", wins.Load())
+	}
+}
+
+func TestDistinctNeighborsIncreaseConfirmationCount(t *testing.T) {
+	store := testutil.Store(t)
+	now := time.Now().UTC()
+	end := now.Add(time.Hour)
+	i := core.Incident{ID: "neighbors", UserID: "author", CreatedAt: now, Status: "active", ExpiresAt: &end}
+	if _, err := store.CreateIncident(context.Background(), i); err != nil {
+		t.Fatal(err)
+	}
+	for n, actor := range []string{"a", "b", "c"} {
+		got, err := store.ConfirmIncident(context.Background(), i.ID, actor, now)
+		if err != nil || got.Confirmations != n+1 {
+			t.Fatalf("count=%d err=%v", got.Confirmations, err)
+		}
 	}
 }

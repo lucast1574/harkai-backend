@@ -46,7 +46,7 @@ func IncidentExpiry(kind string, endsAt *time.Time, now time.Time) (*time.Time, 
 	if endsAt != nil {
 		return nil, fmt.Errorf("%w: ends_at is no longer supported", ErrInvalid)
 	}
-	duration := 3 * time.Hour
+	duration := AlertLifetime
 	t := now.Add(duration)
 	return &t, nil
 }

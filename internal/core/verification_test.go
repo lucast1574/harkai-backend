@@ -11,7 +11,7 @@ import (
 func TestCommunityConfirmationRules(t *testing.T) {
 	now := time.Now().UTC()
 	end := now.Add(time.Hour)
-	base := Incident{UserID: "author", Status: "active", ExpiresAt: &end}
+	base := Incident{CreatedAt: now, UserID: "author", Status: "active", ExpiresAt: &end}
 	if err := ValidateConfirmation(base, "other", now); err != nil {
 		t.Fatal(err)
 	}
@@ -26,6 +26,7 @@ func TestCommunityConfirmationRules(t *testing.T) {
 		switch state {
 		case "verified":
 			i.Verified = true
+			i.VerifiedBy = "other"
 		case "expired":
 			i.ExpiresAt = &now
 		default:
@@ -36,6 +37,7 @@ func TestCommunityConfirmationRules(t *testing.T) {
 		}
 	}
 	base.VerifiedBy = "private-approver-identity"
+	base.ConfirmedBy = []string{"private-approver-identity"}
 	data, err := json.Marshal(PublicIncident(base))
 	if err != nil || strings.Contains(string(data), "private-approver") {
 		t.Fatal("approver identity leaked", err)
@@ -61,5 +63,19 @@ func TestRoleAssignmentBoundaries(t *testing.T) {
 	}
 	if CanViewInstitutional("user") || !CanViewInstitutional("gov") || !CanViewInstitutional("admin") {
 		t.Fatal("panel permissions")
+	}
+}
+
+func TestOtherNeighborsMayConfirmUntilExpiry(t *testing.T) {
+	now := time.Now().UTC()
+	i := Incident{UserID: "author", CreatedAt: now, Status: "active", Verified: true, VerifiedBy: "first", ConfirmedBy: []string{"second"}}
+	if err := ValidateConfirmation(i, "third", now); err != nil {
+		t.Fatal(err)
+	}
+	if err := ValidateConfirmation(i, "second", now); !errors.Is(err, ErrConflict) {
+		t.Fatal("duplicate", err)
+	}
+	if err := ValidateConfirmation(i, "third", now.Add(AlertLifetime)); !errors.Is(err, ErrConflict) {
+		t.Fatal("expired legacy report", err)
 	}
 }

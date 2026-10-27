@@ -69,7 +69,7 @@ func IncidentFilter(q core.IncidentQuery, now time.Time) bson.M {
 	}
 	dateFilter := bson.M{}
 	if !q.IncludeInactive {
-		dateFilter["$gt"] = now.Add(-3 * time.Hour)
+		dateFilter["$gt"] = now.Add(-core.AlertLifetime)
 	}
 	if q.After != nil {
 		dateFilter["$gte"] = *q.After
@@ -88,7 +88,14 @@ func (s *Store) SetIncidentStatus(ctx context.Context, id, owner, status string,
 	if owner != "" {
 		filter["user_id"] = owner
 	}
+	values := bson.M{"status": status, "updated_at": now}
+	if status == "active" {
+		filter["status"] = "active"
+		filter["created_at"] = bson.M{"$gt": now.Add(-core.AlertLifetime)}
+		filter["$or"] = bson.A{bson.M{"expires_at": nil}, bson.M{"expires_at": bson.M{"$gt": now}}}
+		values["observed_at"] = now
+	}
 	var i core.Incident
-	err := s.DB.Collection("incidents").FindOneAndUpdate(ctx, filter, bson.M{"$set": bson.M{"status": status, "updated_at": now}}, options.FindOneAndUpdate().SetReturnDocument(options.After)).Decode(&i)
+	err := s.DB.Collection("incidents").FindOneAndUpdate(ctx, filter, bson.M{"$set": values}, options.FindOneAndUpdate().SetReturnDocument(options.After)).Decode(&i)
 	return i, translate(err)
 }

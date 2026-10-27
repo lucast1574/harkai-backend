@@ -47,3 +47,16 @@ func ResolveReportType(text, category string) (string, error) {
 	}
 	return analysis.SuggestedType, nil
 }
+
+// Manual corrections remain inside the selected category and never verify a report.
+func ManualReportType(kind, category string) (string, error) {
+	if category == "crime" && IsCrime(kind) {
+		return kind, nil
+	}
+	if category != "crime" && category == kind {
+		if _, ok := CategoryFor(kind); ok {
+			return kind, nil
+		}
+	}
+	return "", fmt.Errorf("%w: manual category mismatch", ErrInvalid)
+}

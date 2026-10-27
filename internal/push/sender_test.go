@@ -39,7 +39,7 @@ func TestPayloadDoesNotRevealReportContentOrLocation(t *testing.T) {
 		}
 		return &http.Response{StatusCode: 200, Body: io.NopCloser(strings.NewReader(`{"name":"accepted"}`)), Header: make(http.Header)}, nil
 	})}}
-	err := s.Send(context.Background(), core.Incident{ID: "123456789012345678901234", Description: "private description", ContactInfo: "phone-contact", UserID: "author-id", Longitude: -77.0428, ExpiresAt: &expiry}, core.Device{Token: "private-fcm-token"}, now)
+	err := s.Send(context.Background(), core.Incident{ID: "123456789012345678901234", CreatedAt: now, Description: "private description", ContactInfo: "phone-contact", UserID: "author-id", Longitude: -77.0428, ExpiresAt: &expiry}, core.Device{Token: "private-fcm-token"}, now)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -52,7 +52,7 @@ func TestOnlyFCMDeviceErrorsRevokeTokens(t *testing.T) {
 		s := Sender{endpoint: "https://fcm.example.test/send", client: &http.Client{Transport: transport(func(_ *http.Request) (*http.Response, error) {
 			return &http.Response{StatusCode: 404, Body: io.NopCloser(strings.NewReader(tc.body)), Header: http.Header{"Retry-After": []string{"120"}}}, nil
 		})}}
-		err := s.Send(context.Background(), core.Incident{ID: "123456789012345678901234"}, core.Device{Token: "token"}, time.Now())
+		err := s.Send(context.Background(), core.Incident{ID: "123456789012345678901234", CreatedAt: time.Now()}, core.Device{Token: "token"}, time.Now())
 		if errors.Is(err, ErrDeviceGone) != tc.gone {
 			t.Fatalf("wrong token revocation: %v", err)
 		}

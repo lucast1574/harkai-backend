@@ -19,5 +19,6 @@ func (s Service) ConfirmReport(ctx context.Context, user core.User, id string) (
 		return core.Incident{}, err
 	}
 	i, err = s.Incidents.ConfirmIncident(ctx, id, user.ID, now)
+	i.ViewerHasConfirmed = err == nil
 	return core.PublicIncident(i), err
 }

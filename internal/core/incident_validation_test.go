@@ -24,8 +24,8 @@ func TestIncidentContractAndExpiry(t *testing.T) {
 			if i.Type != kind || i.Verified || i.Location.Coordinates[0] != -79.0 || i.Location.Coordinates[1] != -8.1 {
 				t.Fatalf("invalid contract: %+v", i)
 			}
-			if i.ExpiresAt == nil || !i.ExpiresAt.Equal(now.Add(3*time.Hour)) {
-				t.Fatal("all alert markers must expire after three hours")
+			if i.ExpiresAt == nil || !i.ExpiresAt.Equal(now.Add(AlertLifetime)) {
+				t.Fatal("all alert markers must expire after ninety minutes")
 			}
 			data, _ := json.Marshal(PublicIncident(i))
 			var output map[string]any

@@ -2,41 +2,48 @@ package core
 
 import "time"
 
+const AlertLifetime = 90 * time.Minute
+
 type Point struct {
 	Type        string    `json:"-" bson:"type"`
 	Coordinates []float64 `json:"-" bson:"coordinates"`
 }
 
 type Incident struct {
-	PublicURL      string     `json:"public_url" bson:"-"`
-	Category       string     `json:"category" bson:"-"`
-	Subcategory    string     `json:"subcategory,omitempty" bson:"-"`
-	Push           *PushJob   `json:"-" bson:"push,omitempty"`
-	ViewerIsAuthor bool       `json:"viewer_is_author" bson:"-"`
-	ID             string     `json:"id" bson:"_id"`
-	UserID         string     `json:"-" bson:"user_id"`
-	Type           string     `json:"type" bson:"type"`
-	Description    string     `json:"description" bson:"description"`
-	Latitude       float64    `json:"latitude" bson:"latitude"`
-	Longitude      float64    `json:"longitude" bson:"longitude"`
-	Location       Point      `json:"-" bson:"location"`
-	Status         string     `json:"status" bson:"status"`
-	MediaID        string     `json:"media_id,omitempty" bson:"media_id,omitempty"`
-	ContactInfo    string     `json:"contact_info,omitempty" bson:"contact_info,omitempty"`
-	ShareContact   bool       `json:"-" bson:"share_contact"`
-	District       string     `json:"district,omitempty" bson:"district,omitempty"`
-	City           string     `json:"city,omitempty" bson:"city,omitempty"`
-	Country        string     `json:"country,omitempty" bson:"country,omitempty"`
-	Verification   string     `json:"verification,omitempty" bson:"verification,omitempty"`
-	VerifiedBy     string     `json:"-" bson:"verified_by,omitempty"`
-	VerifiedAt     *time.Time `json:"verified_at,omitempty" bson:"verified_at,omitempty"`
-	Verified       bool       `json:"verified" bson:"verified"`
-	CreatedAt      time.Time  `json:"created_at" bson:"created_at"`
-	UpdatedAt      time.Time  `json:"updated_at" bson:"updated_at"`
-	ExpiresAt      *time.Time `json:"expires_at,omitempty" bson:"expires_at,omitempty"`
+	Confirmations      int        `json:"confirmations" bson:"confirmations,omitempty"`
+	ConfirmedBy        []string   `json:"-" bson:"confirmed_by,omitempty"`
+	ViewerHasConfirmed bool       `json:"viewer_has_confirmed" bson:"-"`
+	ObservedAt         *time.Time `json:"observed_at,omitempty" bson:"observed_at,omitempty"`
+	PublicURL          string     `json:"public_url" bson:"-"`
+	Category           string     `json:"category" bson:"-"`
+	Subcategory        string     `json:"subcategory,omitempty" bson:"-"`
+	Push               *PushJob   `json:"-" bson:"push,omitempty"`
+	ViewerIsAuthor     bool       `json:"viewer_is_author" bson:"-"`
+	ID                 string     `json:"id" bson:"_id"`
+	UserID             string     `json:"-" bson:"user_id"`
+	Type               string     `json:"type" bson:"type"`
+	Description        string     `json:"description" bson:"description"`
+	Latitude           float64    `json:"latitude" bson:"latitude"`
+	Longitude          float64    `json:"longitude" bson:"longitude"`
+	Location           Point      `json:"-" bson:"location"`
+	Status             string     `json:"status" bson:"status"`
+	MediaID            string     `json:"media_id,omitempty" bson:"media_id,omitempty"`
+	ContactInfo        string     `json:"contact_info,omitempty" bson:"contact_info,omitempty"`
+	ShareContact       bool       `json:"-" bson:"share_contact"`
+	District           string     `json:"district,omitempty" bson:"district,omitempty"`
+	City               string     `json:"city,omitempty" bson:"city,omitempty"`
+	Country            string     `json:"country,omitempty" bson:"country,omitempty"`
+	Verification       string     `json:"verification,omitempty" bson:"verification,omitempty"`
+	VerifiedBy         string     `json:"-" bson:"verified_by,omitempty"`
+	VerifiedAt         *time.Time `json:"verified_at,omitempty" bson:"verified_at,omitempty"`
+	Verified           bool       `json:"verified" bson:"verified"`
+	CreatedAt          time.Time  `json:"created_at" bson:"created_at"`
+	UpdatedAt          time.Time  `json:"updated_at" bson:"updated_at"`
+	ExpiresAt          *time.Time `json:"expires_at,omitempty" bson:"expires_at,omitempty"`
 }
 
 type IncidentInput struct {
+	ManualType   bool       `json:"manual_type,omitempty"`
 	Category     string     `json:"category,omitempty"`
 	Type         string     `json:"type"`
 	Description  string     `json:"description"`
@@ -82,8 +89,11 @@ func IncidentTypes() []string {
 }
 
 func PublicIncident(i Incident) Incident {
+	if i.Verified && i.Confirmations == 0 {
+		i.Confirmations = 1
+	}
 	i.PublicURL = "https://panel.harkai.lat/incidents/" + i.ID
-	expiry := i.CreatedAt.Add(3 * time.Hour)
+	expiry := i.CreatedAt.Add(AlertLifetime)
 	if i.ExpiresAt == nil || i.ExpiresAt.After(expiry) {
 		i.ExpiresAt = &expiry
 	}

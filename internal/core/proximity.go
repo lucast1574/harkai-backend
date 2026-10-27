@@ -21,16 +21,16 @@ func ProximityStage(distance, accuracy float64) int {
 	return stage
 }
 func MapIncidentActive(i Incident, now time.Time) bool {
-	return i.Status == "active" && !i.CreatedAt.After(now) && now.Sub(i.CreatedAt) < 3*time.Hour && (i.ExpiresAt == nil || i.ExpiresAt.After(now))
+	return i.Status == "active" && !i.CreatedAt.After(now) && now.Sub(i.CreatedAt) < AlertLifetime && (i.ExpiresAt == nil || i.ExpiresAt.After(now))
 }
 func ProximityCopy(kind, name, offer, code string, stage int) (string, string) {
 	if kind == "business" {
-		title := "Un negocio cerca de ti"
+		title := "Promocionado: un negocio cerca de ti"
 		if stage <= 50 {
-			title = "Estás muy cerca de " + name
+			title = "Promocionado: cerca de " + name
 		}
 		if stage <= 15 {
-			title = "Llegaste cerca de " + name
+			title = "Promocionado: " + name
 		}
 		body := fmt.Sprintf("%s · a menos de %d m. Promocionado.", name, stage)
 		if offer != "" {

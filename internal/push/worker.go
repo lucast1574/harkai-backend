@@ -59,7 +59,7 @@ func (w Worker) Tick(ctx context.Context) error {
 		if err != nil {
 			return err
 		}
-		if current.Status != "active" || (current.ExpiresAt != nil && !current.ExpiresAt.After(w.Now())) {
+		if !core.MapIncidentActive(current, w.Now()) {
 			return w.Store.AdvancePush(ctx, i.ID, lease, cursor, true, w.Now())
 		}
 		user, err := w.Store.LiveDevice(ctx, d, w.Now())

@@ -15,6 +15,9 @@ func (s Service) Report(ctx context.Context, user core.User, input core.Incident
 			category = "crime"
 		}
 		kind, err := core.ResolveReportType(input.Description, category)
+		if input.ManualType {
+			kind, err = core.ManualReportType(input.Type, category)
+		}
 		if err != nil {
 			return core.Incident{}, err
 		}
@@ -68,12 +71,25 @@ func (s Service) Incident(ctx context.Context, id string, user core.User) (core.
 		return core.Incident{}, core.ErrNotFound
 	}
 	i.ViewerIsAuthor = user.ID != "" && user.ID == i.UserID
+	i.ViewerHasConfirmed = user.ID != "" && (i.VerifiedBy == user.ID || slices.Contains(i.ConfirmedBy, user.ID))
 	return s.PublicationIncident(i), nil
 }
 
 func (s Service) ChangeStatus(ctx context.Context, user core.User, id, status string) (core.Incident, error) {
-	if !slices.Contains([]string{"resolved", "hidden"}, status) {
-		return core.Incident{}, fmt.Errorf("%w: status must be resolved or hidden", core.ErrInvalid)
+	if !slices.Contains([]string{"active", "resolved", "hidden"}, status) {
+		return core.Incident{}, fmt.Errorf("%w: status must be active, resolved or hidden", core.ErrInvalid)
+	}
+	if status == "active" {
+		current, err := s.Incidents.IncidentByID(ctx, id)
+		if err != nil {
+			return core.Incident{}, err
+		}
+		if !core.MapIncidentActive(current, s.Now()) {
+			return core.Incident{}, core.ErrConflict
+		}
+		if err = s.Limits.Allow(ctx, "incident-update:"+user.ID, 6, time.Hour, s.Now()); err != nil {
+			return core.Incident{}, err
+		}
 	}
 	owner := user.ID
 	if user.Role == "admin" {

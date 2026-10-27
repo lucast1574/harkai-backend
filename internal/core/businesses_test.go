@@ -49,7 +49,7 @@ func TestEveryIncidentHasThreeHourMapLifetimeWithoutPhoto(t *testing.T) {
 		if err != nil {
 			t.Fatalf("%s: %v", kind, err)
 		}
-		if i.ExpiresAt == nil || !i.ExpiresAt.Equal(now.Add(3*time.Hour)) {
+		if i.ExpiresAt == nil || !i.ExpiresAt.Equal(now.Add(AlertLifetime)) {
 			t.Fatalf("%s has wrong lifetime", kind)
 		}
 	}

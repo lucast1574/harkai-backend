@@ -115,7 +115,7 @@ func TestPermanentPublicationsAndLegacyMapExpiry(t *testing.T) {
 	q := core.IncidentQuery{Latitude: -12, Longitude: -77, RadiusMeters: 1000, Limit: 50, PublicOnly: true}
 	page, err := store.ListIncidents(ctx, q, now)
 	if err != nil || len(page.Items) != 0 {
-		t.Fatal("legacy markers survived three hours", err)
+		t.Fatal("legacy markers survived ninety minutes", err)
 	}
 	archive, err := store.ListPublications(ctx, "", 2)
 	if err != nil || len(archive.Items) != 2 || archive.NextCursor == "" {

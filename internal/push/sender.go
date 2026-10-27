@@ -48,7 +48,7 @@ func (s *Sender) Send(ctx context.Context, i core.Incident, d core.Device, now t
 	if !core.ValidID(i.ID) || d.Token == "" {
 		return core.ErrInvalid
 	}
-	ttl := 3600
+	ttl := min(3600, int(i.CreatedAt.Add(core.AlertLifetime).Sub(now).Seconds()))
 	if i.ExpiresAt != nil {
 		ttl = min(ttl, int(i.ExpiresAt.Sub(now).Seconds()))
 	}
@@ -56,7 +56,7 @@ func (s *Sender) Send(ctx context.Context, i core.Incident, d core.Device, now t
 		return nil
 	}
 	data := map[string]string{"report_id": i.ID, "verified": strconv.FormatBool(i.Verified)}
-	message := map[string]any{"token": d.Token, "data": data, "notification": map[string]string{"title": "Un reporte cerca de tu zona", "body": "Información de la comunidad. Revisa su estado y recomendaciones."}, "android": map[string]any{"ttl": fmt.Sprintf("%ds", ttl), "notification": map[string]string{"tag": i.ID, "channel_id": "harkai_reports"}}, "webpush": map[string]any{"headers": map[string]string{"TTL": strconv.Itoa(ttl)}, "notification": map[string]any{"tag": i.ID, "renotify": false}, "fcm_options": map[string]string{"link": "https://panel.harkai.lat/incidents/" + i.ID}}}
+	message := map[string]any{"token": d.Token, "data": data, "notification": map[string]string{"title": "Un reporte cerca de tu zona", "body": "Información de la comunidad. Revisa su estado y recomendaciones."}, "android": map[string]any{"ttl": fmt.Sprintf("%ds", ttl), "notification": map[string]string{"tag": "incident:" + i.ID, "channel_id": "harkai_reports"}}, "webpush": map[string]any{"headers": map[string]string{"TTL": strconv.Itoa(ttl)}, "notification": map[string]any{"tag": i.ID, "renotify": false}, "fcm_options": map[string]string{"link": "https://panel.harkai.lat/incidents/" + i.ID}}}
 	body, err := json.Marshal(map[string]any{"message": message})
 	if err != nil {
 		return err
