@@ -1,0 +1,21 @@
+{
+  "reviewed_at": "2026-10-29",
+  "sources": {
+    "police": {
+      "source_url": "https://geomininter.mininter.gob.pe/arcgis/rest/services/pnp/policia_nacional_peru/MapServer/0",
+      "retrieved": 1332,
+      "skipped": {},
+      "snapshot_sha256": "12f0ac14b9d34ab28a1c14c94ab2e6a5252d7226b629da2a14d3ebf8d93d7681"
+    },
+    "fire_station": {
+      "source_url": "https://www.idep.gob.pe/geoportal/rest/services/INSTITUCIONALES/INFRAESTRUCTURA_SOCIAL/FeatureServer/3",
+      "retrieved": 210,
+      "skipped": {},
+      "snapshot_sha256": "3b0447aaf17bc1e831d937d9a308bea6e0a89d39bfeebb5e273eeec166bec68c"
+    }
+  },
+  "imported": {
+    "fire_station": 210,
+    "police": 1332
+  }
+}

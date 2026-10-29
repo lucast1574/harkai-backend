@@ -60,7 +60,7 @@ func ValidateSupportPlace(p core.SupportPlace) error {
 			return fmt.Errorf("invalid support photo")
 		}
 	}
-	if p.Kind != "hospital" && p.Kind != "health_center" && p.Kind != "support" {
+	if p.Kind != "hospital" && p.Kind != "health_center" && p.Kind != "support" && p.Kind != "police" && p.Kind != "fire_station" {
 		return fmt.Errorf("invalid place kind")
 	}
 	_, err = time.Parse("2006-01-02", p.ReviewedAt)

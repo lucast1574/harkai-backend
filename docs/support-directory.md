@@ -1,5 +1,13 @@
 # Directorio para la beta
 
+## Policía y bomberos
+
+La consulta del 29 de octubre de 2026 incorpora 1.332 comisarías del servicio oficial MININTER y 210 estaciones de bomberos de la capa IGN/IDEP (fuente CGBVP). Representa los registros publicados por esas capas, no una garantía de inventario exhaustivo o atención operativa actual. Web y móvil distinguen `police` con escudo azul y `fire_station` con llama naranja; las agrupaciones web conservan el tipo de recurso.
+
+Importación: `python scripts/import-support-emergency.py`. El archivo `emergency-manifest.json` conserva las fuentes, hashes de las respuestas, fecha, cantidades y exclusiones. La importación pagina las capas completas y vincula los distritos con el catálogo existente y los ubigeos actuales de RENIPRESS. Se corrigen alias tipográficos explícitos del IGN; La Brea/Negritos se vincula a La Brea, Talara. No se extraen teléfonos ni direcciones de calle porque estas capas no los publican: la ficha indica que la dirección no está publicada y conserva la posición oficial como referencia. Las líneas nacionales siguen en el directorio telefónico y no se presentan como números de cada sede.
+
+Fuentes: https://geomininter.mininter.gob.pe/arcgis/rest/services/pnp/policia_nacional_peru/MapServer/0 y https://www.idep.gob.pe/geoportal/rest/services/INSTITUCIONALES/INFRAESTRUCTURA_SOCIAL/FeatureServer/3.
+
 `support_directory` y `support_places` son colecciones independientes de las alertas. No caducan como alertas, no elevan estadísticas de incidentes y no generan notificaciones.
 
 Hay 50 distritos de Lima y Callao (43 de Lima y siete del Callao) y 12 de la provincia de Trujillo, incluido Alto Trujillo. Cada ficha tiene las líneas nacionales 105, 116, 106, 100 y 113, con su alcance expresamente indicado. 25 fichas incluyen además un contacto local con fuente institucional; las otras indican en la interfaz que falta contrastar el teléfono municipal. No se inventan números para completar cobertura.
