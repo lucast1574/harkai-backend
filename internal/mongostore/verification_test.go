@@ -47,7 +47,7 @@ func TestDistinctNeighborsIncreaseConfirmationCount(t *testing.T) {
 	store := testutil.Store(t)
 	now := time.Now().UTC()
 	end := now.Add(time.Hour)
-	i := core.Incident{ID: "neighbors", UserID: "author", CreatedAt: now, Status: "active", ExpiresAt: &end}
+	i := core.Incident{ID: "neighbors", UserID: "author", CreatedAt: now, Status: "active", ExpiresAt: &end, Location: core.Point{Type: "Point", Coordinates: []float64{-77, -12}}}
 	if _, err := store.CreateIncident(context.Background(), i); err != nil {
 		t.Fatal(err)
 	}

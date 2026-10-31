@@ -40,6 +40,7 @@ func New(s application.Service, ping func(context.Context) error, origins []stri
 // The net/http interface mandates a method with no return value. All actions return Result,error.
 func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	defer a.recoverRequest(w, r)
+	w.Header().Set("Strict-Transport-Security", "max-age=31536000")
 	w.Header().Set("X-Content-Type-Options", "nosniff")
 	w.Header().Set("Referrer-Policy", "no-referrer")
 	w.Header().Set("Cache-Control", "no-store")
