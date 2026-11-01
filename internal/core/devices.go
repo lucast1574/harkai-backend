@@ -39,7 +39,7 @@ func ValidateDevice(v DeviceInput) (DeviceInput, error) {
 	if len(v.Token) < 20 || len(v.Token) > 4096 || strings.ContainsAny(v.Token, " \r\n\t") {
 		return v, fmt.Errorf("%w: device token", ErrInvalid)
 	}
-	if v.Platform != "android" && v.Platform != "web" {
+	if v.Platform != "android" && v.Platform != "ios" && v.Platform != "web" {
 		return v, fmt.Errorf("%w: platform", ErrInvalid)
 	}
 	return v, ValidateCoordinates(v.Latitude, v.Longitude)

@@ -31,11 +31,22 @@ func TestPayloadDoesNotRevealReportContentOrLocation(t *testing.T) {
 				Android struct {
 					TTL string `json:"ttl"`
 				} `json:"android"`
+				APNS struct {
+					Headers map[string]string `json:"headers"`
+					Payload struct {
+						APS struct {
+							Sound string `json:"sound"`
+						} `json:"aps"`
+					} `json:"payload"`
+				} `json:"apns"`
 			} `json:"message"`
 		}
 		_ = json.Unmarshal(raw, &body)
 		if body.Message.Data["verified"] != "false" || body.Message.Data["report_id"] != "123456789012345678901234" || body.Message.Android.TTL != "35s" {
 			t.Fatalf("bad payload: %s", raw)
+		}
+		if body.Message.APNS.Headers["apns-push-type"] != "alert" || body.Message.APNS.Headers["apns-priority"] != "10" || body.Message.APNS.Payload.APS.Sound != "default" {
+			t.Fatal("Apple alert configuration missing")
 		}
 		return &http.Response{StatusCode: 200, Body: io.NopCloser(strings.NewReader(`{"name":"accepted"}`)), Header: make(http.Header)}, nil
 	})}}
