@@ -2,7 +2,7 @@
 
 Incident markers last three hours, including older pet/place records. MongoDB retains the incident, its moderated photo and comments; `/v1/publications` lists non-hidden records for the public website without authentication or geographic restrictions. Hiding a report removes its public detail, list and photo access.
 
-Business points are separate records. Owners create/edit through `/v1/me/businesses`, admins approve/reject through `/v1/admin/businesses/{id}/moderation`. Public queries and photo access require enabled + approved + active billing + future paid_until. Edits reset review and never write billing fields. There is no client-controlled payment activation.
+Business points are separate records. Owners create/edit through `/v1/me/businesses`, admins approve/reject through `/v1/admin/businesses/{id}/moderation`. Public queries, photo access and proximity notices require enabled + approved + active access. During the free launch, the server grants payment_mode=free when no billing adapter is configured. No card or checkout is required. One-time paid records still require a valid paid_at; legacy subscriptions require future paid_until. Edits reset review. Unpaid legacy drafts with no payment event are upgraded to free access when edited during the free launch; the conditional write cannot overwrite a concurrent payment event. Other edits preserve billing rights. There is no client-controlled payment activation.
 
 ## Stripe remains pending
 
@@ -10,4 +10,4 @@ Business points are separate records. Owners create/edit through `/v1/me/busines
 
 ## Proximity delivery
 
-Business notifications require the explicit business_notifications preference and a registered live-location device. A location update includes accuracy and observed_at. Only accurate fresh GPS within each point radius qualifies; owner notices are suppressed. A persistent per-user/per-point outbox enforces 24-hour cooldown. The response carries business_notices. The app shows a separate promotional notification channel and acknowledges `/v1/me/business-notices/{id}/ack`; a lost response/ack is retried with the same local notification ID. Delivery is scoped to device/session and rechecks public visibility and current proximity. Ordinary safety alert delivery is independent.
+Business proximity notices use a registered live-location device and the app’s location/notification permissions. A location update includes accuracy and observed_at. Only accurate fresh GPS within each point radius qualifies; owner notices are suppressed. A persistent per-user/per-point outbox enforces 24-hour cooldown. The response carries business_notices. The app shows a separate promotional notification channel and acknowledges `/v1/me/business-notices/{id}/ack`; a lost response/ack is retried with the same local notification ID. Delivery is scoped to device/session and rechecks public visibility and current proximity. Ordinary safety alert delivery is independent.

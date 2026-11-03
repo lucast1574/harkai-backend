@@ -18,9 +18,16 @@ func (s *Store) BusinessByID(ctx context.Context, id string) (core.BusinessPoint
 	return p, translate(err)
 }
 func BusinessPublicFilter(now time.Time) bson.M {
-	return bson.M{"enabled": true, "moderation": "approved", "billing_status": "active", "$or": bson.A{bson.M{"payment_mode": "one_time", "paid_at": bson.M{"$ne": nil, "$lte": now}}, bson.M{"payment_mode": bson.M{"$ne": "one_time"}, "paid_until": bson.M{"$gt": now}}}}
+	return bson.M{"enabled": true, "moderation": "approved", "billing_status": "active", "$or": bson.A{bson.M{"payment_mode": "free"}, bson.M{"payment_mode": "one_time", "paid_at": bson.M{"$ne": nil, "$lte": now}}, bson.M{"payment_mode": bson.M{"$nin": bson.A{"one_time", "free"}}, "paid_until": bson.M{"$gt": now}}}}
 }
 func (s *Store) UpdateBusiness(ctx context.Context, p core.BusinessPoint) (core.BusinessPoint, error) {
+	if p.PaymentMode == "free" {
+		// Upgrade legacy unpaid drafts without overwriting a concurrent billing event.
+		filter := bson.M{"_id": p.ID, "owner_id": p.OwnerID, "billing_status": "pending", "billing_event_id": bson.M{"$in": bson.A{"", nil}}, "paid_at": nil}
+		if _, err := s.DB.Collection("business_points").UpdateOne(ctx, filter, bson.M{"$set": bson.M{"payment_mode": "free", "billing_status": "active"}}); err != nil {
+			return core.BusinessPoint{}, translate(err)
+		}
+	}
 	// Update only editable fields. A concurrent payment webhook must survive editing.
 	update := bson.M{"offer": p.Offer, "discount_code": p.DiscountCode, "name": p.Name, "kind": p.Kind, "subtype": p.Subtype, "description": p.Description, "address": p.Address, "city": p.City, "district": p.District, "latitude": p.Latitude, "longitude": p.Longitude, "location": p.Location, "radius_meters": p.RadiusMeters, "media_id": p.MediaID, "phone": p.Phone, "website": p.Website, "moderation": "pending", "updated_at": p.UpdatedAt}
 	var result core.BusinessPoint

@@ -44,6 +44,10 @@ func (s Service) SaveBusiness(ctx context.Context, u core.User, id string, in co
 		return next, err
 	}
 	if id == "" {
+		// Free launch access is granted by the server, never by checkout redirects.
+		if s.Billing == nil {
+			next.PaymentMode, next.BillingStatus = "free", "active"
+		}
 		return s.Businesses.CreateBusiness(ctx, next)
 	}
 	if !core.ValidID(id) {
@@ -61,6 +65,9 @@ func (s Service) SaveBusiness(ctx context.Context, u core.User, id string, in co
 	next.BillingStatus, next.PaidUntil, next.SubscriptionID = old.BillingStatus, old.PaidUntil, old.SubscriptionID
 	next.BillingEventAt, next.BillingEventID = old.BillingEventAt, old.BillingEventID
 	next.PaymentMode, next.PaymentID, next.PaidAt = old.PaymentMode, old.PaymentID, old.PaidAt
+	if s.Billing == nil && old.BillingStatus == "pending" && old.BillingEventID == "" && old.PaidAt == nil {
+		next.PaymentMode, next.BillingStatus = "free", "active"
+	}
 	return s.Businesses.UpdateBusiness(ctx, next)
 }
 func (s Service) Business(ctx context.Context, u core.User, id string) (core.BusinessPoint, error) {

@@ -79,7 +79,7 @@ type BusinessNotice struct {
 }
 
 func (b BusinessPoint) Public(now time.Time) bool {
-	return b.Enabled && b.Moderation == "approved" && b.BillingStatus == "active" && ((b.PaymentMode == "one_time" && b.PaidAt != nil && !b.PaidAt.After(now)) || (b.PaymentMode != "one_time" && b.PaidUntil.After(now)))
+	return b.Enabled && b.Moderation == "approved" && b.BillingStatus == "active" && (b.PaymentMode == "free" || (b.PaymentMode == "one_time" && b.PaidAt != nil && !b.PaidAt.After(now)) || (b.PaymentMode != "one_time" && b.PaymentMode != "free" && b.PaidUntil.After(now)))
 }
 func PublicBusiness(b BusinessPoint) BusinessPoint { b.Sponsored = true; return b }
 func BusinessKinds() []string                      { return []string{"restaurant", "health", "shop", "service", "other"} }
