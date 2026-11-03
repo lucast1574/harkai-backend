@@ -7,6 +7,7 @@ import (
 )
 
 type ForumStore interface {
+	ListForumDistricts(context.Context) ([]core.ForumDistrict, error)
 	CreateForumThread(context.Context, core.ForumThread) (core.ForumThread, error)
 	ForumThreadByID(context.Context, string) (core.ForumThread, error)
 	ListForumThreads(context.Context, string, string, string) (core.ForumPage, error)
@@ -110,4 +111,8 @@ func (s Service) RemoveForumReply(ctx context.Context, user core.User, id, comme
 		owner = ""
 	}
 	return s.Comments.DeleteComment(ctx, id, commentID, owner, s.Now())
+}
+
+func (s Service) ForumDistricts(ctx context.Context) ([]core.ForumDistrict, error) {
+	return s.Forum.ListForumDistricts(ctx)
 }

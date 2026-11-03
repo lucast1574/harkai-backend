@@ -35,3 +35,12 @@ func PublicForumThread(thread ForumThread, user User) ForumThread {
 	thread.UserID = ""
 	return thread
 }
+
+// ForumDistrict exposes only districts with visible messages, never author data.
+type ForumDistrict struct {
+	ID        string    `json:"id" bson:"_id"`
+	District  string    `json:"district" bson:"district"`
+	Province  string    `json:"province" bson:"province"`
+	Messages  int       `json:"messages" bson:"messages"`
+	UpdatedAt time.Time `json:"updated_at" bson:"updated_at"`
+}

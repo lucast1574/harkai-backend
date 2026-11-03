@@ -44,3 +44,8 @@ func (a *API) forumReply(r *http.Request, user core.User) (Result, error) {
 func (a *API) deleteForumReply(r *http.Request, user core.User) (Result, error) {
 	return Result{Status: 204}, a.Service.RemoveForumReply(r.Context(), user, r.PathValue("id"), r.PathValue("commentID"))
 }
+
+func (a *API) forumDistricts(r *http.Request, user core.User) (Result, error) {
+	items, err := a.Service.ForumDistricts(r.Context())
+	return Result{Body: map[string]any{"items": items}}, err
+}

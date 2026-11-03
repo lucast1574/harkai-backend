@@ -27,6 +27,7 @@ func (a *API) routes() int {
 		{"POST /v1/me/business-notices/{id}/ack", true, a.ackBusinessNotice},
 		{"POST /v1/me/proximity-notices/{id}/ack", true, a.ackProximityNotice},
 		{"GET /v1/forum", false, a.forum},
+		{"GET /v1/forum/districts", false, a.forumDistricts},
 		{"POST /v1/forum", true, a.startForum},
 		{"DELETE /v1/forum/{id}", true, a.deleteForum},
 		{"GET /v1/forum/{id}/comments", false, a.forumComments},

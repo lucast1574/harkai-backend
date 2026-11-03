@@ -14,12 +14,28 @@ func TestForumDistrictCityPrivacyModerationAndOwnership(t *testing.T) {
 	request(t, api, "POST", "/v1/forum", "", map[string]string{"body": "Pregunta vecinal", "district_id": "150130"}, 401)
 	request(t, api, "POST", "/v1/forum", author.AccessToken, map[string]string{"body": "puta", "district_id": "150130"}, 400)
 	request(t, api, "POST", "/v1/forum", author.AccessToken, map[string]string{"body": "Pregunta vecinal", "district_id": "999999"}, 400)
+	empty := request(t, api, "GET", "/v1/forum/districts", "", nil, 200)
+	if empty.Body.String() != "{\"items\":[]}\n" {
+		t.Fatal("empty district directory", empty.Body.String())
+	}
+
 	w := request(t, api, "POST", "/v1/forum", author.AccessToken, map[string]string{"body": "¿Cómo podemos mejorar el parque?", "district_id": "150130"}, 201)
 	var thread core.ForumThread
 	_ = json.Unmarshal(w.Body.Bytes(), &thread)
 	if !thread.CanDelete || thread.District != "San Borja" || strings.Contains(w.Body.String(), author.User.ID) || strings.Contains(w.Body.String(), author.User.Name) || strings.Contains(w.Body.String(), author.User.Email) {
 		t.Fatal("author identity exposed", w.Body.String())
 	}
+	directory := request(t, api, "GET", "/v1/forum/districts", "", nil, 200)
+	var listing struct {
+		Items []core.ForumDistrict `json:"items"`
+	}
+	if err := json.Unmarshal(directory.Body.Bytes(), &listing); err != nil {
+		t.Fatal(err)
+	}
+	if len(listing.Items) != 1 || listing.Items[0].ID != "150130" || listing.Items[0].Messages != 1 || strings.Contains(directory.Body.String(), author.User.ID) {
+		t.Fatal("district discovery/privacy", directory.Body.String())
+	}
+
 	request(t, api, "POST", "/v1/forum", other.AccessToken, map[string]string{"body": "Consulta desde otro distrito", "district_id": "150122"}, 201)
 	request(t, api, "POST", "/v1/forum", other.AccessToken, map[string]string{"body": "Consulta en Trujillo", "district_id": "130101"}, 201)
 	w = request(t, api, "GET", "/v1/forum?ubigeo=150130", "", nil, 200)
@@ -54,6 +70,10 @@ func TestForumDistrictCityPrivacyModerationAndOwnership(t *testing.T) {
 	request(t, api, "DELETE", path+"/"+comment.ID, other.AccessToken, nil, 204)
 	request(t, api, "DELETE", "/v1/forum/"+thread.ID, other.AccessToken, nil, 404)
 	request(t, api, "DELETE", "/v1/forum/"+thread.ID, author.AccessToken, nil, 204)
+	directory = request(t, api, "GET", "/v1/forum/districts", "", nil, 200)
+	if strings.Contains(directory.Body.String(), "150130") {
+		t.Fatal("district with no visible messages remains listed")
+	}
 	request(t, api, "GET", path, "", nil, 404)
 	w = request(t, api, "GET", "/v1/forum?ubigeo=150130", "", nil, 200)
 	if strings.Contains(w.Body.String(), thread.ID) {
