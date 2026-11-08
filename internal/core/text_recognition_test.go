@@ -49,6 +49,19 @@ func TestConversationalReports(t *testing.T) {
 		{"Sin personas heridas en la zona", ""},
 		{"No hubo robo pero aqui estan extorsionando", "extortion"},
 		{"No es incendio sino un choque de carros", "crash"},
+		{"Subieron el mueble a la fuerza al camión", ""},
+		{"Arrastraron la caja a la fuerza", ""},
+		{"No podemos dormir por el calor", ""},
+		{"Le están sacando la mugre al carro", ""},
+		{"No hay personas tomando cerveza en la calle", ""},
+		{"No están fumando marihuana en el parque", ""},
+		{"No hubo disturbios en la plaza", ""},
+		{"Están fumando cigarrillos en la calle", ""},
+		{"Estoy tomando agua en el parque", ""},
+		{"Están tomando cerveza dentro de su casa", ""},
+		{"Estoy comprando medicamentos en la farmacia", ""},
+		{"Están consumiendo drogas en la vía pública", "public_drug_use"},
+		{"Hay música a todo volumen en la plaza", "public_disorder"},
 	}
 	for _, tc := range cases {
 		t.Run(tc.text, func(t *testing.T) {

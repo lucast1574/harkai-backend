@@ -39,7 +39,7 @@ Las pruebas de integración requieren `TEST_MONGODB_URI` de un MongoDB local ais
 
 ## Contrato para los clientes
 
-Consulta `docs/api.md` y `internal/httpapi/openapi.json`. El contrato OpenAPI también se sirve en `/openapi.json`. Los tipos son cadenas estables: `fire`, `crash`, `theft`, `pet`, `emergency`, `place`, `extortion`, `kidnapping`, `violence`, `homicide`. No se aceptan índices numéricos del enum antiguo.
+Consulta `docs/api.md` y `internal/httpapi/openapi.json`. El contrato OpenAPI también se sirve en `/openapi.json`. Los tipos son cadenas estables: `fire`, `crash`, `theft`, `pet`, `emergency`, `place`, `extortion`, `kidnapping`, `violence`, `homicide`, `public_drinking`, `public_drug_use`, `public_disorder`. No se aceptan índices numéricos del enum antiguo.
 
 Los usuarios creados por registro público reciben rol `user`. Las fotos se suben antes de crear el reporte; solo su propietario puede adjuntarlas. Los contactos se publican únicamente con consentimiento explícito. Los reportes comienzan como no verificados.
 

@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	"slices"
 	"strings"
 	"unicode/utf8"
 )
@@ -14,6 +15,7 @@ type TextAnalysis struct {
 	Reason               string   `json:"reason"`
 	Advice               []string `json:"advice"`
 	Source               string   `json:"source"`
+	ExcludedTypes        []string `json:"-"`
 }
 
 func NormalizeText(text string) string {
@@ -30,10 +32,15 @@ func AnalyzeText(text, selected string) (TextAnalysis, error) {
 		}
 	}
 	result := TextAnalysis{Candidates: []string{}, MatchedTerms: []string{}, RequiresConfirmation: true, Source: "rules", Advice: []string{"Confirma la categoría y revisa el texto antes de publicar."}, Reason: "No encontré una coincidencia clara. Puedes elegir la categoría manualmente."}
-	text = NormalizeText(text)
+	text = NormalizeReportText(text)
+	result.ExcludedTypes = TextStateExclusions(text)
 	for _, rule := range textRules {
+		if slices.Contains(result.ExcludedTypes, rule.kind) {
+			continue
+		}
 		for _, match := range rule.pattern.FindAllStringIndex(text, -1) {
 			if negatedMatch(text, match[0]) || contextualMismatch(text, rule.kind, match[0], match[1]) {
+				result.ExcludedTypes = append(result.ExcludedTypes, rule.kind)
 				continue
 			}
 			result.Candidates = append(result.Candidates, rule.kind)
@@ -41,29 +48,33 @@ func AnalyzeText(text, selected string) (TextAnalysis, error) {
 			break
 		}
 	}
+	result.Candidates = PrincipalEventCandidates(text, result.Candidates)
 	if len(result.Candidates) == 1 {
 		result.SuggestedType = result.Candidates[0]
 		result.Reason = "Encontré palabras relacionadas con esta categoría. Es una sugerencia, no una verificación de los hechos."
 	} else if len(result.Candidates) > 1 {
 		result.Reason = "El texto menciona más de una categoría. Confirma cuál describe el hecho principal."
+		// An explicit emergency takes precedence over a noncritical conduct report.
+		critical := []string{}
+		for _, kind := range result.Candidates {
+			if CriticalType(kind) {
+				critical = append(critical, kind)
+			}
+		}
+		if len(critical) == 1 {
+			result.SuggestedType = critical[0]
+		}
 	}
-	if selected != "" {
-		result.SuggestedType = ""
+	// The entry category is a hint, never a constraint on a clear description.
+	if len(result.Candidates) > 1 && selected != "" && selected != "crime" {
 		for _, candidate := range result.Candidates {
-			if candidate == selected || selected == "crime" && IsCrime(candidate) {
+			if candidate == selected {
 				result.SuggestedType = candidate
-				result.Reason = "Categoría identificada por las reglas de texto. Revisa tu descripción antes de publicar."
 				break
 			}
 		}
-		if result.SuggestedType == "" {
-			result.Reason = "Describe con más detalle lo ocurrido para identificar la categoría seleccionada."
-		}
 	}
 	adviceType := result.SuggestedType
-	if selected != "" && selected != "crime" {
-		adviceType = selected
-	}
 	if category, ok := CategoryFor(adviceType); ok {
 		result.Advice = category.Advice
 	}

@@ -14,9 +14,17 @@ func (s Service) Report(ctx context.Context, user core.User, input core.Incident
 		if category == "" {
 			category = "crime"
 		}
-		kind, err := core.ResolveReportType(input.Description, category)
+		var kind string
+		var err error
 		if input.ManualType {
 			kind, err = core.ManualReportType(input.Type, category)
+		} else {
+			var analysis core.TextAnalysis
+			analysis, err = core.AnalyzeText(input.Description, category)
+			kind = analysis.SuggestedType
+			if err == nil && kind == "" {
+				err = fmt.Errorf("%w: elige el tipo de alerta o describe con más detalle lo ocurrido", core.ErrInvalid)
+			}
 		}
 		if err != nil {
 			return core.Incident{}, err

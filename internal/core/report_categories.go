@@ -9,7 +9,7 @@ type ReportCategory struct {
 }
 
 func CrimeTypes() []string {
-	return []string{"extortion", "kidnapping", "homicide", "theft", "violence"}
+	return []string{"extortion", "kidnapping", "homicide", "theft", "violence", "public_drinking", "public_drug_use", "public_disorder"}
 }
 
 func IsCrime(kind string) bool {
@@ -33,7 +33,7 @@ func ReportCategories() []ReportCategory {
 	return groups
 }
 
-// The server selects a crime subtype; clients only select the report category.
+// The description can correct the entry category; manual choices stay explicit.
 func ResolveReportType(text, category string) (string, error) {
 	analysis, err := AnalyzeText(text, category)
 	if err != nil {
@@ -41,9 +41,6 @@ func ResolveReportType(text, category string) (string, error) {
 	}
 	if analysis.SuggestedType == "" {
 		return "", fmt.Errorf("%w: describe con más detalle qué ocurrió para identificar la categoría", ErrInvalid)
-	}
-	if category == "crime" && !IsCrime(analysis.SuggestedType) || category != "crime" && analysis.SuggestedType != category {
-		return "", fmt.Errorf("%w: la descripción no corresponde a la categoría elegida", ErrInvalid)
 	}
 	return analysis.SuggestedType, nil
 }

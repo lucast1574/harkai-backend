@@ -4,5 +4,6 @@
 /media/
 *.log
 /scripts/__pycache__/
+/media-worker/__pycache__/
 
 **/node_modules

@@ -18,6 +18,9 @@ func Categories() []Category {
 		{"kidnapping", "Posible secuestro", "security", true, []string{"Contacta de inmediato a la policía desde un lugar seguro.", "No intentes intervenir ni difundas detalles que puedan poner a la víctima en riesgo."}},
 		{"violence", "Agresión o violencia", "security", true, []string{"Aléjate y busca ayuda; evita intervenir si te expone al peligro.", "No publiques imágenes que identifiquen a víctimas ni personas vulnerables."}},
 		{"homicide", "Hecho violento grave", "security", true, []string{"Aléjate del lugar y contacta a la policía o emergencias.", "No te acerques, alteres la escena ni publiques imágenes de víctimas."}},
+		{"public_drinking", "Consumo de alcohol en vía pública", "security", false, []string{"Describe lo que observaste y la ubicación, sin identificar ni acusar a personas.", "Evita confrontaciones. Si hay una situación de riesgo, busca ayuda desde un lugar seguro."}},
+		{"public_drug_use", "Posible consumo de drogas en vía pública", "security", false, []string{"Describe la conducta que observaste y el lugar, sin asumir la identidad ni la condición de las personas.", "Mantén distancia y evita confrontaciones."}},
+		{"public_disorder", "Alteración del orden público", "security", false, []string{"Describe los hechos y cómo afectan al espacio público, sin publicar identidades.", "Evita confrontaciones y busca un lugar seguro si la situación escala."}},
 		{"pet", "Mascota perdida o encontrada", "community", false, []string{"Describe rasgos, zona y cuándo ocurrió.", "Comparte un contacto solo si aceptas hacerlo público."}},
 		{"place", "Lugar de ayuda", "community", false, []string{"Describe qué ayuda ofrece el lugar y verifica su ubicación.", "No lo presentes como un servicio oficial si no lo es."}},
 	}
