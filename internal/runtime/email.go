@@ -38,7 +38,7 @@ func (worker emailWorker) run(ctx context.Context, done chan<- error) error {
 			done <- nil
 			return nil
 		case <-ticker.C:
-			for _, job := range [][2]string{{"users", "welcome"}, {"support_tickets", "ticket_received"}, {"support_tickets", "ticket_resolved"}} {
+			for _, job := range [][2]string{{"users", "welcome"}, {"support_tickets", "ticket_received"}, {"support_tickets", "ticket_resolved"}, {"support_tickets", "municipal_inquiry"}} {
 				if err := worker.deliver(ctx, job[0], job[1]); err != nil && !errors.Is(err, mongo.ErrNoDocuments) {
 					worker.logger.Warn("Transactional email pending; delivery will retry")
 				}
@@ -61,11 +61,20 @@ func (worker emailWorker) deliver(ctx context.Context, collection, kind string) 
 		if collection == "support_tickets" {
 			name, address, action = job.RequesterName, job.RequesterEmail, "https://panel.harkai.lat/dashboard/tickets"
 		}
-		content, err := email.Render("general", kind, email.TemplateData{Name: name, Title: job.Title, ActionURL: action})
+		if kind == "municipal_inquiry" {
+			if worker.config.MunicipalTo == "" {
+				return errors.New("municipal email recipient missing")
+			}
+			address, action = worker.config.MunicipalTo, "https://panel.harkai.lat/dashboard/admin?section=municipal"
+		}
+		content, err := email.Render("general", kind, email.TemplateData{Name: name, Title: job.Title, ActionURL: action, ContactEmail: job.RequesterEmail, Message: job.Description})
 		if err != nil {
 			return err
 		}
-		subject := map[string]string{"welcome": "Tu cuenta está lista", "ticket_received": "Recibimos tu ticket", "ticket_resolved": "Tu ticket está resuelto"}[kind]
+		subject := map[string]string{"welcome": "Tu cuenta está lista", "ticket_received": "Recibimos tu ticket", "ticket_resolved": "Tu ticket está resuelto", "municipal_inquiry": "Nueva solicitud de acceso municipal"}[kind]
+		if kind == "municipal_inquiry" {
+			subject = "Nueva solicitud · " + job.Title
+		}
 		payload = &core.EmailPayload{From: worker.config.From, To: address, Subject: "Harkai · " + subject, HTML: content.HTML, Text: content.Text}
 		if err = repo.Prepare(ctx, collection, kind, job.ID, lease, *payload); err != nil {
 			return err

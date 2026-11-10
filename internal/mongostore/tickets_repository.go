@@ -9,10 +9,13 @@ import (
 )
 
 type SupportTickets struct{ DB *mongo.Database }
-type SupportFilter struct{ RequesterID, State string }
+type SupportFilter struct{ RequesterID, State, Kind string }
 
 func (f SupportFilter) bson() bson.M {
 	filter := bson.M{}
+	if f.Kind != "" {
+		filter["kind"] = f.Kind
+	}
 	if f.RequesterID != "" {
 		filter["requesterId"] = f.RequesterID
 	}
@@ -64,7 +67,9 @@ func (s SupportTickets) Change(ctx context.Context, previous core.SupportTicket,
 	set := bson.M{"state": change.State, "updatedAt": change.At}
 	if change.State == "DONE" {
 		set["resolvedAt"] = change.At
-		set["mail.ticket_resolved"] = core.PendingEmail(change.At)
+		if previous.Kind != "municipal" {
+			set["mail.ticket_resolved"] = core.PendingEmail(change.At)
+		}
 	}
 	var ticket core.SupportTicket
 	err := s.DB.Collection("support_tickets").FindOneAndUpdate(ctx, bson.M{"_id": previous.ID, "version": previous.Version, "state": previous.State}, bson.M{"$set": set, "$inc": bson.M{"version": 1}, "$push": bson.M{"history": change}}, options.FindOneAndUpdate().SetReturnDocument(options.After).SetProjection(bson.M{"images.data": 0})).Decode(&ticket)

@@ -6,6 +6,13 @@ Business points are separate records. Owners create/edit through `/v1/me/busines
 
 ## Stripe remains pending
 
+The production environment has credentials for the shared Nexode Stripe account
+and a dedicated Harkai product with one USD 5.00 one-time price. Configuration uses
+`STRIPE_SECRET_KEY`, `STRIPE_PRODUCT_ID`, `STRIPE_PRICE_ID`, `STRIPE_CURRENCY`,
+`STRIPE_PRICE_CENTS`, `STRIPE_SUCCESS_URL` and `STRIPE_CANCEL_URL`. Secrets stay in
+the deployment environment. This prepared configuration does not itself enable
+collection; the checkout adapter and signed webhook flow below are still required.
+
 `Service.Billing` is intentionally nil in production. `/v1/business-billing/webhook` returns 503 and meta payments=false until a real adapter is wired. To enable payments, implement `BusinessBillingVerifier`: verify Stripe's raw signed body, retrieve authoritative subscription/invoice status, validate the configured product/price/currency and server-side point/owner binding, then emit BusinessEntitlement. Never trust checkout return URLs or arbitrary client metadata as proof of payment. Map paid periods and cancellation policy explicitly. Configure prices, credentials and webhook secret outside source control. The store applies events idempotently and rejects older events and mismatched owners. No checkout UI pretends that payment succeeded.
 
 ## Proximity delivery

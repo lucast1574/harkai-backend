@@ -12,8 +12,8 @@ import (
 )
 
 type TicketQuery struct {
-	RequesterID, State string
-	Page               int64
+	RequesterID, State, Kind string
+	Page                     int64
 }
 type TicketStore interface {
 	PriorTicket(context.Context, string, string) (core.SupportTicket, error)
@@ -56,6 +56,9 @@ func (s Service) SupportTickets(ctx context.Context, user core.User, admin bool,
 		return nil, 0, core.ErrForbidden
 	}
 	if query.State != "" && !core.ValidSupportState(query.State) {
+		return nil, 0, core.ErrInvalid
+	}
+	if query.Kind != "" && query.Kind != "municipal" {
 		return nil, 0, core.ErrInvalid
 	}
 	if query.Page < 1 || query.Page > 100000 {

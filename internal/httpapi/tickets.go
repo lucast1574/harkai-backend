@@ -58,7 +58,7 @@ func (a *API) listTickets(r *http.Request, user core.User, admin bool) (Result, 
 		}
 		page = value
 	}
-	items, total, err := a.Service.SupportTickets(r.Context(), user, admin, application.TicketQuery{State: r.URL.Query().Get("state"), Page: page})
+	items, total, err := a.Service.SupportTickets(r.Context(), user, admin, application.TicketQuery{State: r.URL.Query().Get("state"), Kind: r.URL.Query().Get("kind"), Page: page})
 	if err != nil {
 		return Result{}, err
 	}

@@ -20,7 +20,7 @@ func (s *Store) CreateTicket(ctx context.Context, ticket core.SupportTicket) (co
 	return result, translate(err)
 }
 func (s *Store) ListTickets(ctx context.Context, query application.TicketQuery) ([]core.SupportTicket, int64, error) {
-	items, total, err := (SupportTickets{DB: s.DB}).List(ctx, SupportFilter{RequesterID: query.RequesterID, State: query.State}, query.Page)
+	items, total, err := (SupportTickets{DB: s.DB}).List(ctx, SupportFilter{RequesterID: query.RequesterID, State: query.State, Kind: query.Kind}, query.Page)
 	return items, total, translate(err)
 }
 func (s *Store) Ticket(ctx context.Context, id, owner string, images bool) (core.SupportTicket, error) {

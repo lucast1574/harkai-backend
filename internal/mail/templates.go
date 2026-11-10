@@ -12,7 +12,7 @@ import (
 //go:embed templates/*.html templates/*.txt
 var emailTemplates embed.FS
 
-type TemplateData struct{ Name, Title, ActionURL, Inviter string }
+type TemplateData struct{ Name, Title, ActionURL, Inviter, ContactEmail, Message string }
 type Content struct{ HTML, Text string }
 
 // Render uses the committed output of emails/*.tsx; runtime values stay escaped.

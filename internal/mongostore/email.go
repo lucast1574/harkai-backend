@@ -15,6 +15,7 @@ type EmailCandidate struct {
 	Name           string                        `bson:"name"`
 	Email          string                        `bson:"email"`
 	Title          string                        `bson:"title"`
+	Description    string                        `bson:"description"`
 	RequesterName  string                        `bson:"requesterName"`
 	RequesterEmail string                        `bson:"requesterEmail"`
 	Mail           map[string]core.EmailDelivery `bson:"mail"`
@@ -30,12 +31,12 @@ func (s Emails) Claim(ctx context.Context, collection, kind, lease string, now t
 	}
 	filter := bson.M{path + ".deadline": bson.M{"$gt": now}, "$or": bson.A{bson.M{path + ".state": "pending", path + ".nextAt": bson.M{"$lte": now}}, bson.M{path + ".state": "sending", path + ".leaseUntil": bson.M{"$lte": now}}}}
 	update := bson.M{"$set": bson.M{path + ".state": "sending", path + ".lease": lease, path + ".leaseUntil": now.Add(time.Minute)}, "$inc": bson.M{path + ".attempts": 1}}
-	err = s.DB.Collection(collection).FindOneAndUpdate(ctx, filter, update, options.FindOneAndUpdate().SetReturnDocument(options.After).SetSort(bson.D{{Key: path + ".nextAt", Value: 1}}).SetProjection(bson.M{"_id": 1, "name": 1, "email": 1, "title": 1, "requesterName": 1, "requesterEmail": 1, path: 1})).Decode(&candidate)
+	err = s.DB.Collection(collection).FindOneAndUpdate(ctx, filter, update, options.FindOneAndUpdate().SetReturnDocument(options.After).SetSort(bson.D{{Key: path + ".nextAt", Value: 1}}).SetProjection(bson.M{"_id": 1, "name": 1, "email": 1, "title": 1, "description": 1, "requesterName": 1, "requesterEmail": 1, path: 1})).Decode(&candidate)
 	return candidate, err
 }
 
 func EnsureEmailIndexes(ctx context.Context, db *mongo.Database) error {
-	for _, job := range [][2]string{{"users", "welcome"}, {"support_tickets", "ticket_received"}, {"support_tickets", "ticket_resolved"}} {
+	for _, job := range [][2]string{{"users", "welcome"}, {"support_tickets", "ticket_received"}, {"support_tickets", "ticket_resolved"}, {"support_tickets", "municipal_inquiry"}} {
 		path := "mail." + job[1]
 		_, err := db.Collection(job[0]).Indexes().CreateOne(ctx, mongo.IndexModel{Keys: bson.D{{Key: path + ".state", Value: 1}, {Key: path + ".nextAt", Value: 1}, {Key: path + ".leaseUntil", Value: 1}}})
 		if err != nil {

@@ -4882,6 +4882,17 @@
               "maximum": 100000,
               "default": 1
             }
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "municipal"
+              ]
+            },
+            "description": "Limit the admin inbox to municipal contact requests."
           }
         ],
         "responses": {
@@ -5000,6 +5011,58 @@
           },
           "404": {
             "description": "Missing screenshot or another account"
+          }
+        }
+      }
+    },
+    "/v1/municipal-inquiries": {
+      "post": {
+        "summary": "Request municipal access contact without creating an account",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MunicipalInquiry"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Request and administrative notification durably queued; response contains receipt id and status only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "status"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{24}$"
+                    },
+                    "status": {
+                      "type": "string",
+                      "const": "received"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid contact or missing consent"
+          },
+          "429": {
+            "description": "Contact request rate limit reached"
+          },
+          "503": {
+            "description": "Contact notifications unavailable"
           }
         }
       }
@@ -5575,15 +5638,21 @@
         "properties": {
           "source": {
             "type": "string",
-            "enum": ["rules"]
+            "enum": [
+              "rules"
+            ]
           },
           "candidates": {
             "type": "array",
-            "items": {"type": "string"}
+            "items": {
+              "type": "string"
+            }
           },
           "matched_terms": {
             "type": "array",
-            "items": {"type": "string"}
+            "items": {
+              "type": "string"
+            }
           },
           "suggested_type": {
             "type": [
@@ -5795,6 +5864,58 @@
           },
           "source_updated_at": {
             "type": "string"
+          }
+        }
+      },
+      "MunicipalInquiry": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "requestId",
+          "municipality",
+          "name",
+          "role",
+          "email",
+          "message",
+          "consent"
+        ],
+        "properties": {
+          "requestId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "municipality": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 120
+          },
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "role": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 254
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 40
+          },
+          "message": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 3000
+          },
+          "consent": {
+            "type": "boolean",
+            "const": true
           }
         }
       }

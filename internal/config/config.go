@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+	"net/mail"
 	"net/url"
 	"os"
 	"strconv"
@@ -9,21 +10,22 @@ import (
 )
 
 type Config struct {
-	ResendAPIKey   string
-	MailFrom       string
-	FCMKeyBase64   string
-	GoogleProject  string
-	MediaWorkerURL string
-	MediaWorkerKey string
-	Port           string
-	MongoURI       string
-	Database       string
-	Origins        []string
-	S3Endpoint     string
-	S3AccessKey    string
-	S3SecretKey    string
-	S3Bucket       string
-	S3Secure       bool
+	MunicipalContactTo string
+	ResendAPIKey       string
+	MailFrom           string
+	FCMKeyBase64       string
+	GoogleProject      string
+	MediaWorkerURL     string
+	MediaWorkerKey     string
+	Port               string
+	MongoURI           string
+	Database           string
+	Origins            []string
+	S3Endpoint         string
+	S3AccessKey        string
+	S3SecretKey        string
+	S3Bucket           string
+	S3Secure           bool
 }
 
 func Load() (Config, error) { return Parse(os.Getenv) }
@@ -32,6 +34,13 @@ func Parse(get func(string) string) (Config, error) {
 	c := Config{Port: value(get, "PORT", "8080"), MongoURI: get("MONGODB_URI"), Database: value(get, "MONGODB_DATABASE", "harkai")}
 	c.ResendAPIKey = get("RESEND_API_KEY")
 	c.MailFrom = value(get, "MAIL_FROM", "Harkai <hola@harkai.lat>")
+	c.MunicipalContactTo = strings.TrimSpace(get("MUNICIPAL_CONTACT_EMAIL"))
+	if c.MunicipalContactTo != "" {
+		address, err := mail.ParseAddress(c.MunicipalContactTo)
+		if err != nil || address.Address != c.MunicipalContactTo {
+			return c, errors.New("invalid MUNICIPAL_CONTACT_EMAIL")
+		}
+	}
 	c.GoogleProject = get("GOOGLE_PROJECT_ID")
 	c.FCMKeyBase64 = get("FCM_SERVICE_ACCOUNT_BASE64")
 	if len(c.FCMKeyBase64) > 90000 || (c.FCMKeyBase64 != "" && c.GoogleProject == "") {

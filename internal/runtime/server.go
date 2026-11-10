@@ -90,7 +90,9 @@ func Run(ctx context.Context, c config.Config) error {
 	}
 	stopDeletion := startAccountDeletion(ctx, service, photos, logger)
 	defer stopDeletion()
-	stopEmail := startEmails(ctx, store, email.Config{APIKey: c.ResendAPIKey, From: c.MailFrom}, logger)
+	mailConfig := email.Config{APIKey: c.ResendAPIKey, From: c.MailFrom, MunicipalTo: c.MunicipalContactTo}
+	service.MunicipalContactEnabled = c.MunicipalContactTo != "" && mailConfig.Valid()
+	stopEmail := startEmails(ctx, store, mailConfig, logger)
 	defer stopEmail()
 	handler := httpapi.New(service, ready, c.Origins, logger)
 	server := &http.Server{Addr: ":" + c.Port, Handler: handler, ReadHeaderTimeout: 5 * time.Second, ReadTimeout: 30 * time.Second, WriteTimeout: 50 * time.Second, IdleTimeout: 60 * time.Second, MaxHeaderBytes: 16 << 10}

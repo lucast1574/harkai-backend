@@ -1,0 +1,13 @@
+HARKAI · NUEVA SOLICITUD DE ACCESO MUNICIPAL
+
+{{.Title}}
+
+Contacto: {{.Name}}
+Correo: {{.ContactEmail}}
+
+{{.Message}}
+
+Abrir solicitudes municipales:
+{{.ActionURL}}
+
+El acceso institucional se coordina por acuerdo directo. Este aviso no concede permisos ni genera ningún cobro.

@@ -20,6 +20,7 @@ type SupportChange struct {
 	ActorID string    `bson:"actorId" json:"-"`
 }
 type SupportTicket struct {
+	Kind           string                   `bson:"kind,omitempty" json:"kind,omitempty"`
 	Mail           map[string]EmailDelivery `bson:"mail,omitempty" json:"-"`
 	ID             string                   `bson:"_id" json:"id"`
 	RequesterID    string                   `bson:"requesterId" json:"-"`
