@@ -2,6 +2,7 @@ package application
 
 import (
 	"context"
+	"errors"
 	"github.com/lucast1574/harkai-backend/internal/core"
 	"time"
 )
@@ -133,11 +134,33 @@ func (s Service) BusinessBillingEvent(ctx context.Context, body []byte, signatur
 		return core.ErrUnavailable
 	}
 	e, err := s.Billing.VerifyBusinessEntitlement(ctx, body, signature)
+	if errors.Is(err, core.ErrNotFound) {
+		return nil
+	}
 	if err != nil {
 		return err
 	}
 	if err = core.ValidateBusinessEntitlement(e, s.Now()); err != nil {
 		return err
 	}
-	return s.Businesses.ApplyBusinessEntitlement(ctx, e, s.Now())
+	if e.Status == "active" {
+		if s.Checkouts == nil {
+			return core.ErrUnavailable
+		}
+		record, lookup := s.Checkouts.BusinessCheckoutByID(ctx, e.PointID)
+		if lookup != nil {
+			return lookup
+		}
+		if record.SessionID == "" || record.SessionID != e.CheckoutID || record.OwnerID != e.OwnerID {
+			return core.ErrForbidden
+		}
+	}
+	err = s.Businesses.ApplyBusinessEntitlement(ctx, e, s.Now())
+	if errors.Is(err, core.ErrConflict) {
+		point, lookup := s.Businesses.BusinessByID(ctx, e.PointID)
+		if lookup == nil && point.OwnerID == e.OwnerID && !point.BillingEventAt.Before(e.EventAt) {
+			return nil
+		}
+	}
+	return err
 }

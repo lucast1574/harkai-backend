@@ -5066,6 +5066,64 @@
           }
         }
       }
+    },
+    "/v1/me/businesses/{id}/checkout": {
+      "post": {
+        "summary": "Create or resume a Stripe Checkout session for an approved business owned by the caller. Payment is web-only; activation requires a signed webhook.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{24}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An open checkout URL or processing status. A redirect never grants access.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "open",
+                        "processing",
+                        "expired"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Not the owner"
+          },
+          "409": {
+            "description": "Not approved, already active or refunded"
+          },
+          "503": {
+            "description": "Stripe unavailable or checkout recovery needs reconciliation"
+          }
+        }
+      }
     }
   },
   "components": {

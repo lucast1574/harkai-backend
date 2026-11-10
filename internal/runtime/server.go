@@ -15,6 +15,7 @@ import (
 	"github.com/lucast1574/harkai-backend/internal/push"
 	"github.com/lucast1574/harkai-backend/internal/s3store"
 	"github.com/lucast1574/harkai-backend/internal/security"
+	"github.com/lucast1574/harkai-backend/internal/stripebilling"
 	"log/slog"
 	"net/http"
 	"os"
@@ -58,6 +59,10 @@ func Run(ctx context.Context, c config.Config) error {
 			return err
 		}
 		service.ModerateImage, service.TranscribeAudio, service.MediaSource = worker.Moderate, worker.Transcribe, worker.Source
+	}
+	if c.StripeWebhookSecret != "" {
+		billing := stripebilling.New(stripebilling.Config{Secret: c.StripeSecret, WebhookSecret: c.StripeWebhookSecret, Price: c.StripePrice, SuccessURL: c.StripeSuccessURL, CancelURL: c.StripeCancelURL})
+		service.Billing, service.Checkout, service.Checkouts = billing, billing, store
 	}
 	if c.GoogleProject != "" {
 		service.VerifyGoogle = googleauth.New(c.GoogleProject).Verify

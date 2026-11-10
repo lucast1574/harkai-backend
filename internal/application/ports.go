@@ -49,6 +49,8 @@ type Service struct {
 	DistrictAt              func(float64, float64) (core.GeographicDistrict, error)
 	Businesses              BusinessStore
 	Billing                 BusinessBillingVerifier
+	Checkout                BusinessCheckoutProvider
+	Checkouts               BusinessCheckoutStore
 	Publications            PublicationStore
 	Forum                   ForumStore
 	DistrictByID            func(string) (core.GeographicDistrict, error)

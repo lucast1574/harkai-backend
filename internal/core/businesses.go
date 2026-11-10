@@ -53,6 +53,7 @@ type BusinessInput struct {
 	Website      string  `json:"website,omitempty"`
 }
 type BusinessEntitlement struct {
+	CheckoutID                                        string
 	PointID, OwnerID, EventID, SubscriptionID, Status string
 	PaymentID, Mode                                   string
 	PaidAt                                            *time.Time

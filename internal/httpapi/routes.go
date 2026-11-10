@@ -21,6 +21,7 @@ func (a *API) routes() int {
 		{"GET /v1/me/businesses", true, a.businessList},
 		{"POST /v1/me/businesses", true, a.saveBusiness},
 		{"PUT /v1/me/businesses/{id}", true, a.saveBusiness},
+		{"POST /v1/me/businesses/{id}/checkout", true, a.businessCheckout},
 		{"PATCH /v1/me/businesses/{id}/enabled", true, a.enableBusiness},
 		{"GET /v1/admin/businesses", true, a.businessList},
 		{"PATCH /v1/admin/businesses/{id}/moderation", true, a.moderateBusiness},

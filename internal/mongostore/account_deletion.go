@@ -49,6 +49,9 @@ func (s *Store) PurgeAccountRecords(ctx context.Context, id string) error {
 	if _, err := s.DB.Collection("business_points").DeleteMany(ctx, bson.M{"owner_id": id}); err != nil {
 		return err
 	}
+	if _, err := s.DB.Collection("business_checkouts").DeleteMany(ctx, bson.M{"owner_id": id}); err != nil {
+		return err
+	}
 	_, err := s.DB.Collection("users").DeleteOne(ctx, bson.M{"_id": id, "deletion_pending": true})
 	return err
 }

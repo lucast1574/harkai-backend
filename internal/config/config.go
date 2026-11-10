@@ -10,28 +10,46 @@ import (
 )
 
 type Config struct {
-	MunicipalContactTo string
-	ResendAPIKey       string
-	MailFrom           string
-	FCMKeyBase64       string
-	GoogleProject      string
-	MediaWorkerURL     string
-	MediaWorkerKey     string
-	Port               string
-	MongoURI           string
-	Database           string
-	Origins            []string
-	S3Endpoint         string
-	S3AccessKey        string
-	S3SecretKey        string
-	S3Bucket           string
-	S3Secure           bool
+	StripeSecret        string
+	StripeWebhookSecret string
+	StripePrice         string
+	StripeSuccessURL    string
+	StripeCancelURL     string
+	MunicipalContactTo  string
+	ResendAPIKey        string
+	MailFrom            string
+	FCMKeyBase64        string
+	GoogleProject       string
+	MediaWorkerURL      string
+	MediaWorkerKey      string
+	Port                string
+	MongoURI            string
+	Database            string
+	Origins             []string
+	S3Endpoint          string
+	S3AccessKey         string
+	S3SecretKey         string
+	S3Bucket            string
+	S3Secure            bool
 }
 
 func Load() (Config, error) { return Parse(os.Getenv) }
 
 func Parse(get func(string) string) (Config, error) {
 	c := Config{Port: value(get, "PORT", "8080"), MongoURI: get("MONGODB_URI"), Database: value(get, "MONGODB_DATABASE", "harkai")}
+	c.StripeSecret, c.StripeWebhookSecret, c.StripePrice = get("STRIPE_SECRET_KEY"), get("STRIPE_WEBHOOK_SECRET"), get("STRIPE_PRICE_ID")
+	c.StripeSuccessURL, c.StripeCancelURL = get("STRIPE_SUCCESS_URL"), get("STRIPE_CANCEL_URL")
+	if c.StripeWebhookSecret != "" || c.StripeSecret != "" || c.StripePrice != "" {
+		if c.StripeSecret == "" || c.StripePrice == "" || c.StripeWebhookSecret == "" {
+			return c, errors.New("incomplete Stripe configuration")
+		}
+		for _, raw := range []string{c.StripeSuccessURL, c.StripeCancelURL} {
+			u, err := url.Parse(raw)
+			if err != nil || u.Scheme != "https" || u.Host != "panel.harkai.lat" || u.User != nil {
+				return c, errors.New("invalid Stripe return URL")
+			}
+		}
+	}
 	c.ResendAPIKey = get("RESEND_API_KEY")
 	c.MailFrom = value(get, "MAIL_FROM", "Harkai <hola@harkai.lat>")
 	c.MunicipalContactTo = strings.TrimSpace(get("MUNICIPAL_CONTACT_EMAIL"))
